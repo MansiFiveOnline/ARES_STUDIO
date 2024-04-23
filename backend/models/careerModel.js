@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const careerSchema = new mongoose.Schema({
   title: {
@@ -16,17 +17,21 @@ const careerSchema = new mongoose.Schema({
     required: true,
     enum: ["image", "video"],
   },
-  file: {
-    type: Array,
-    filename: {
-      type: String,
-      required: true,
+  // media: {
+  //   type: {
+  //     filename: String,
+  //     filepath: String,
+  //     iframe: String,
+  //   },
+  //   required: function () {
+  //     return this.type === "image" || this.type === "video";
+  //   },
+  // },
+  media: {
+    type: Schema.Types.Mixed,
+    required: function () {
+      return this.type === "image" || this.type === "video";
     },
-    filepath: {
-      type: String,
-      required: true,
-    },
-    required: true,
   },
 });
 

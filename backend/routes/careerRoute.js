@@ -13,9 +13,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/", upload.single("file"), careerController.createCareer);
+route.post("/", upload.single("media"), careerController.createCareer);
 
-route.patch("/:_id", upload.single("file"), careerController.updateCareer);
+route.patch("/:_id", upload.single("media"), careerController.updateCareer);
 
 route.get("/", careerController.getCareers);
 
