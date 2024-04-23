@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/", upload.single("media"), aboutController.createAbout);
+route.post("/", upload.single("file"), aboutController.createAbout);
 
 route.patch("/:_id", upload.single("media"), aboutController.updateAbout);
 

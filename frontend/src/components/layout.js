@@ -10,14 +10,13 @@ const Layout = ({ children }) => {
       <div className="sidebar">
         <SideBar />
       </div>
-      
-        <div className="main-content">
-          <Header />
-          <main>
-            <div className="container">{children}</div>
-          </main>
-        </div>
-      
+
+      <div className="main-content">
+        <Header />
+        <main>
+          <div className="container">{children}</div>
+        </main>
+      </div>
     </div>
   );
 };
