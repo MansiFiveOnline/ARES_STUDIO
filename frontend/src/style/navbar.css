@@ -1,0 +1,77 @@
+.sidebar {
+  width: 260px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--white-color);
+  z-index: 100;
+  transition: width 300ms;
+  border-right: 1px solid #dbdddf;
+}
+.sidebar-brand {
+  height: 90px;
+  padding: 1rem 0rem 1rem 2rem;
+  color: var(--title-color);
+  font-family: var(--primary-font);
+  text-transform: uppercase;
+}
+.sidebar-brand span {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.sidebar-brand span {
+    display: inline-block;
+    margin-left: 5px;
+  }
+.sidebar-menu {
+  margin-top: 1rem;
+}
+.sidebar-menu ul {
+  padding-left: 0;
+}
+.sidebar-menu li {
+  width: 100%;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.sidebar-menu a {
+  padding-left: 1rem;
+  display: block;
+  color: var(--title-color);
+  font-size: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: var(--primary-font);
+}
+.sidebar-menu a.active {
+  color: var(--title-color);
+  background: #edeeef;
+  border-radius: 4px;
+}
+.sidebar-menu .active {
+  background: #edeeef;
+  color: red;
+  border-radius: 4px;
+}
+
+.sidebar-menu a:hover {
+  color: var(--title-color);
+  background: #edeeef;
+  border-radius: 4px;
+}
+.sidebar-menu li a span {
+  vertical-align: top;
+}
+.sidebar-menu li a span:first-child {
+  font-size: 15px;
+  padding-right: 8px;
+}
+ ul .logout-menu {
+  position: absolute;
+  bottom: 0px;
+}
+
+span{}
