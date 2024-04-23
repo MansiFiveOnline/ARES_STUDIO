@@ -17,4 +17,6 @@ route.post("/", upload.single("media"), serviceController.createService);
 
 route.patch("/:_id", upload.single("file"), serviceController.updateService);
 
+route.get("/", serviceController.getServices);
+
 module.exports = route;

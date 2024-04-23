@@ -117,4 +117,24 @@ const updateCareer = async (req, res) => {
   }
 };
 
-module.exports = { createCareer, updateCareer };
+const getCareers = async (req, res) => {
+  try {
+    const careers = await careerModel.find();
+
+    if (careers.length === 0) {
+      return res.status(400).json({
+        message: "No careers are created. Kindly create one.",
+      });
+    }
+    return res.status(200).json({
+      message: "All careers fetched successfully.",
+      careers,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching careers due to ${error.message}`,
+    });
+  }
+};
+
+module.exports = { createCareer, updateCareer, getCareers };

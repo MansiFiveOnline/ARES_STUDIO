@@ -1,8 +1,56 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../components/layout";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Services = () => {
+  const [services, setServices] = useState([]);
+
+  const navigate = useNavigate();
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        // const response = await axios.get("/api/user/allservices");
+        const response = await axios({
+          method: "GET",
+          baseURL: "http://localhost:8000/api/",
+          url: "service",
+        });
+        console.log(response.data.services);
+        setServices(response.data.services);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const response = await axios({
+        method: "DELETE",
+        baseURL: "http://localhost:8000/api/",
+        url: `user/${id}`,
+      });
+      setServices(null); // Update user state to null after deletion
+      setTimeout(() => {
+        navigate("/service");
+      }, 2000);
+      console.log(response.data);
+      setServices(services.filter((user) => user._id !== id));
+      setTimeout(() => {
+        navigate("/service");
+      }, 3000);
+    } catch (error) {
+      console.error("Error deleting service:", error);
+    }
+  };
+
   return (
     <Layout>
       <div className="pages-headers ">
@@ -19,7 +67,7 @@ const Services = () => {
           <div className="infos-table">
             <div className="table-responsive">
               {/* <DataTable
-          value={users}
+          value={services}
           paginator
           sortMode="multiple"
           rows={1}
@@ -44,7 +92,7 @@ const Services = () => {
             style={{ width: "25%" }}
           ></Column>
           <Column
-            field="users.imageUrl"
+            field="services.imageUrl"
             header="Image"
             sortable
             style={{ width: "25%" }}
@@ -72,38 +120,39 @@ const Services = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {users &&
-                    users.map((user) => ( */}
-                  <tr>
-                    <td>Test</td>
-                    <td>url</td>
-                    <td>Title1</td>
-                    <td className="text-center">Subtitle1</td>
-                    <td className="text-center">Description</td>
-                    <td className="table-profile-img text-center">
-                      <img
-                        src=""
-                        alt=""
-                        style={{ width: "50px", height: "50px" }}
-                      />
-                    </td>
-                    <td className="text-center">
-                      {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
+                  {services &&
+                    services.map((service) => (
+                      <tr key={service._id}>
+                        <td>{service.name}</td>
+                        <td>{service.url}</td>
+                        <td>{service.title}</td>
+                        <td className="text-center">{service.subtitle}</td>
+                        <td className="text-center">{service.description}</td>
+                        <td className="table-profile-img text-center">
+                          <img
+                            src=""
+                            alt=""
+                            style={{ width: "50px", height: "50px" }}
+                          />
+                        </td>
+                        <td className="text-center">
+                          {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
                     <CreateIcon />
                   </button>  */}
-                      <Link to={`/edit/service/`} title="Edit">
-                        <i class="las la-pencil-alt"></i>
-                      </Link>
-                    </td>
-                    <td className="text-center">
-                      <button
-                        className="delete-btn"
-                        // onClick={() => handleDelete(user._id)}
-                      >
-                        <i class="las la-trash"></i>{" "}
-                      </button>
-                    </td>
-                  </tr>
+                          <Link to={`/edit/service/`} title="Edit">
+                            <i class="las la-pencil-alt"></i>
+                          </Link>
+                        </td>
+                        <td className="text-center">
+                          <button
+                            className="delete-btn"
+                            // onClick={() => handleDelete(user._id)}
+                          >
+                            <i class="las la-trash"></i>{" "}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

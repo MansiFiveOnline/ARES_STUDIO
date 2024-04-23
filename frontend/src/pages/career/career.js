@@ -1,8 +1,56 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../components/layout";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Career = () => {
+  const [careers, setCareers] = useState([]);
+
+  const navigate = useNavigate();
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const fetchCareers = async () => {
+      try {
+        // const response = await axios.get("/api/user/allcareers");
+        const response = await axios({
+          method: "GET",
+          baseURL: "http://localhost:8000/api/",
+          url: "career",
+        });
+        console.log(response.data.careers);
+        setCareers(response.data.careers);
+      } catch (error) {
+        console.error("Error fetching careers:", error);
+      }
+    };
+
+    fetchCareers();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const response = await axios({
+        method: "DELETE",
+        baseURL: "http://localhost:8000/api/",
+        url: `user/${id}`,
+      });
+      setCareers(null); // Update user state to null after deletion
+      setTimeout(() => {
+        navigate("/career");
+      }, 2000);
+      console.log(response.data);
+      setCareers(careers.filter((user) => user._id !== id));
+      setTimeout(() => {
+        navigate("/career");
+      }, 3000);
+    } catch (error) {
+      console.error("Error deleting career:", error);
+    }
+  };
+
   return (
     <Layout>
       <div className="pages-headers ">
@@ -19,7 +67,7 @@ const Career = () => {
           <div className="infos-table">
             <div className="table-responsive">
               {/* <DataTable
-        value={users}
+        value={careers}
         paginator
         sortMode="multiple"
         rows={1}
@@ -44,7 +92,7 @@ const Career = () => {
           style={{ width: "25%" }}
         ></Column>
         <Column
-          field="users.imageUrl"
+          field="careers.imageUrl"
           header="Image"
           sortable
           style={{ width: "25%" }}
@@ -69,35 +117,36 @@ const Career = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {users &&
-                  users.map((user) => ( */}
-                  <tr>
-                    <td>Title1</td>
-                    <td className="text-center">Subtitle1</td>
-                    <td className="table-profile-img text-center">
-                      <img
-                        src=""
-                        alt=""
-                        style={{ width: "50px", height: "50px" }}
-                      />
-                    </td>
-                    <td className="text-center">
-                      {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
+                  {careers &&
+                    careers.map((career) => (
+                      <tr key={career._id}>
+                        <td>{career.title}</td>
+                        <td className="text-center">{career.subtitle}</td>
+                        <td className="table-profile-img text-center">
+                          <img
+                            src=""
+                            alt=""
+                            style={{ width: "50px", height: "50px" }}
+                          />
+                        </td>
+                        <td className="text-center">
+                          {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
                   <CreateIcon />
                 </button>  */}
-                      <Link to={`/edit/career/`} title="Edit">
-                        <i class="las la-pencil-alt"></i>
-                      </Link>
-                    </td>
-                    <td className="text-center">
-                      <button
-                        className="delete-btn"
-                        // onClick={() => handleDelete(user._id)}
-                      >
-                        <i class="las la-trash"></i>{" "}
-                      </button>
-                    </td>
-                  </tr>
+                          <Link to={`/edit/career/`} title="Edit">
+                            <i class="las la-pencil-alt"></i>
+                          </Link>
+                        </td>
+                        <td className="text-center">
+                          <button
+                            className="delete-btn"
+                            // onClick={() => handleDelete(user._id)}
+                          >
+                            <i class="las la-trash"></i>{" "}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

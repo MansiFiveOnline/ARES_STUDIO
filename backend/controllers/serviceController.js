@@ -3,7 +3,7 @@ const path = require("path");
 
 const createService = async (req, res) => {
   try {
-    const { name, title, subtitle } = req.body;
+    const { name, title, subtitle, description } = req.body;
 
     const filePath = req.file.path;
     const fileName = req.file.originalname;
@@ -41,6 +41,7 @@ const createService = async (req, res) => {
       url,
       title,
       subtitle,
+      description,
       type: fileType,
       file: {
         name: fileName,
@@ -125,7 +126,7 @@ const createService = async (req, res) => {
 
 const updateService = async (req, res) => {
   try {
-    const { name, title, subtitle } = req.body;
+    const { name, title, subtitle, description } = req.body;
     // let image = req.body.image;
     const file = req.file;
     const urlSlug = name.toLowerCase().replace(/\s+/g, "-");
@@ -186,7 +187,28 @@ const updateService = async (req, res) => {
   }
 };
 
+const getServices = async (req, res) => {
+  try {
+    const services = await serviceModel.find();
+
+    if (services.length === 0) {
+      return res.status(400).json({
+        message: "No services are created. Kindly create one.",
+      });
+    }
+    return res.status(200).json({
+      message: "All services fetched successfully.",
+      services,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching services due to ${error.message}`,
+    });
+  }
+};
+
 module.exports = {
   createService,
   updateService,
+  getServices,
 };

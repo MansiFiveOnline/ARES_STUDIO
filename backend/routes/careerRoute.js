@@ -17,4 +17,6 @@ route.post("/", upload.single("file"), careerController.createCareer);
 
 route.patch("/:_id", upload.single("file"), careerController.updateCareer);
 
+route.get("/", careerController.getCareers);
+
 module.exports = route;
