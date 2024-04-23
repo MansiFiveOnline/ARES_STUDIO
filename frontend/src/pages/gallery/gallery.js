@@ -1,8 +1,55 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Layout from "../../components/layout";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Gallery = () => {
+  const [galleries, setGalleries] = useState([]);
+
+  const navigate = useNavigate();
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const fetchGalleries = async () => {
+      try {
+        // const response = await axios.get("/api/user/allUsers");
+        const response = await axios({
+          method: "GET",
+          baseURL: "http://localhost:8000/api/",
+          url: "gallery",
+        });
+        console.log(response.data.galleries);
+        setGalleries(response.data.galleries);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchGalleries();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const response = await axios({
+        method: "DELETE",
+        baseURL: "http://localhost:8000/api/",
+        url: `user/${id}`,
+      });
+      setGalleries(null); // Update user state to null after deletion
+      setTimeout(() => {
+        navigate("/gallery");
+      }, 2000);
+      console.log(response.data);
+      setGalleries(galleries.filter((user) => user._id !== id));
+      setTimeout(() => {
+        navigate("/gallery");
+      }, 3000);
+    } catch (error) {
+      console.error("Error deleting gallery:", error);
+    }
+  };
   return (
     <Layout>
       <div className="pages-headers ">
@@ -69,35 +116,33 @@ const Gallery = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {users &&
-                  users.map((user) => ( */}
-                  <tr>
-                    <td>Games</td>
-                    <td className="text-center">GTA</td>
-                    <td className="table-profile-img text-center">
-                      <img
-                        src=""
-                        alt=""
-                        style={{ width: "50px", height: "50px" }}
-                      />
-                    </td>
-                    <td className="text-center">
-                      {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
-                  <CreateIcon />
-                </button>  */}
-                      <Link to={`/edit/gallery/`} title="Edit">
-                        <i class="las la-pencil-alt"></i>
-                      </Link>
-                    </td>
-                    <td className="text-center">
-                      <button
-                        className="delete-btn"
-                        // onClick={() => handleDelete(user._id)}
-                      >
-                        <i class="las la-trash"></i>{" "}
-                      </button>
-                    </td>
-                  </tr>
+                  {galleries &&
+                    galleries.map((gallery) => (
+                      <tr key={gallery._id}>
+                        <td>{gallery.service}</td>
+                        <td className="text-center">{gallery.name}</td>
+                        <td className="table-profile-img text-center">
+                          <img
+                            src=""
+                            alt=""
+                            style={{ width: "50px", height: "50px" }}
+                          />
+                        </td>
+                        <td className="text-center">
+                          <Link to={`/edit/gallery/`} title="Edit">
+                            <i class="las la-pencil-alt"></i>
+                          </Link>
+                        </td>
+                        <td className="text-center">
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleDelete(gallery._id)}
+                          >
+                            <i class="las la-trash"></i>{" "}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

@@ -6,4 +6,6 @@ route.post("/", opportunityController.createOpportunity);
 
 route.patch("/:_id", opportunityController.updateOpportunity);
 
+route.get("/", opportunityController.getOpportunities);
+
 module.exports = route;

@@ -131,4 +131,24 @@ const updateGallery = async (req, res) => {
   }
 };
 
-module.exports = { createGallery, updateGallery };
+const getGalleries = async (req, res) => {
+  try {
+    const galleries = await galleryModel.find();
+
+    if (galleries.length === 0) {
+      return res.status(400).json({
+        message: "No galleries are created. Kindly create one.",
+      });
+    }
+    return res.status(200).json({
+      message: "All galleries fetched successfully.",
+      galleries,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching galleries due to ${error.message}`,
+    });
+  }
+};
+
+module.exports = { createGallery, updateGallery, getGalleries };

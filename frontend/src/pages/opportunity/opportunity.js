@@ -1,8 +1,56 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../components/layout";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Opportunities = () => {
+  const [opportunities, setOpportunities] = useState([]);
+
+  const navigate = useNavigate();
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const fetchOpportunities = async () => {
+      try {
+        // const response = await axios.get("/api/user/allUsers");
+        const response = await axios({
+          method: "GET",
+          baseURL: "http://localhost:8000/api/",
+          url: "opportunity",
+        });
+        console.log(response.data.opportunities);
+        setOpportunities(response.data.opportunities);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchOpportunities();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const response = await axios({
+        method: "DELETE",
+        baseURL: "http://localhost:8000/api/",
+        url: `user/${id}`,
+      });
+      setOpportunities(null); // Update user state to null after deletion
+      setTimeout(() => {
+        navigate("/opportunity");
+      }, 2000);
+      console.log(response.data);
+      setOpportunities(opportunities.filter((user) => user._id !== id));
+      setTimeout(() => {
+        navigate("/opportunity");
+      }, 3000);
+    } catch (error) {
+      console.error("Error deleting opportunity:", error);
+    }
+  };
+
   return (
     <Layout>
       <div className="pages-headers ">
@@ -70,31 +118,38 @@ const Opportunities = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {users &&
-                  users.map((user) => ( */}
-                  <tr>
-                    <td>Title1</td>
-                    <td className="text-center">Description</td>
-                    <td className="text-center">Responsibilities</td>
-                    <td className="text-center">Qualification</td>
+                  {opportunities &&
+                    opportunities.map((opportunity) => (
+                      <tr key={opportunity._id}>
+                        <td>{opportunity.title}</td>
+                        <td className="text-center">
+                          {opportunity.description}
+                        </td>
+                        <td className="text-center">
+                          {opportunity.responsibility}
+                        </td>
+                        <td className="text-center">
+                          {opportunity.qualification}
+                        </td>
 
-                    <td className="text-center">
-                      {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
+                        <td className="text-center">
+                          {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
                   <CreateIcon />
                 </button>  */}
-                      <Link to={`/edit/opportunity/`} title="Edit">
-                        <i class="las la-pencil-alt"></i>
-                      </Link>
-                    </td>
-                    <td className="text-center">
-                      <button
-                        className="delete-btn"
-                        // onClick={() => handleDelete(user._id)}
-                      >
-                        <i class="las la-trash"></i>{" "}
-                      </button>
-                    </td>
-                  </tr>
+                          <Link to={`/edit/opportunity/`} title="Edit">
+                            <i class="las la-pencil-alt"></i>
+                          </Link>
+                        </td>
+                        <td className="text-center">
+                          <button
+                            className="delete-btn"
+                            // onClick={() => handleDelete(user._id)}
+                          >
+                            <i class="las la-trash"></i>{" "}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

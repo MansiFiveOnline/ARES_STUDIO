@@ -17,4 +17,6 @@ route.post("/", upload.single("file"), galleryController.createGallery);
 
 route.patch("/:_id", upload.single("file"), galleryController.updateGallery);
 
+route.get("/", galleryController.getGalleries);
+
 module.exports = route;
