@@ -18,19 +18,26 @@ const aboutSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ["image", "video"],
+    enum: ["image", "iframe"],
   },
-  file: {
-    type: Array,
-    filename: {
-      type: String,
-      required: true,
+  media: {
+    type: {
+      name: String,
+      path: String,
+      iframeUrl: {
+        type: String,
+        required: function () {
+          return this.type === "iframe";
+        },
+      },
     },
-    filepath: {
-      type: String,
-      required: true,
+    validate: {
+      validator: function () {
+        return this.type === "image" || this.type === "iframe";
+      },
+      message:
+        "Media is required for image type, and iframeUrl is required for iframe type.",
     },
-    required: true,
   },
   about_description: {
     type: String,

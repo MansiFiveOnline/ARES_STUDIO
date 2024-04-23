@@ -10,9 +10,17 @@ import EditTeam from "./pages/team/editteam";
 import Gallery from "./pages/gallery/gallery";
 import GalleryName from "./pages/gallery-name";
 import Services from "./pages/services/services";
-import Career from "./pages/career";
-import Opportunities from "./pages/opportunities";
-import About from "./pages/about";
+import Career from "./pages/career/career";
+import AddCareer from "./pages/career/addcareer";
+import EditCareer from "./pages/career/editcareer";
+import AddGallery from "./pages/gallery/addgallery";
+import EditGallery from "./pages/gallery/editgallery";
+import AddOpportunity from "./pages/opportunity/addopportunity";
+import EditOpportunity from "./pages/opportunity/editopportunity";
+import Opportunities from "./pages/opportunity/opportunity";
+import AddService from "./pages/services/addservice";
+import EditService from "./pages/services/editservice";
+import About from "./pages/about/about";
 
 function App() {
   return (
@@ -31,6 +39,14 @@ function App() {
         <Route path="/opportunities" element={<Opportunities />} />
         <Route path="/about" element={<About />} />
         <Route path="/career" element={<Career />} />
+        <Route path="add/career/" element={<AddCareer />} />
+        <Route path="edit/career/" element={<EditCareer />} />
+        <Route path="add/gallery/" element={<AddGallery />} />
+        <Route path="edit/gallery/" element={<EditGallery />} />
+        <Route path="add/opportunity/" element={<AddOpportunity />} />
+        <Route path="edit/opportunity/" element={<EditOpportunity />} />
+        <Route path="add/service" element={<AddService />} />
+        <Route path="edit/service/" element={<EditService />} />
         <Route path={`/services`} element={<Services />} />
       </Routes>
     </Router>

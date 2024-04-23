@@ -1,11 +1,11 @@
 import React from "react";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
 
-const Career = () => {
+const EditCareer = () => {
   return (
     <Layout>
       <div className="theme-form-header">
-        <h2>Career</h2>
+        <h2>Edit Career</h2>
       </div>
       <div className="form-white-bg">
         <form>
@@ -16,47 +16,43 @@ const Career = () => {
                 <input
                   type="text"
                   name="title"
-                  // value={Title}
+                  //   value={Title}
                   // onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
-              <div className="theme-form">
-                <label>Descripiton</label>
-                <input
-                  type="text"
-                  name="description"
-                  // value={Description}
-                  // onChange={(e) => setDesignation(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
-                <label>Responsibilities</label>
+                <label>Subtitle</label>
                 <input
                   type="text"
-                  name="responsibilities"
-                  // value={Responsibilities}
-                  // onChange={(e) => setLinkedinURL(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
-              <div className="theme-form">
-                <label>Qualification</label>
-                <input
-                  type="text"
-                  name="qualification"
+                  name="subtitle"
                   // value={Qualification}
                   // onChange={(e) => setImage(e.target.files[0])}
                   required
+                />
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Media</label>
+                <input
+                  type="file"
+                  name="media"
+                  // value={Qualification}
+                  // onChange={(e) => setImage(e.target.files[0])}
+                />
+                <span> OR </span>
+
+                <input
+                  type="text"
+                  name="media"
+                  // value={Qualification}
+                  // onChange={(e) => setImage(e.target.files[0])}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -75,4 +71,4 @@ const Career = () => {
   );
 };
 
-export default Career;
+export default EditCareer;

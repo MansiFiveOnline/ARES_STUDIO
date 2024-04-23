@@ -83,30 +83,43 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     maxlength: 150,
   },
-  media: {
-    type: {
-      type: String,
-      enum: ["image", "iframe"],
-    },
+  type: {
+    type: String,
+    enum: ["image", "video"],
+  },
+  file: {
+    type: String,
     filename: {
       type: String,
-      required: function () {
-        return this.media && this.media.type === "image";
-      },
     },
     filepath: {
       type: String,
-      required: function () {
-        return this.media && this.media.type === "image";
-      },
-    },
-    iframeUrl: {
-      type: String,
-      required: function () {
-        return this.media && this.media.type === "iframe";
-      },
     },
   },
+  // file: {
+  //   type: {
+  //     type: String,
+  //     enum: ["image", "iframe"],
+  //   },
+  //   filename: {
+  //     type: String,
+  //     required: function () {
+  //       return this.media && this.media.type === "image";
+  //     },
+  //   },
+  //   filepath: {
+  //     type: String,
+  //     required: function () {
+  //       return this.media && this.media.type === "image";
+  //     },
+  //   },
+  //   iframeUrl: {
+  //     type: String,
+  //     required: function () {
+  //       return this.media && this.media.type === "iframe";
+  //     },
+  //   },
+  // },
 });
 
 const serviceModel = mongoose.model("Service", serviceSchema);

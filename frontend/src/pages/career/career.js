@@ -2,15 +2,15 @@ import React from "react";
 import Layout from "../../components/layout";
 import { NavLink, Link } from "react-router-dom";
 
-const Services = () => {
+const Career = () => {
   return (
     <Layout>
       <div className="pages-headers ">
         <h2>
-          Services
-          <NavLink to="/add/service" className="theme-cta">
+          Career
+          <NavLink to="/add/career" className="theme-cta">
             <i class="las la-plus-circle"></i>
-            Add Service
+            Add Career
           </NavLink>
         </h2>
       </div>
@@ -19,53 +19,50 @@ const Services = () => {
           <div className="infos-table">
             <div className="table-responsive">
               {/* <DataTable
-          value={users}
-          paginator
-          sortMode="multiple"
-          rows={1}
-          rowsPerPageOptions={[5, 10, 25, 50]}
+        value={users}
+        paginator
+        sortMode="multiple"
+        rows={1}
+        rowsPerPageOptions={[5, 10, 25, 50]}
+      >
+        <Column
+          field="name"
+          header="Name"
+          sortable
+          style={{ width: "25%" }}
+        ></Column>
+        <Column
+          field="designation"
+          header="Designation"
+          sortable
+          style={{ width: "25%" }}
+        ></Column>
+        <Column
+          field="linkedin_url"
+          header="LinkedIn URL"
+          sortable
+          style={{ width: "25%" }}
+        ></Column>
+        <Column
+          field="users.imageUrl"
+          header="Image"
+          sortable
+          style={{ width: "25%" }}
         >
-          <Column
-            field="name"
-            header="Name"
-            sortable
-            style={{ width: "25%" }}
-          ></Column>
-          <Column
-            field="designation"
-            header="Designation"
-            sortable
-            style={{ width: "25%" }}
-          ></Column>
-          <Column
-            field="linkedin_url"
-            header="LinkedIn URL"
-            sortable
-            style={{ width: "25%" }}
-          ></Column>
-          <Column
-            field="users.imageUrl"
+          {" "}
+          <img
+            src=""
+            alt="new"
+            style={{ width: "50px", height: "50px" }}
             header="Image"
-            sortable
-            style={{ width: "25%" }}
-          >
-            {" "}
-            <img
-              src=""
-              alt="new"
-              style={{ width: "50px", height: "50px" }}
-              header="Image"
-            />
-          </Column> */}
+          />
+        </Column> */}
 
               <table id="example" className="table nowrap">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>URL</th>
                     <th>Title</th>
                     <th className="text-center">Subtitle</th>
-                    <th className="text-center">Description</th>
                     <th className="text-center">Media</th>
                     <th className="text-center">Edit</th>
                     <th className="text-center">Delete</th>
@@ -73,13 +70,10 @@ const Services = () => {
                 </thead>
                 <tbody>
                   {/* {users &&
-                    users.map((user) => ( */}
+                  users.map((user) => ( */}
                   <tr>
-                    <td>Test</td>
-                    <td>url</td>
                     <td>Title1</td>
                     <td className="text-center">Subtitle1</td>
-                    <td className="text-center">Description</td>
                     <td className="table-profile-img text-center">
                       <img
                         src=""
@@ -89,9 +83,9 @@ const Services = () => {
                     </td>
                     <td className="text-center">
                       {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
-                    <CreateIcon />
-                  </button>  */}
-                      <Link to={`/edit/service/`} title="Edit">
+                  <CreateIcon />
+                </button>  */}
+                      <Link to={`/edit/career/`} title="Edit">
                         <i class="las la-pencil-alt"></i>
                       </Link>
                     </td>
@@ -114,4 +108,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Career;
