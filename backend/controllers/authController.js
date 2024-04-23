@@ -119,9 +119,8 @@ const login = async (req, res) => {
       message: "User logged in successfully.",
       access_token,
       user: emailExists,
-      password: ""
+      password: "",
     });
-
   } catch (error) {
     return res.status(500).json({
       message: `Error in login user due to ${error.message}`,
@@ -129,91 +128,89 @@ const login = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    // Clearing the refresh token from cookie
+    res.clearCookie("refresh_token", {
+      path: "/api/auth/refresh_token",
+    });
 
-  const logout = async (req, res) => {
-    try {
-      // Clearing the refresh token from cookie
-      res.clearCookie("refresh_token", {
-        path: "/api/auth/refresh_token",
-      })
-  
-      // Response when successful
-      return res.status(200).json({
-        message: "User logged out successfully.",
-      })
-    }
-    catch (error) {
-      // Response when error
-      return res.status(500).json({
-        message: `Failed to logout the user. ${error.message}`,
-      })
-    }
+    // Response when successful
+    return res.status(200).json({
+      message: "User logged out successfully.",
+    });
+  } catch (error) {
+    // Response when error
+    return res.status(500).json({
+      message: `Failed to logout the user. ${error.message}`,
+    });
   }
+};
 
-  // Creating access token again after login
+// Creating access token again after login
 const recreateAccessToken = async (req, res) => {
   try {
     // Taking refresh token from cookie
-    const ref_token = req.cookies.refresh_token
+    const ref_token = req.cookies.refresh_token;
 
     // Checking refresh token
     if (!ref_token) {
       return res.status(400).json({
         message: "There is no refresh token. Please login now.",
-      })
+      });
     }
 
     // Verify refresh token
-    jwt.verify(ref_token, process.env.REFRESH_TOKEN,
-      async (error, result) => {
-        if (error) {
-          return res.status(400).json({
-            message: "Refresh token is invalid. Please login now.",
-          })
-        }
+    jwt.verify(ref_token, process.env.REFRESH_TOKEN, async (error, result) => {
+      if (error) {
+        return res.status(400).json({
+          message: "Refresh token is invalid. Please login now.",
+        });
+      }
 
-        // Check user
-        const user = await userModel.findById(result.id)
+      // Check user
+      const user = await userModel.findById(result.id);
 
-        if (!user) {
-          return res.status(400).json({
-            message: "This user does not exist.",
-          })
-        }
+      if (!user) {
+        return res.status(400).json({
+          message: "This user does not exist.",
+        });
+      }
 
-        // Creating access token
-        const access_token = createAccessToken({
-          id: result.id,
-        })
+      // Creating access token
+      const access_token = createAccessToken({
+        id: result.id,
+      });
 
-        // Response when successful
-        return res.status(200).json({
-          message: "Access token created successfully.",
-          access_token,
-        })
-      })
-  }
-  catch (error) {
+      // Response when successful
+      return res.status(200).json({
+        message: "Access token created successfully.",
+        access_token,
+      });
+    });
+  } catch (error) {
     // Response when error
     return res.status(400).json({
       message: `Failed to create access token. ${error.message}`,
-    })
+    });
   }
-}
+};
 
 // Creating access token
-const createAccessToken = (payload) => jwt.sign(payload, process.env.ACCESS_TOKEN, {
-  expiresIn: "1d",
-})
+const createAccessToken = (payload) =>
+  jwt.sign(payload, process.env.ACCESS_TOKEN, {
+    expiresIn: "1d",
+  });
 
 // Creating refresh token
-const createRefreshToken = (payload) => jwt.sign(payload, process.env.REFRESH_TOKEN, {
-  expiresIn: "30d",
-})
+const createRefreshToken = (payload) =>
+  jwt.sign(payload, process.env.REFRESH_TOKEN, {
+    expiresIn: "30d",
+  });
 
 module.exports = {
   register,
   login,
   logout,
-  recreateAccessToken
+  recreateAccessToken,
 };

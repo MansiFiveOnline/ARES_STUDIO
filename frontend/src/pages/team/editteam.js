@@ -166,13 +166,24 @@ const EditTeam = () => {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
+                <label>Sequence</label>
+                <input
+                  type="text"
+                  name="sequence"
+                  value={formData.linkedin_url}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
                 <label>Image</label>
                 <input
                   type="file"
                   name="image"
                   // value={formData.image.name}
                   onChange={handleChange}
-                  required
                 />
                 {/* <span>{formData.imageName || "No file chosen"}</span>{" "}
                 {/* Display the selected file name 

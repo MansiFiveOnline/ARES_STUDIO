@@ -20,7 +20,7 @@ import EditOpportunity from "./pages/opportunity/editopportunity";
 import Opportunities from "./pages/opportunity/opportunity";
 import AddService from "./pages/services/addservice";
 import EditService from "./pages/services/editservice";
-import About from "./pages/about/about";
+import About from "./pages/about/editabout";
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/gallery_name" element={<GalleryName />} />
         <Route path="/opportunities" element={<Opportunities />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/edit/about" element={<About />} />
         <Route path="/career" element={<Career />} />
         <Route path="add/career/" element={<AddCareer />} />
         <Route path="edit/career/" element={<EditCareer />} />

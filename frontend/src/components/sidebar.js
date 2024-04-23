@@ -1,6 +1,8 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, Link, useParams } from "react-router-dom";
 import "../style/index.css";
+import axios from "axios";
+
 // import PeopleIcon from "@mui/icons-material/People";
 // import ArticleIcon from "@mui/icons-material/Article";
 // import CallIcon from "@mui/icons-material/Call";
@@ -9,12 +11,32 @@ import "../style/index.css";
 // import LogoutIcon from "@mui/icons-material/Logout";
 
 const SideBar = () => {
+  const { id } = useParams();
+  const [about, setAbout] = useState([]);
+
+  // useEffect(() => {
+  //   console.log("ID", id);
+
+  //   const fetchAbout = async () => {
+  //     try {
+  //       // const response = await axios.get(`http://localhost:8000/api/about/${aboutId}`);
+  //       const response = await axios({
+  //         method: "GET",
+  //         baseURL: "http://localhost:8000/api/",
+  //         url: `/about/${id}`,
+  //       });
+  //       console.log("about", response.data.about);
+  //       setAbout(response.data.about);
+  //     } catch (error) {
+  //       console.error("Error fetching about:", error);
+  //     }
+  //   };
+  //   fetchAbout();
+  // }, [id]);
   return (
     <>
       <div className="sidebar-brand">
-        <NavLink to="/">
-          ARES Studio
-        </NavLink>
+        <NavLink to="/">ARES Studio</NavLink>
       </div>
       <div className="sidebar-menu">
         <ul>
@@ -50,21 +72,26 @@ const SideBar = () => {
           </li>
           <li>
             <NavLink to="/gallery_name" title="Gallery Name">
-              <span className="las la-sign-in-alt"></span> <span>Gallery Name</span>
+              <span className="las la-sign-in-alt"></span>{" "}
+              <span>Gallery Name</span>
             </NavLink>
           </li>
+
           <li>
             <NavLink to="/opportunities" title="Opportunities">
-              <span className="las la-sign-in-alt"></span> <span>Opportunities</span>
+              <span className="las la-sign-in-alt"></span>{" "}
+              <span>Opportunities</span>
             </NavLink>
           </li>
-          
+
+          {/* {about.map((aboutItem) => ( */}
           <li>
-            <NavLink to="/about" title="About">
+            <NavLink to="/edit/about" title="About">
               <span className="las la-sign-in-alt"></span> <span>About</span>
             </NavLink>
           </li>
-          
+          {/* ))} */}
+
           <li>
             <NavLink to="/career" title="Career">
               <span className="las la-sign-in-alt"></span> <span>Career</span>
@@ -75,7 +102,7 @@ const SideBar = () => {
               <span className="las la-sign-in-alt"></span> <span>Services</span>
             </NavLink>
           </li>
-          
+
           <li className="logout-menu" title="Logout">
             <NavLink to="/login">
               <span className="las la-sign-out-alt"></span> <span>Logout</span>

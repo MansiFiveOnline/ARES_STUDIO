@@ -219,4 +219,58 @@ const getCareers = async (req, res) => {
   }
 };
 
-module.exports = { createCareer, updateCareer, getCareers };
+const getCareer = async (req, res) => {
+  try {
+    const career = await careerModel.findById(req.params._id);
+    console.log(req.params._id);
+    if (!career) {
+      return res.status(400).json({
+        message: "No Career is created with this id.",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Career fetched successfully.",
+      career,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching career due to ${error.message}`,
+    });
+  }
+};
+
+const deleteCareer = async (req, res) => {
+  try {
+    const careerExists = await careerModel.findById({
+      _id: req.params.id,
+    });
+
+    if (careerExists.length === 0) {
+      return res.status(400).json({
+        message: "No career are created. Kindly create one.",
+      });
+    }
+
+    const deletedCareer = await careerModel.findOneAndDelete({
+      _id: req.params.id,
+    });
+
+    return res.status(200).json({
+      message: "Career deleted successfully.",
+      deletedCareer,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in deleting career due to ${error.message}`,
+    });
+  }
+};
+
+module.exports = {
+  createCareer,
+  updateCareer,
+  getCareers,
+  getCareer,
+  deleteCareer,
+};

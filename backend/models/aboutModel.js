@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const aboutSchema = new mongoose.Schema({
   title: {
@@ -9,7 +10,6 @@ const aboutSchema = new mongoose.Schema({
   subtitle: {
     type: String,
     maxlength: 50,
-    require: true,
   },
   description: {
     type: String,
@@ -17,26 +17,12 @@ const aboutSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    required: true,
-    enum: ["image", "iframe"],
+    enum: ["image", "video"],
   },
   media: {
-    type: {
-      name: String,
-      path: String,
-      iframeUrl: {
-        type: String,
-        required: function () {
-          return this.type === "iframe";
-        },
-      },
-    },
-    validate: {
-      validator: function () {
-        return this.type === "image" || this.type === "iframe";
-      },
-      message:
-        "Media is required for image type, and iframeUrl is required for iframe type.",
+    type: Schema.Types.Mixed,
+    required: function () {
+      return this.type === "image" || this.type === "video";
     },
   },
   about_description: {

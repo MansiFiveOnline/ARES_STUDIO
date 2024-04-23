@@ -88,12 +88,45 @@ const updateUser = async (req, res) => {
   //   });
   // }
   try {
-    const { name, designation, linkedin_url } = req.body;
+    const { name, designation, linkedin_url, sequence } = req.body;
     // let image = req.body.image;
+    let image = req.body.image;
 
     // Check if a new image file is uploaded
-    const uploadedImagePath = req.file.path;
-    const uploadedImageName = req.file.originalname;
+    // const uploadedImagePath = req.file.path;
+    // const uploadedImageName = req.file.originalname;
+
+    // Check if a new image file is uploaded
+    if (req.file) {
+      // If a new image file is uploaded, update the image
+      image = {
+        name: req.file.originalname,
+        path: req.file.path,
+      };
+    }
+
+    // Get the current sequence of the user
+    // const currentSequence = user.sequence;
+
+    // // Update the sequence field of the user
+    // user.sequence = newSequence;
+
+    // // Save the updated user
+    // await user.save();
+
+    // // Update the sequence of other users if necessary
+    // if (currentSequence !== newSequence) {
+    //   const otherUsers = await teamModel.find({ name: { $ne: userName } });
+    //   for (const otherUser of otherUsers) {
+    //     if (otherUser.sequence === newSequence) {
+    //       otherUser.sequence = currentSequence;
+    //       await otherUser.save();
+    //     }
+    //   }
+    // }
+
+    // // Sort users by sequence field
+    // const sortedUsers = await teamModel.find().sort({ sequence: 1 });
 
     const updatedUser = await teamModel.findByIdAndUpdate(
       req.params._id,
@@ -101,10 +134,8 @@ const updateUser = async (req, res) => {
         name,
         designation,
         linkedin_url,
-        image: {
-          name: uploadedImageName,
-          path: uploadedImagePath,
-        },
+        image,
+        // sequence: sortedUsers,
       },
       { new: true }
     );

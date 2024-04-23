@@ -19,4 +19,8 @@ route.patch("/:_id", upload.single("media"), careerController.updateCareer);
 
 route.get("/", careerController.getCareers);
 
+route.get("/:_id", careerController.getCareer);
+
+route.delete("/:_id", careerController.deleteCareer);
+
 module.exports = route;
