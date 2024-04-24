@@ -13,10 +13,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/", upload.single("file"), galleryController.createGallery);
+route.post("/", upload.single("media"), galleryController.createGallery);
 
-route.patch("/:_id", upload.single("file"), galleryController.updateGallery);
+route.patch("/:_id", upload.single("media"), galleryController.updateGallery);
 
 route.get("/", galleryController.getGalleries);
+
+route.delete("/:_id", galleryController.deleteGallery);
 
 module.exports = route;

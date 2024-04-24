@@ -58,6 +58,7 @@
 // module.exports = serviceModel;
 
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const serviceSchema = new mongoose.Schema({
   name: {
@@ -85,15 +86,13 @@ const serviceSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["image", "video"],
+    enum: ["", "image", "video"],
+    default: "",
   },
-  file: {
-    type: String,
-    filename: {
-      type: String,
-    },
-    filepath: {
-      type: String,
+  media: {
+    type: Schema.Types.Mixed,
+    required: function () {
+      return this.type === "image" || this.type === "video";
     },
   },
   // file: {

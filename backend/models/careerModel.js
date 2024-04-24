@@ -10,23 +10,12 @@ const careerSchema = new mongoose.Schema({
   subtitle: {
     type: String,
     maxlength: 50,
-    required: true,
   },
   type: {
     type: String,
-    required: true,
-    enum: ["image", "video"],
+    enum: ["", "image", "video"],
+    default: "",
   },
-  // media: {
-  //   type: {
-  //     filename: String,
-  //     filepath: String,
-  //     iframe: String,
-  //   },
-  //   required: function () {
-  //     return this.type === "image" || this.type === "video";
-  //   },
-  // },
   media: {
     type: Schema.Types.Mixed,
     required: function () {

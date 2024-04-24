@@ -5,7 +5,7 @@ const aboutSchema = new mongoose.Schema({
   title: {
     type: String,
     maxlength: 20,
-    require: true,
+    required: true,
   },
   subtitle: {
     type: String,
@@ -17,7 +17,8 @@ const aboutSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["image", "video"],
+    enum: ["", "image", "video"],
+    default: "",
   },
   media: {
     type: Schema.Types.Mixed,

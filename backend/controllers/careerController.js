@@ -74,8 +74,17 @@ const isURL = (str) => {
 const createCareer = async (req, res) => {
   try {
     const { title, subtitle, media } = req.body;
-    const file = req.file;
+    let mediaData = {};
 
+    if (!media || (typeof media === "string" && !isURL(media.trim()))) {
+      return res.status(400).json({
+        message:
+          "Either a file or a valid URL is required for the media field.",
+      });
+    }
+    const file = req.file;
+    // Check if the file is a WebP image
+    // Function to check if the file is a WebP image
     let fileType = "";
 
     // Check if a file is provided
@@ -91,33 +100,24 @@ const createCareer = async (req, res) => {
           message: "Unsupported file type. Please upload a WebP image.",
         });
       }
-
-      fileType = "image";
-    } else if (isURL(media)) {
-      fileType = "video";
+      mediaData = {
+        filename: req.file.originalname,
+        filepath: req.file.path,
+        iframe: null,
+      };
     } else {
-      return res.status(400).json({
-        message:
-          "Either a file or a valid URL is required for the media field.",
-      });
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
     }
 
     const newCareer = new careerModel({
       title,
       subtitle,
       type: fileType,
-      media:
-        fileType === "image"
-          ? {
-              filename: file.originalname,
-              filepath: file.path,
-              iframe: null,
-            }
-          : {
-              filename: null,
-              filepath: null,
-              iframe: media,
-            },
+      media: mediaData,
     });
 
     await newCareer.save();
@@ -138,8 +138,17 @@ const updateCareer = async (req, res) => {
     const { title, subtitle, media } = req.body;
     // let image = req.body.image;
 
-    const file = req.file;
+    let mediaData = {};
 
+    if (!media || (typeof media === "string" && !isURL(media.trim()))) {
+      return res.status(400).json({
+        message:
+          "Either a file or a valid URL is required for the media field.",
+      });
+    }
+    const file = req.file;
+    // Check if the file is a WebP image
+    // Function to check if the file is a WebP image
     let fileType = "";
 
     // Check if a file is provided
@@ -155,15 +164,17 @@ const updateCareer = async (req, res) => {
           message: "Unsupported file type. Please upload a WebP image.",
         });
       }
-
-      fileType = "image";
-    } else if (isURL(media)) {
-      fileType = "video";
+      mediaData = {
+        filename: req.file.originalname,
+        filepath: req.file.path,
+        iframe: null,
+      };
     } else {
-      return res.status(400).json({
-        message:
-          "Either a file or a valid URL is required for the media field.",
-      });
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
     }
 
     const updatedCareer = await careerModel.findByIdAndUpdate(
@@ -172,18 +183,7 @@ const updateCareer = async (req, res) => {
         title,
         subtitle,
         type: fileType,
-        media:
-          fileType === "image"
-            ? {
-                filename: file.originalname,
-                filepath: file.path,
-                iframe: null,
-              }
-            : {
-                filename: null,
-                filepath: null,
-                iframe: media,
-              },
+        media: mediaData,
       },
       { new: true }
     );
@@ -243,7 +243,7 @@ const getCareer = async (req, res) => {
 const deleteCareer = async (req, res) => {
   try {
     const careerExists = await careerModel.findById({
-      _id: req.params.id,
+      _id: req.params._id,
     });
 
     if (careerExists.length === 0) {
@@ -253,7 +253,7 @@ const deleteCareer = async (req, res) => {
     }
 
     const deletedCareer = await careerModel.findOneAndDelete({
-      _id: req.params.id,
+      _id: req.params._id,
     });
 
     return res.status(200).json({

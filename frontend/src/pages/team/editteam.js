@@ -80,7 +80,7 @@ const EditTeam = () => {
         ...formData,
         image: {
           name: file.name,
-          path: URL.createObjectURL(file), // Set path to a local URL
+          path: URL.createObjectURL(file), //`uploads/teams/${file.name}`,  // Set path to a local URL
           file: file, // Store the selected file object
         },
       });

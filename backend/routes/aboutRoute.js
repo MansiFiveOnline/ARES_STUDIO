@@ -15,10 +15,10 @@ const upload = multer({ storage: storage });
 
 route.post("/", upload.single("media"), aboutController.createAbout);
 
-route.patch("/:_id", upload.single("media"), aboutController.updateAbout);
+route.patch("/", upload.single("media"), aboutController.updateAbout);
 
-route.get("/:_id", aboutController.getAbout);
+// route.get("/:_id", aboutController.getAbout);
 
-route.get("/", aboutController.getAbouts);
+route.get("/", aboutController.getAbout);
 
 module.exports = route;

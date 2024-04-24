@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const gallerySchema = new mongoose.Schema({
   service: {
@@ -7,25 +8,18 @@ const gallerySchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true,
     trim: true,
   },
   type: {
     type: String,
-    required: true,
-    enum: ["image", "video"],
+    enum: ["", "image", "video"],
+    default: "",
   },
-  file: {
-    type: Array,
-    filename: {
-      type: String,
-      required: true,
+  media: {
+    type: Schema.Types.Mixed,
+    required: function () {
+      return this.type === "image" || this.type === "video";
     },
-    filepath: {
-      type: String,
-      required: true,
-    },
-    required: true,
   },
   isPublic: {
     type: Boolean,
