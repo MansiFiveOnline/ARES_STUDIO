@@ -1,14 +1,73 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const EditOpportunity = () => {
+  const { id } = useParams(); // Assuming the parameter is named userId
+  const [opportunity, setOpportunity] = useState(null);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    responsibility: "",
+    qualification: "",
+  });
+
+  useEffect(() => {
+    const fetchOpportunity = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/opportunity/${id}`
+        );
+        const { title, description, responsibility, qualification } =
+          response.data.opportunity;
+        setFormData({
+          title,
+          description,
+          responsibility,
+          qualification,
+        });
+      } catch (error) {
+        console.error("Error fetching opportunity:", error);
+      }
+    };
+
+    fetchOpportunity();
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/opportunity/${id}`,
+        formData
+      );
+      console.log("Opportunity updated:", response.data.updatedOpportunity);
+      setTimeout(() => {
+        navigate("/opportunities");
+      }, 2000);
+    } catch (error) {
+      console.error("Error updating opportunity:", error);
+    }
+  };
+
   return (
     <Layout>
       <div className="theme-form-header">
         <h2>Add Opportunity</h2>
       </div>
       <div className="form-white-bg">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
@@ -16,9 +75,8 @@ const EditOpportunity = () => {
                 <input
                   type="text"
                   name="title"
-                  // value={Responsibilities}
-                  // onChange={(e) => setLinkedinURL(e.target.value)}
-                  required
+                  value={formData.title}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -29,9 +87,8 @@ const EditOpportunity = () => {
                 <input
                   type="text"
                   name="description"
-                  // value={Qualification}
-                  // onChange={(e) => setImage(e.target.files[0])}
-                  required
+                  value={formData.description}
+                  onChange={handleChange}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -43,9 +100,8 @@ const EditOpportunity = () => {
                 <input
                   type="text"
                   name="responsibility"
-                  // value={Qualification}
-                  // onChange={(e) => setImage(e.target.files[0])}
-                  required
+                  value={formData.responsibility}
+                  onChange={handleChange}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -57,9 +113,8 @@ const EditOpportunity = () => {
                 <input
                   type="text"
                   name="qualification"
-                  // value={Qualification}
-                  // onChange={(e) => setImage(e.target.files[0])}
-                  required
+                  value={formData.qualification}
+                  onChange={handleChange}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>

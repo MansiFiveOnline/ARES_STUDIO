@@ -3,37 +3,59 @@ const path = require("path");
 
 const createService = async (req, res) => {
   try {
-    const { name, title, subtitle, description } = req.body;
+    const { name, title, subtitle, description, media } = req.body;
 
-    const filePath = req.file.path;
-    const fileName = req.file.originalname;
+    let mediaData = {};
+
     const urlSlug = name.toLowerCase().replace(/\s+/g, "-");
     const url = `http:/localhost:8000/api/${urlSlug}`;
 
     const file = req.file;
-    // Check if the file is a WebP image
-    // Function to check if the file is a WebP image
-    const isWebPImage = (file) => {
-      const extname = path.extname(file.originalname).toLowerCase();
-      return extname === ".webp";
-    };
-
-    // Function to check if the file is a video
-    const isVideo = (file) => {
-      const extname = path.extname(file.originalname).toLowerCase();
-      return [".mp4", ".avi", ".mov", ".mkv"].includes(extname);
-    };
 
     let fileType = "";
-    if (isWebPImage(file)) {
-      fileType = "image";
-    } else if (isVideo(file)) {
-      fileType = "video";
+    // Function to check if the input is a URL
+    const isURL = (str) => {
+      try {
+        new URL(str);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    // Check if media is a URL (iframe)
+    if (isURL(media)) {
+      fileType = "video"; // Set fileType to "video" for iframe URLs
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
     } else {
-      return res.status(400).json({
-        message:
-          "Unsupported file type. Please upload a WebP image or a video file.",
-      });
+      const file = req.file;
+      if (!file) {
+        return res.status(400).json({
+          message: "File is required for the media field.",
+        });
+      }
+      // Check if the file is a WebP image
+      const isWebPImage = (file) => {
+        const extname = path.extname(file.originalname).toLowerCase();
+        return extname === ".webp";
+      };
+
+      if (!isWebPImage(file)) {
+        return res.status(400).json({
+          message: "Unsupported file type. Please upload a WebP image.",
+        });
+      }
+
+      fileType = "image";
+      mediaData = {
+        filename: req.file.originalname,
+        filepath: req.file.path,
+        iframe: null,
+      };
     }
 
     const newService = new serviceModel({
@@ -43,10 +65,7 @@ const createService = async (req, res) => {
       subtitle,
       description,
       type: fileType,
-      file: {
-        name: fileName,
-        path: filePath,
-      },
+      media: mediaData,
     });
 
     await newService.save();
@@ -126,39 +145,60 @@ const createService = async (req, res) => {
 
 const updateService = async (req, res) => {
   try {
-    const { name, title, subtitle, description } = req.body;
+    const { name, title, subtitle, description, media } = req.body;
     // let image = req.body.image;
     const file = req.file;
     const urlSlug = name.toLowerCase().replace(/\s+/g, "-");
     const url = `http:/localhost:8000/api/service/${urlSlug}`;
-    // Check if the file is a WebP image
-    // Function to check if the file is a WebP image
-    const isWebPImage = (file) => {
-      const extname = path.extname(file.originalname).toLowerCase();
-      return extname === ".webp";
-    };
-
-    // Function to check if the file is a video
-    const isVideo = (file) => {
-      const extname = path.extname(file.originalname).toLowerCase();
-      return [".mp4", ".avi", ".mov", ".mkv"].includes(extname);
-    };
-
     let fileType = "";
-    if (isWebPImage(file)) {
-      fileType = "image";
-    } else if (isVideo(file)) {
-      fileType = "video";
-    } else {
-      return res.status(400).json({
-        message:
-          "Unsupported file type. Please upload a WebP image or a video file.",
-      });
-    }
 
-    // Check if a new image file is uploaded
-    const filePath = req.file.path;
-    const fileName = req.file.originalname;
+    let mediaData = {};
+
+    // Function to check if the input is a URL
+    const isURL = (str) => {
+      try {
+        new URL(str);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    // Check if media is a URL (iframe)
+    if (isURL(media)) {
+      fileType = "video"; // Set fileType to "video" for iframe URLs
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
+    } else {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).json({
+          message:
+            "Either a file or a valid URL is required for the media field.",
+        });
+      }
+      // Check if the file is a WebP image
+      const isWebPImage = (file) => {
+        const extname = path.extname(file.originalname).toLowerCase();
+        return extname === ".webp";
+      };
+
+      if (!isWebPImage(file)) {
+        return res.status(400).json({
+          message: "Unsupported file type. Please upload a WebP image.",
+        });
+      }
+
+      fileType = "image";
+      mediaData = {
+        filename: req.file.originalname,
+        filepath: req.file.path,
+        iframe: null,
+      };
+    }
 
     const updatedService = await serviceModel.findByIdAndUpdate(
       req.params._id,
@@ -167,11 +207,9 @@ const updateService = async (req, res) => {
         url,
         title,
         subtitle,
+        description,
         type: fileType,
-        file: {
-          name: fileName,
-          path: filePath,
-        },
+        media: mediaData,
       },
       { new: true }
     );
@@ -183,6 +221,26 @@ const updateService = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: `Error in updating Service due to ${error.message}`,
+    });
+  }
+};
+
+const getService = async (req, res) => {
+  try {
+    const service = await serviceModel.findById(req.params._id);
+
+    if (service.length === 0) {
+      return res.status(400).json({
+        message: "No services are created. Kindly create one.",
+      });
+    }
+    return res.status(200).json({
+      message: "Service fetched successfully.",
+      service,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching service due to ${error.message}`,
     });
   }
 };
@@ -207,8 +265,37 @@ const getServices = async (req, res) => {
   }
 };
 
+const deleteService = async (req, res) => {
+  try {
+    const serviceExists = await serviceModel.findById({
+      _id: req.params._id,
+    });
+
+    if (serviceExists.length === 0) {
+      return res.status(400).json({
+        message: "No services are created. Kindly create one.",
+      });
+    }
+
+    const deletedService = await serviceModel.findOneAndDelete({
+      _id: req.params._id,
+    });
+
+    return res.status(200).json({
+      message: "Service deleted successfully.",
+      deletedService,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in deleting service due to ${error.message}`,
+    });
+  }
+};
+
 module.exports = {
   createService,
   updateService,
+  getService,
   getServices,
+  deleteService,
 };

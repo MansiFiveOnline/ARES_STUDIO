@@ -35,14 +35,14 @@ const Career = () => {
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
-        url: `user/${id}`,
+        url: `career/${id}`,
       });
       setCareers(null); // Update user state to null after deletion
       setTimeout(() => {
         navigate("/career");
       }, 2000);
       console.log(response.data);
-      setCareers(careers.filter((user) => user._id !== id));
+      setCareers(careers.filter((career) => career._id !== id));
       setTimeout(() => {
         navigate("/career");
       }, 3000);
@@ -133,14 +133,14 @@ const Career = () => {
                           {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
                   <CreateIcon />
                 </button>  */}
-                          <Link to={`/edit/career/`} title="Edit">
+                          <Link to={`/edit/career/${career._id}`} title="Edit">
                             <i class="las la-pencil-alt"></i>
                           </Link>
                         </td>
                         <td className="text-center">
                           <button
                             className="delete-btn"
-                            // onClick={() => handleDelete(user._id)}
+                            onClick={() => handleDelete(career._id)}
                           >
                             <i class="las la-trash"></i>{" "}
                           </button>

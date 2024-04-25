@@ -65,6 +65,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+    unique: true,
   },
   url: {
     type: String,

@@ -15,8 +15,12 @@ const upload = multer({ storage: storage });
 
 route.post("/", upload.single("media"), serviceController.createService);
 
-route.patch("/:_id", upload.single("file"), serviceController.updateService);
+route.patch("/:_id", upload.single("media"), serviceController.updateService);
+
+route.get("/:_id", serviceController.getService);
 
 route.get("/", serviceController.getServices);
+
+route.delete("/:_id", serviceController.deleteService);
 
 module.exports = route;

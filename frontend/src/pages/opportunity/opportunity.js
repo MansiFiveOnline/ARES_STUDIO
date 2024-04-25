@@ -35,16 +35,18 @@ const Opportunities = () => {
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
-        url: `user/${id}`,
+        url: `opportunity/${id}`,
       });
       setOpportunities(null); // Update user state to null after deletion
       setTimeout(() => {
-        navigate("/opportunity");
+        navigate("/opportunities");
       }, 2000);
       console.log(response.data);
-      setOpportunities(opportunities.filter((user) => user._id !== id));
+      setOpportunities(
+        opportunities.filter((opportunity) => opportunity._id !== id)
+      );
       setTimeout(() => {
-        navigate("/opportunity");
+        navigate("/opportunities");
       }, 3000);
     } catch (error) {
       console.error("Error deleting opportunity:", error);
@@ -136,14 +138,17 @@ const Opportunities = () => {
                           {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
                   <CreateIcon />
                 </button>  */}
-                          <Link to={`/edit/opportunity/`} title="Edit">
+                          <Link
+                            to={`/edit/opportunity/${opportunity._id}`}
+                            title="Edit"
+                          >
                             <i class="las la-pencil-alt"></i>
                           </Link>
                         </td>
                         <td className="text-center">
                           <button
                             className="delete-btn"
-                            // onClick={() => handleDelete(user._id)}
+                            onClick={() => handleDelete(opportunity._id)}
                           >
                             <i class="las la-trash"></i>{" "}
                           </button>

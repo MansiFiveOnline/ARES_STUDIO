@@ -21,7 +21,7 @@ route.get("/allUsers", teamController.getUsers);
 
 route.get("/:_id", teamController.getUser);
 
-route.delete("/:id", teamController.deleteUser);
+route.delete("/:_id", teamController.deleteUser);
 
 route.patch("/sequence/:name", teamController.sequenceUser);
 

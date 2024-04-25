@@ -239,7 +239,7 @@ const deleteUser = async (req, res) => {
     }
 
     const deleteuser = await teamModel.findOneAndDelete({
-      _id: req.params.id,
+      _id: req.params._id,
     });
 
     return res.status(200).json({

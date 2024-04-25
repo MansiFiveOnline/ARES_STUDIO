@@ -35,17 +35,17 @@ const Services = () => {
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
-        url: `user/${id}`,
+        url: `service/${id}`,
       });
       setServices(null); // Update user state to null after deletion
       setTimeout(() => {
-        navigate("/service");
+        navigate("/services");
       }, 2000);
       console.log(response.data);
-      setServices(services.filter((user) => user._id !== id));
+      setServices(services.filter((service) => service._id !== id));
       setTimeout(() => {
-        navigate("/service");
-      }, 3000);
+        navigate("/services");
+      }, 2000);
     } catch (error) {
       console.error("Error deleting service:", error);
     }
@@ -129,24 +129,31 @@ const Services = () => {
                         <td className="text-center">{service.subtitle}</td>
                         <td className="text-center">{service.description}</td>
                         <td className="table-profile-img text-center">
-                          <img
-                            src=""
-                            alt=""
-                            style={{ width: "50px", height: "50px" }}
-                          />
+                          {service.type === "image" ? (
+                            <img
+                              src={`http://localhost:8000/${service.media.filepath}`} // Assuming filepath contains the path to the image
+                              alt=""
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            <span>{service.media.iframe}</span>
+                          )}
                         </td>
                         <td className="text-center">
                           {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
                     <CreateIcon />
                   </button>  */}
-                          <Link to={`/edit/service/`} title="Edit">
+                          <Link
+                            to={`/edit/service/${service._id}`}
+                            title="Edit"
+                          >
                             <i class="las la-pencil-alt"></i>
                           </Link>
                         </td>
                         <td className="text-center">
                           <button
                             className="delete-btn"
-                            // onClick={() => handleDelete(user._id)}
+                            onClick={() => handleDelete(service._id)}
                           >
                             <i class="las la-trash"></i>{" "}
                           </button>
