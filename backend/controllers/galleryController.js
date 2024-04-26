@@ -1,35 +1,37 @@
 const galleryModel = require("../models/galleryModel");
 const path = require("path");
 
-// Function to check if the input is a URL
-const isURL = (str) => {
-  try {
-    new URL(str);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
 const createGallery = async (req, res) => {
   try {
     const { service, name, isPublic = true, media } = req.body;
 
     let mediaData = {};
+    // Function to check if the input is a URL
+    const isURL = (str) => {
+      try {
+        new URL(str);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
 
-    if (!media || (typeof media === "string" && !isURL(media.trim()))) {
-      return res.status(400).json({
-        message:
-          "Either a file or a valid URL is required for the media field.",
-      });
-    }
-    const file = req.file;
-    // Check if the file is a WebP image
-    // Function to check if the file is a WebP image
-    let fileType = "";
-
-    // Check if a file is provided
-    if (file) {
+    // Check if media is a URL (iframe)
+    if (isURL(media)) {
+      fileType = "video"; // Set fileType to "video" for iframe URLs
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
+    } else {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).json({
+          message:
+            "Either a file or a valid URL is required for the media field.",
+        });
+      }
       // Check if the file is a WebP image
       const isWebPImage = (file) => {
         const extname = path.extname(file.originalname).toLowerCase();
@@ -41,18 +43,21 @@ const createGallery = async (req, res) => {
           message: "Unsupported file type. Please upload a WebP image.",
         });
       }
+
+      fileType = "image";
       mediaData = {
         filename: req.file.originalname,
         filepath: req.file.path,
         iframe: null,
       };
-    } else {
-      mediaData = {
-        filename: null,
-        filepath: null,
-        iframe: media.trim(),
-      };
     }
+    // } else {
+    //   mediaData = {
+    //     filename: null,
+    //     filepath: null,
+    //     iframe: media.trim(),
+    //   };
+
     const newGallery = new galleryModel({
       service,
       name,
@@ -78,20 +83,44 @@ const updateGallery = async (req, res) => {
   try {
     const { service, name, isPublic, media } = req.body;
     // Check if a new image file is uploaded
-    let updateFields = {
-      service,
-      name,
-      isPublic,
-      media,
-    };
+    // let updateFields = {
+    //   service,
+    //   name,
+    //   isPublic,
+    //   media,
+    // };
     const file = req.file;
 
     let fileType = "";
 
     let mediaData = {};
 
-    // Check if a file is provided
-    if (file) {
+    // Function to check if the input is a URL
+    const isURL = (str) => {
+      try {
+        new URL(str);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    // Check if media is a URL (iframe)
+    if (isURL(media)) {
+      fileType = "video"; // Set fileType to "video" for iframe URLs
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
+    } else {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).json({
+          message:
+            "Either a file or a valid URL is required for the media field.",
+        });
+      }
       // Check if the file is a WebP image
       const isWebPImage = (file) => {
         const extname = path.extname(file.originalname).toLowerCase();
@@ -104,23 +133,18 @@ const updateGallery = async (req, res) => {
         });
       }
 
+      fileType = "image";
       mediaData = {
         filename: req.file.originalname,
         filepath: req.file.path,
         iframe: null,
       };
-    } else {
-      mediaData = {
-        filename: null,
-        filepath: null,
-        iframe: media.trim(),
-      };
     }
 
-    updateFields = {
-      ...updateFields,
-      type: fileType,
-    };
+    // updateFields = {
+    //   ...updateFields,
+    //   type: fileType,
+    // };
     const updatedGallery = await galleryModel.findByIdAndUpdate(
       req.params._id,
       {
@@ -131,7 +155,9 @@ const updateGallery = async (req, res) => {
         //   name: fileName,
         //   path: filePath,
         // },
-        updateFields,
+        service,
+        name,
+        type: fileType,
         isPublic,
         media: mediaData,
       },
@@ -145,6 +171,26 @@ const updateGallery = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: `Error in updating Gallery due to ${error.message}`,
+    });
+  }
+};
+
+const getGallery = async (req, res) => {
+  try {
+    const gallery = await galleryModel.findById(req.params._id);
+
+    if (gallery.length === 0) {
+      return res.status(400).json({
+        message: "No gallery is created. Kindly create one.",
+      });
+    }
+    return res.status(200).json({
+      message: "Gallery fetched successfully.",
+      gallery,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching gallery due to ${error.message}`,
     });
   }
 };
@@ -196,4 +242,26 @@ const deleteGallery = async (req, res) => {
   }
 };
 
-module.exports = { createGallery, updateGallery, getGalleries, deleteGallery };
+const getGalleryNames = async (req, res) => {
+  try {
+    const { service } = req.query;
+    const gallery = await galleryModel.find({ service });
+    res.status(200).json({
+      message: "Gallery names fetched successfully",
+      gallery,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: `Error is fetching gallery names due to ${error.message}`,
+    });
+  }
+};
+
+module.exports = {
+  createGallery,
+  updateGallery,
+  getGallery,
+  getGalleries,
+  deleteGallery,
+  getGalleryNames,
+};

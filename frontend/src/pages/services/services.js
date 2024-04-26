@@ -132,7 +132,7 @@ const Services = () => {
                           {service.type === "image" ? (
                             <img
                               src={`http://localhost:8000/${service.media.filepath}`} // Assuming filepath contains the path to the image
-                              alt=""
+                              alt={`${service.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (

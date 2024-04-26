@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import $ from 'jquery';
-import 'datatables.net';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+import React, { useEffect, useRef } from "react";
+import $ from "jquery";
+import "datatables.net";
+import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";
 
 const DataTable = () => {
   const tableRef = useRef(null);
@@ -15,10 +15,7 @@ const DataTable = () => {
 
     // Destroy DataTable when the component unmounts
     return () => {
-      $('.data-table-wrapper')
-        .find('table')
-        .DataTable()
-        .destroy(true);
+      $(".data-table-wrapper").find("table").DataTable().destroy(true);
     };
   }, []);
 

@@ -120,6 +120,12 @@ const serviceSchema = new mongoose.Schema({
   //     },
   //   },
   // },
+  metaTitle: {
+    type: String,
+  },
+  metaDescription: {
+    type: String,
+  },
 });
 
 const serviceModel = mongoose.model("Service", serviceSchema);

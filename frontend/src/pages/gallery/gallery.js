@@ -35,14 +35,14 @@ const Gallery = () => {
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
-        url: `user/${id}`,
+        url: `gallery/${id}`,
       });
       setGalleries(null); // Update user state to null after deletion
       setTimeout(() => {
         navigate("/gallery");
       }, 2000);
       console.log(response.data);
-      setGalleries(galleries.filter((user) => user._id !== id));
+      setGalleries(galleries.filter((gallery) => gallery._id !== id));
       setTimeout(() => {
         navigate("/gallery");
       }, 3000);
@@ -123,13 +123,16 @@ const Gallery = () => {
                         <td className="text-center">{gallery.name}</td>
                         <td className="table-profile-img text-center">
                           <img
-                            src=""
-                            alt=""
+                            src={`http://localhost:8000/${gallery.media.filepath}`} // Assuming filepath contains the path to the image
+                            alt={`${gallery.media.filename}`}
                             style={{ width: "50px", height: "50px" }}
                           />
                         </td>
                         <td className="text-center">
-                          <Link to={`/edit/gallery/`} title="Edit">
+                          <Link
+                            to={`/edit/gallery/${gallery._id}`}
+                            title="Edit"
+                          >
                             <i class="las la-pencil-alt"></i>
                           </Link>
                         </td>
