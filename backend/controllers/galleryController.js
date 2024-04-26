@@ -3,7 +3,7 @@ const path = require("path");
 
 const createGallery = async (req, res) => {
   try {
-    const { service, name, isPublic = true, media } = req.body;
+    const { service, gallery_name, isPublic = true, media } = req.body;
 
     let mediaData = {};
     // Function to check if the input is a URL
@@ -60,7 +60,7 @@ const createGallery = async (req, res) => {
 
     const newGallery = new galleryModel({
       service,
-      name,
+      gallery_name,
       type: fileType,
       media: mediaData,
       isPublic,
@@ -81,7 +81,7 @@ const createGallery = async (req, res) => {
 
 const updateGallery = async (req, res) => {
   try {
-    const { service, name, isPublic, media } = req.body;
+    const { service, gallery_name, isPublic, media } = req.body;
     // Check if a new image file is uploaded
     // let updateFields = {
     //   service,
@@ -156,7 +156,7 @@ const updateGallery = async (req, res) => {
         //   path: filePath,
         // },
         service,
-        name,
+        gallery_name,
         type: fileType,
         isPublic,
         media: mediaData,

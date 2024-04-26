@@ -120,7 +120,7 @@ const Gallery = () => {
                     galleries.map((gallery) => (
                       <tr key={gallery._id}>
                         <td>{gallery.service}</td>
-                        <td className="text-center">{gallery.name}</td>
+                        <td className="text-center">{gallery.gallery_name}</td>
                         <td className="table-profile-img text-center">
                           <img
                             src={`http://localhost:8000/${gallery.media.filepath}`} // Assuming filepath contains the path to the image

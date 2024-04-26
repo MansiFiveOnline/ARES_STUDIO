@@ -29,6 +29,7 @@ app.use("/api/career", Route.careerRoute);
 app.use("/api/opportunity", Route.opportunitityRoute);
 app.use("/api/service", Route.serviceRoute);
 app.use("/api/gallery", Route.galleryRoute);
+app.use("/api/gallery_name", Route.galleryNameRoute);
 
 connectDb();
 
