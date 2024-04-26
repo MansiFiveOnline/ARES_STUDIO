@@ -123,11 +123,15 @@ const Career = () => {
                         <td>{career.title}</td>
                         <td className="text-center">{career.subtitle}</td>
                         <td className="table-profile-img text-center">
-                          <img
-                            src=""
-                            alt=""
-                            style={{ width: "50px", height: "50px" }}
-                          />
+                          {career.type === "image" ? (
+                            <img
+                              src={`http://localhost:8000/${career.media.filepath}`} // Assuming filepath contains the path to the image
+                              alt={`${career.media.filename}`}
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            <span>{career.media.iframe}</span>
+                          )}
                         </td>
                         <td className="text-center">
                           {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>

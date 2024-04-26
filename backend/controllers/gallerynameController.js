@@ -2,10 +2,10 @@ const galleryNameModel = require("../models/gallerynameModel");
 
 const createGalleryName = async (req, res) => {
   try {
-    const { service, gallery_name } = req.body;
+    const { service_name, gallery_name } = req.body;
 
     const newGalleryName = new galleryNameModel({
-      service,
+      service_name,
       gallery_name,
     });
 
@@ -24,13 +24,13 @@ const createGalleryName = async (req, res) => {
 
 const updateGalleryName = async (req, res) => {
   try {
-    const { service, gallery_name } = req.body;
+    const { service_name, gallery_name } = req.body;
     // let image = req.body.image;
 
     const updatedGalleryName = await galleryNameModel.findByIdAndUpdate(
       req.params._id,
       {
-        service,
+        service_name,
         gallery_name,
       },
       { new: true }

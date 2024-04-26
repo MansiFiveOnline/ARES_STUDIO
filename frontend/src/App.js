@@ -8,7 +8,7 @@ import Login from "./pages/login";
 import AddTeam from "./pages/team/addteam";
 import EditTeam from "./pages/team/editteam";
 import Gallery from "./pages/gallery/gallery";
-import GalleryName from "./pages/gallery-name";
+import GalleryName from "./pages/gallery_name/gallery-name";
 import Services from "./pages/services/services";
 import Career from "./pages/career/career";
 import AddCareer from "./pages/career/addcareer";
@@ -21,6 +21,8 @@ import Opportunities from "./pages/opportunity/opportunity";
 import AddService from "./pages/services/addservice";
 import EditService from "./pages/services/editservice";
 import About from "./pages/about/editabout";
+import AddGalleryName from "./pages/gallery_name/addgallery_name";
+import EditGalleryName from "./pages/gallery_name/editgallery_name";
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
         <Route path="add/service" element={<AddService />} />
         <Route path={`/edit/service/:id`} element={<EditService />} />
         <Route path={`/services`} element={<Services />} />
+        <Route path={`/add/gallery_name`} element={<AddGalleryName />} />
+        <Route path={`/edit/gallery_name/:id`} element={<EditGalleryName />} />
       </Routes>
     </Router>
   );

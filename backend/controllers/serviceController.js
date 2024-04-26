@@ -3,7 +3,15 @@ const path = require("path");
 
 const createService = async (req, res) => {
   try {
-    const { name, title, subtitle, description, media } = req.body;
+    const {
+      name,
+      title,
+      subtitle,
+      description,
+      media,
+      metaTitle,
+      metaDescription,
+    } = req.body;
 
     let mediaData = {};
 
@@ -66,6 +74,8 @@ const createService = async (req, res) => {
       description,
       type: fileType,
       media: mediaData,
+      metaTitle,
+      metaDescription,
     });
 
     await newService.save();
@@ -145,7 +155,15 @@ const createService = async (req, res) => {
 
 const updateService = async (req, res) => {
   try {
-    const { name, title, subtitle, description, media } = req.body;
+    const {
+      name,
+      title,
+      subtitle,
+      description,
+      media,
+      metaTitle,
+      metaDescription,
+    } = req.body;
     // let image = req.body.image;
     const file = req.file;
     const urlSlug = name.toLowerCase().replace(/\s+/g, "-");
@@ -210,6 +228,8 @@ const updateService = async (req, res) => {
         description,
         type: fileType,
         media: mediaData,
+        metaTitle,
+        metaDescription,
       },
       { new: true }
     );

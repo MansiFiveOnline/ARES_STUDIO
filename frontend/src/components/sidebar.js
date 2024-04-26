@@ -41,7 +41,7 @@ const SideBar = () => {
       <div className="sidebar-menu">
         <ul>
           <li>
-            <NavLink to="/" className="nav-link active" title="Home">
+            <NavLink to="/" className="nav-link" title="Home">
               <span className="las la-home"></span> <span>Home</span>
             </NavLink>
           </li>

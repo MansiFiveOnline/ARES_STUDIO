@@ -10,6 +10,8 @@ const AddService = () => {
   const [description, setDescription] = useState("");
   const [media, setMedia] = useState({ iframe: "", file: null });
   const navigate = useNavigate();
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +22,8 @@ const AddService = () => {
       formData.append("title", title);
       formData.append("subtitle", subtitle);
       formData.append("description", description);
+      formData.append("metaTitle", metaTitle);
+      formData.append("metaDescription", metaDescription);
 
       // Check if both media fields are provided
       if (media.iframe && media.file) {
@@ -145,6 +149,29 @@ const AddService = () => {
               </div>
             </div>
 
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Meta Title</label>
+                <input
+                  type="text"
+                  name="metaTitle"
+                  value={metaTitle}
+                  onChange={(e) => setMetaTitle(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Meta Description</label>
+                <input
+                  type="text"
+                  name="metaDescription"
+                  value={metaDescription}
+                  onChange={(e) => setMetaDescription(e.target.value)}
+                />
+              </div>
+            </div>
             <div className="col-12">
               <div className="theme-form">
                 {/* <input type="button" value="Save" onClick={handleSubmit}/> */}

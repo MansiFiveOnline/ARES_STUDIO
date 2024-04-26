@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 
 const galleryNameSchema = new mongoose.Schema({
-  service: {
+  service_name: {
     type: String,
     required: true,
-    unique: false,
   },
   gallery_name: {
     type: String,

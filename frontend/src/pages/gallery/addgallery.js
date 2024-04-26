@@ -6,7 +6,7 @@ import axios from "axios";
 const AddGallery = () => {
   const [name, setName] = useState("");
   const [service, setService] = useState("");
-  const [selectedService, setSelectedService] = useState("Games"); // Define selectedService state
+  const [selectedService, setSelectedService] = useState(""); // Define selectedService state
   const [selectedGallery, setSelectedGallery] = useState(""); // Define selectedGallery state
   const [galleryNames, setGalleryNames] = useState([]); // Initialize galleryNames state as an empty array
   const [media, setMedia] = useState({ iframe: "", file: null });
@@ -84,6 +84,7 @@ const AddGallery = () => {
                   value={selectedService}
                   onChange={(e) => setSelectedService(e.target.value)}
                 >
+                  <option value="">Select a service</option>{" "}
                   <option value="Games">Games</option>
                   <option value="VFX">VFX</option>
                 </select>
@@ -97,6 +98,7 @@ const AddGallery = () => {
                   value={selectedGallery}
                   onChange={(e) => setSelectedGallery(e.target.value)}
                 >
+                  <option value="">Select a Gallery</option>{" "}
                   {galleryNames.map((name) => (
                     <option key={name} value={name}>
                       {name}

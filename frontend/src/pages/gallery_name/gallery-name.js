@@ -1,32 +1,32 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../components/layout";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Gallery = () => {
-  const [galleries, setGalleries] = useState([]);
+const GalleryName = () => {
+  const [galleryNames, setGalleryNames] = useState([]);
 
   const navigate = useNavigate();
 
   const tableRef = useRef(null);
 
   useEffect(() => {
-    const fetchGalleries = async () => {
+    const fetchGalleryName = async () => {
       try {
         // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
           baseURL: "http://localhost:8000/api/",
-          url: "gallery",
+          url: "gallery_name",
         });
-        console.log(response.data.galleries);
-        setGalleries(response.data.galleries);
+        console.log(response.data.galleryNames);
+        setGalleryNames(response.data.galleryNames);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching gallery name:", error);
       }
     };
 
-    fetchGalleries();
+    fetchGalleryName();
   }, []);
 
   const handleDelete = async (id) => {
@@ -35,29 +35,32 @@ const Gallery = () => {
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
-        url: `gallery/${id}`,
+        url: `gallery_name/${id}`,
       });
-      setGalleries(null); // Update user state to null after deletion
+      setGalleryNames(null); // Update user state to null after deletion
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/gallery_name");
       }, 2000);
       console.log(response.data);
-      setGalleries(galleries.filter((gallery) => gallery._id !== id));
+      setGalleryNames(
+        galleryNames.filter((galleryname) => galleryname._id !== id)
+      );
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/gallery_name");
       }, 3000);
     } catch (error) {
-      console.error("Error deleting gallery:", error);
+      console.error("Error deleting gallery name:", error);
     }
   };
+
   return (
     <Layout>
       <div className="pages-headers ">
         <h2>
-          Gallery
-          <NavLink to="/add/gallery" className="theme-cta">
+          GalleryName
+          <NavLink to="/add/gallery_name" className="theme-cta">
             <i class="las la-plus-circle"></i>
-            Add Gallery
+            Add Gallery Name
           </NavLink>
         </h2>
       </div>
@@ -108,33 +111,27 @@ const Gallery = () => {
               <table id="example" className="table nowrap">
                 <thead>
                   <tr>
-                    <th>Service</th>
+                    <th>Service Name</th>
                     <th className="text-center">Gallery Name</th>
-                    <th className="text-center">Media</th>
                     <th className="text-center">Edit</th>
                     <th className="text-center">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {galleries &&
-                    galleries.map((gallery) => (
-                      <tr key={gallery._id}>
-                        <td>{gallery.service}</td>
-                        <td className="text-center">{gallery.gallery_name}</td>
-                        <td className="table-profile-img text-center">
-                          {gallery.type === "image" ? (
-                            <img
-                              src={`http://localhost:8000/${gallery.media.filepath}`} // Assuming filepath contains the path to the image
-                              alt={`${gallery.media.filename}`}
-                              style={{ width: "50px", height: "50px" }}
-                            />
-                          ) : (
-                            <span>{gallery.media.iframe}</span>
-                          )}
-                        </td>
+                  {galleryNames &&
+                    galleryNames.map((galleryname) => (
+                      <tr key={galleryname._id}>
+                        <td>{galleryname.service_name}</td>
                         <td className="text-center">
+                          {galleryname.gallery_name}
+                        </td>
+
+                        <td className="text-center">
+                          {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
+                  <CreateIcon />
+                </button>  */}
                           <Link
-                            to={`/edit/gallery/${gallery._id}`}
+                            to={`/edit/gallery_name/${galleryname._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>
@@ -143,7 +140,7 @@ const Gallery = () => {
                         <td className="text-center">
                           <button
                             className="delete-btn"
-                            onClick={() => handleDelete(gallery._id)}
+                            onClick={() => handleDelete(galleryname._id)}
                           >
                             <i class="las la-trash"></i>{" "}
                           </button>
@@ -160,4 +157,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default GalleryName;

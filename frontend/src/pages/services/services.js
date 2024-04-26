@@ -51,6 +51,25 @@ const Services = () => {
     }
   };
 
+  // useEffect(() => {
+  //   // Set document title and meta description
+  //   const service = services[0]; // Assuming you want to use the meta information from the first service
+  //   if (service) {
+  //     document.title = service.metaTitle;
+  //     const metaDescriptionTag = document.querySelector(
+  //       'meta[name="description"]'
+  //     );
+  //     if (metaDescriptionTag) {
+  //       metaDescriptionTag.setAttribute("content", service.metaDescription);
+  //     } else {
+  //       const newMetaTag = document.createElement("meta");
+  //       newMetaTag.setAttribute("name", "description");
+  //       newMetaTag.setAttribute("content", service.metaDescription);
+  //       document.head.appendChild(newMetaTag);
+  //     }
+  //   }
+  // }, [services]);
+
   return (
     <Layout>
       <div className="pages-headers ">

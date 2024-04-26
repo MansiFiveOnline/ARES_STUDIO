@@ -13,7 +13,7 @@ const Header = () => {
       </h2>
       <div className="user-wrapper dropdown">
         <button onclick="myFunction()" className="dropbtn">
-          <img src="src/img/user-icon-img.png" width="40px" height="40px" />
+          {/* <img src="src/img/user-icon-img.png" width="40px" height="40px" /> */}
           <small>Super Admin</small>
         </button>
 
