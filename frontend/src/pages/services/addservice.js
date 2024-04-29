@@ -33,9 +33,20 @@ const AddService = () => {
       }
 
       // Append media based on the provided type
-      if (media.iframe) {
+      // if (media.iframe) {
+      //   formData.append("media", media.iframe);
+      // } else if (media.file) {
+      //   formData.append("media", media.file);
+      // }
+
+      // Check if the media field is empty when providing an iframe URL
+      if (media.iframe && !media.file) {
         formData.append("media", media.iframe);
-      } else if (media.file) {
+        console.log("iframe url", media.iframe);
+      }
+
+      // Check if the media field is empty when providing a file
+      if (media.file && !media.iframe) {
         formData.append("media", media.file);
       }
 
@@ -118,6 +129,12 @@ const AddService = () => {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
+                {/* Display a message if media field has a value before submitting */}
+                {media.iframe || media.file ? (
+                  <p>Media field has a value.</p>
+                ) : (
+                  <p>Media field is empty.</p>
+                )}
                 <label>Media</label>
                 <input
                   type="text"
@@ -128,7 +145,7 @@ const AddService = () => {
                     setMedia({
                       ...media,
                       iframe: e.target.value,
-                      file: "",
+                      file: null,
                     })
                   }
                 />
@@ -172,6 +189,7 @@ const AddService = () => {
                 />
               </div>
             </div>
+
             <div className="col-12">
               <div className="theme-form">
                 {/* <input type="button" value="Save" onClick={handleSubmit}/> */}

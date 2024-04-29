@@ -129,10 +129,10 @@ const Services = () => {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>URL</th>
-                    <th>Title</th>
-                    <th className="text-center">Subtitle</th>
-                    <th className="text-center">Description</th>
+                    {/* <th>URL</th> */}
+                    {/* <th>Title</th> */}
+                    {/* <th className="text-center">Subtitle</th>
+                    <th className="text-center">Description</th> */}
                     <th className="text-center">Media</th>
                     <th className="text-center">Edit</th>
                     <th className="text-center">Delete</th>
@@ -143,10 +143,10 @@ const Services = () => {
                     services.map((service) => (
                       <tr key={service._id}>
                         <td>{service.name}</td>
-                        <td>{service.url}</td>
+                        {/* <td>{service.url}</td>
                         <td>{service.title}</td>
                         <td className="text-center">{service.subtitle}</td>
-                        <td className="text-center">{service.description}</td>
+                        <td className="text-center">{service.description}</td> */}
                         <td className="table-profile-img text-center">
                           {service.type === "image" ? (
                             <img

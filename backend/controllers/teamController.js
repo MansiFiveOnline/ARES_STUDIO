@@ -31,8 +31,8 @@ const createUser = async (req, res) => {
       designation,
       linkedin_url,
       image: {
-        name: uploadedImageName,
-        path: uploadedImagePath,
+        filename: uploadedImageName,
+        filepath: uploadedImagePath,
       },
       sequence: totalUsers + 1, // Assign a sequence value based on the total number of existing users
     });
@@ -100,8 +100,8 @@ const updateUser = async (req, res) => {
     if (req.file) {
       // If a new image file is uploaded, update the image
       image = {
-        name: req.file.originalname,
-        path: req.file.path,
+        filename: req.file.originalname,
+        filepath: req.file.path,
       };
     }
 

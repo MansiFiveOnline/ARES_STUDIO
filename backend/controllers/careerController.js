@@ -2,65 +2,6 @@ const careerModel = require("../models/careerModel");
 const path = require("path");
 const url = require("url");
 
-// const createCareer = async (req, res) => {
-//   try {
-//     const { title, subtitle } = req.body;
-//     const file = req.file;
-
-//     let fileName, filePath;
-
-//     // Check if the file is a WebP image
-//     // Function to check if the file is a WebP image
-//     const isWebPImage = (file) => {
-//       const extname = path.extname(file.originalname).toLowerCase();
-//       return extname === ".webp";
-//     };
-
-//     // Function to check if the file is a video
-//     const isVideo = (file) => {
-//       const extname = path.extname(file.originalname).toLowerCase();
-//       return [".mp4", ".avi", ".mov", ".mkv"].includes(extname);
-//     };
-
-//     let fileType = "";
-//     if (isWebPImage(file)) {
-//       fileType = "image";
-//     } else if (isVideo(file)) {
-//       fileType = "video";
-//     } else {
-//       return res.status(400).json({
-//         message:
-//           "Unsupported file type. Please upload a WebP image or a video file.",
-//       });
-//     }
-//     if (fileType === "image") {
-//       filePath = file.path;
-//       fileName = file.originalname;
-//     }
-
-//     const newCareer = new careerModel({
-//       title,
-//       subtitle,
-//       type: fileType,
-//       file: {
-//         name: fileName,
-//         path: filePath,
-//       },
-//     });
-
-//     await newCareer.save();
-
-//     return res.status(200).json({
-//       message: "Added Career content sucessfully.",
-//       newCareer,
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       message: `Error in adding career due to ${error.message}`,
-//     });
-//   }
-// };
-
 // Function to check if the input is a URL
 const isURL = (str) => {
   try {
@@ -76,19 +17,29 @@ const createCareer = async (req, res) => {
     const { title, subtitle, media } = req.body;
     let mediaData = {};
 
-    if (!media || (typeof media === "string" && !isURL(media.trim()))) {
-      return res.status(400).json({
-        message:
-          "Either a file or a valid URL is required for the media field.",
-      });
-    }
     const file = req.file;
-    // Check if the file is a WebP image
-    // Function to check if the file is a WebP image
-    let fileType = "";
 
-    // Check if a file is provided
-    if (file) {
+    let fileType = "";
+    // Function to check if the input is a URL
+    const isURL = (str) => {
+      try {
+        new URL(str);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    // Check if media is a URL (iframe)
+    if (isURL(media)) {
+      fileType = "video"; // Set fileType to "video" for iframe URLs
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
+    } else if (file) {
+      // A file is provided
       // Check if the file is a WebP image
       const isWebPImage = (file) => {
         const extname = path.extname(file.originalname).toLowerCase();
@@ -100,17 +51,19 @@ const createCareer = async (req, res) => {
           message: "Unsupported file type. Please upload a WebP image.",
         });
       }
+
+      fileType = "image";
       mediaData = {
         filename: req.file.originalname,
         filepath: req.file.path,
         iframe: null,
       };
     } else {
-      mediaData = {
-        filename: null,
-        filepath: null,
-        iframe: media.trim(),
-      };
+      // Neither iframe nor file is provided
+      return res.status(400).json({
+        message:
+          "Either an iFrame URL or an image file is required for the media field.",
+      });
     }
 
     const newCareer = new careerModel({
@@ -133,58 +86,172 @@ const createCareer = async (req, res) => {
   }
 };
 
+// const updateCareer = async (req, res) => {
+//   try {
+//     const { title, subtitle, media } = req.body;
+//     // let image = req.body.image;
+
+//     // Fetch the existing service data from the database
+//     const existingCareer = await careerModel.findById(req.params._id);
+
+//     // Initialize variables to store updated field values
+//     let updatedFields = {};
+
+//     if (title !== undefined) {
+//       updatedFields.title = title;
+//     }
+//     if (subtitle !== undefined) {
+//       updatedFields.subtitle = subtitle;
+//     }
+//     // if (media !== undefined) {
+//     //   updatedFields.media = media;
+//     // }
+
+//     // If media is not provided, retain the existing type
+//     if (media === undefined) {
+//       updatedFields.type = existingCareer.type;
+//     } else {
+//       let fileType = "";
+//       let mediaData = {};
+
+//       // Function to check if the input is a URL
+//       const isURL = (str) => {
+//         try {
+//           new URL(str);
+//           return true;
+//         } catch (error) {
+//           return false;
+//         }
+//       };
+
+//       // Check if media is provided and is a URL (iframe)
+//       if (media && isURL(media)) {
+//         fileType = "video"; // Set fileType to "video" for iframe URLs
+//         mediaData = {
+//           filename: null,
+//           filepath: null,
+//           iframe: media.trim(),
+//         };
+//       } else if (req.file) {
+//         // Handle the case where a file is uploaded
+//         // Check if the file is a WebP image
+//         const isWebPImage = (file) => {
+//           const extname = path.extname(file.originalname).toLowerCase();
+//           return extname === ".webp";
+//         };
+
+//         if (!isWebPImage(req.file)) {
+//           return res.status(400).json({
+//             message: "Unsupported file type. Please upload a WebP image.",
+//           });
+//         }
+
+//         fileType = "image";
+//         mediaData = {
+//           filename: req.file.originalname,
+//           filepath: req.file.path,
+//           iframe: null,
+//         };
+//       } else {
+//         // If media is not provided, use the existing media data
+//         mediaData = existingCareer.media;
+//       }
+
+//       updatedFields.type = fileType;
+//       updatedFields.media = mediaData;
+//     }
+//     const updatedCareer = await careerModel.findByIdAndUpdate(
+//       req.params._id,
+//       updatedFields,
+//       { new: true }
+//     );
+
+//     return res.status(200).json({
+//       message: "Career content updated successfully.",
+//       updatedCareer,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: `Error in updating Career due to ${error.message}`,
+//     });
+//   }
+// };
+
 const updateCareer = async (req, res) => {
   try {
     const { title, subtitle, media } = req.body;
-    // let image = req.body.image;
 
-    let mediaData = {};
+    // Fetch the existing career data from the database
+    const existingCareer = await careerModel.findById(req.params._id);
 
-    if (!media || (typeof media === "string" && !isURL(media.trim()))) {
-      return res.status(400).json({
-        message:
-          "Either a file or a valid URL is required for the media field.",
-      });
+    // Initialize variables to store updated field values
+    let updatedFields = {};
+
+    if (title !== undefined) {
+      updatedFields.title = title;
     }
-    const file = req.file;
-    // Check if the file is a WebP image
-    // Function to check if the file is a WebP image
-    let fileType = "";
+    if (subtitle !== undefined) {
+      updatedFields.subtitle = subtitle;
+    }
 
-    // Check if a file is provided
-    if (file) {
-      // Check if the file is a WebP image
-      const isWebPImage = (file) => {
-        const extname = path.extname(file.originalname).toLowerCase();
-        return extname === ".webp";
+    if (media !== undefined) {
+      // Determine the type based on the provided media
+      let fileType = existingCareer.type; // Default to existing type
+      let mediaData = existingCareer.media;
+
+      // Function to check if the input is a URL
+      const isURL = (str) => {
+        try {
+          new URL(str);
+          return true;
+        } catch (error) {
+          return false;
+        }
       };
 
-      if (!isWebPImage(file)) {
+      if (isURL(media)) {
+        fileType = "video"; // Set fileType to "video" for iframe URLs
+        mediaData = {
+          filename: null,
+          filepath: null,
+          iframe: media.trim(),
+        };
+      } else if (req.file) {
+        // A file is provided
+        // Check if the file is a WebP image
+        const isWebPImage = (file) => {
+          const extname = path.extname(file.originalname).toLowerCase();
+          return extname === ".webp";
+        };
+
+        if (!isWebPImage(req.file)) {
+          return res.status(400).json({
+            message: "Unsupported file type. Please upload a WebP image.",
+          });
+        }
+
+        fileType = "image";
+        // Set filename and filepath for the image
+        mediaData = {
+          filename: req.file.originalname,
+          filepath: req.file.path, // Assuming this is the correct file path
+          iframe: null,
+        };
+      } else {
+        // Neither iframe nor file is provided
         return res.status(400).json({
-          message: "Unsupported file type. Please upload a WebP image.",
+          message:
+            "Either an iFrame URL or an image file is required for the media field.",
         });
       }
-      mediaData = {
-        filename: req.file.originalname,
-        filepath: req.file.path,
-        iframe: null,
-      };
-    } else {
-      mediaData = {
-        filename: null,
-        filepath: null,
-        iframe: media.trim(),
-      };
+
+      updatedFields.type = fileType;
+      updatedFields.media = mediaData;
     }
 
     const updatedCareer = await careerModel.findByIdAndUpdate(
       req.params._id,
-      {
-        title,
-        subtitle,
-        type: fileType,
-        media: mediaData,
-      },
+      updatedFields,
       { new: true }
     );
 
