@@ -5,7 +5,6 @@ const gallerySchema = new mongoose.Schema({
   service: {
     type: String,
     unique: true,
-    required: true,
   },
   gallery_name: {
     type: String,

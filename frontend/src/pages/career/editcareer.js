@@ -77,21 +77,9 @@ const EditCareer = () => {
     if (name === "media" && files && files.length > 0) {
       setFormData({
         ...formData,
-        media: files[0], // Set the media field to the selected file
-      });
-    }
-    // If the value is an object, it means it's already an uploaded file
-    if (typeof value === "object") {
-      setFormData({
-        ...formData,
-        media: {
-          ...formData.media,
-          filename: value.name,
-          filepath: URL.createObjectURL(value), // Set path to a local URL
-        },
+        media: files[0],
       });
     } else {
-      // Otherwise, it's a URL input or other input change
       setFormData({
         ...formData,
         [name]: value,
@@ -187,7 +175,7 @@ const EditCareer = () => {
                     type="file"
                     name="media"
                     // value={formData.media.filename}
-                    // onChange={(e) => setImage(e.target.files[0])}
+                    onChange={handleChange}
                   />
                   <img
                     className="form-profile"

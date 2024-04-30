@@ -1,5 +1,6 @@
 const galleryModel = require("../models/galleryModel");
 const path = require("path");
+const galleryNameModel = require("../models/gallerynameModel");
 
 const createGallery = async (req, res) => {
   try {
@@ -215,6 +216,42 @@ const getGalleries = async (req, res) => {
   }
 };
 
+const getGalleryNamesByService = async (req, res) => {
+  try {
+    const { service_name } = req.query;
+
+    // Check if the service name is provided
+    if (!service_name) {
+      return res.status(400).json({
+        message: "Please provide a service name.",
+      });
+    }
+
+    // Find all galleries with the specified service name
+    const galleries = await galleryNameModel.find({ service_name });
+
+    // Check if galleries with the specified service name exist
+    if (galleries.length === 0) {
+      return res.status(400).json({
+        message: `No galleries found for the service: ${service}.`,
+      });
+    }
+
+    // Extract gallery names from the found galleries
+    const galleryNames = galleries.map((gallery) => gallery.gallery_name);
+
+    // Return the gallery names for the specified service
+    return res.status(200).json({
+      message: `Gallery names fetched successfully for service: ${service_name}.`,
+      galleryNames,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching gallery names due to ${error.message}`,
+    });
+  }
+};
+
 const deleteGallery = async (req, res) => {
   try {
     const galleryExists = await galleryModel.findById({
@@ -242,26 +279,12 @@ const deleteGallery = async (req, res) => {
   }
 };
 
-const getGalleryNames = async (req, res) => {
-  try {
-    const { service } = req.query;
-    const gallery = await galleryModel.find({ service });
-    res.status(200).json({
-      message: "Gallery names fetched successfully",
-      gallery,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: `Error is fetching gallery names due to ${error.message}`,
-    });
-  }
-};
-
 module.exports = {
   createGallery,
   updateGallery,
   getGallery,
   getGalleries,
   deleteGallery,
-  getGalleryNames,
+  getGalleryNamesByService,
+  // getGalleryNamesByService,
 };

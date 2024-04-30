@@ -17,11 +17,11 @@ route.post("/", upload.single("media"), galleryController.createGallery);
 
 route.patch("/:_id", upload.single("media"), galleryController.updateGallery);
 
+route.get("/gallery_names", galleryController.getGalleryNamesByService);
+
 route.get("/:_id", galleryController.getGallery);
 
 route.get("/", galleryController.getGalleries);
-
-route.get("/galleries", galleryController.getGalleryNames);
 
 route.delete("/:_id", galleryController.deleteGallery);
 

@@ -87,6 +87,21 @@ const getGalleryNames = async (req, res) => {
   }
 };
 
+// const getGalleryNamesByService = async (req, res) => {
+//   try {
+//     const { service } = req.query;
+//     const gallery = await galleryModel.find({ service });
+//     res.status(200).json({
+//       message: "Gallery names fetched successfully",
+//       gallery,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: `Error is fetching gallery names due to ${error.message}`,
+//     });
+//   }
+// };
+
 const deleteGalleryName = async (req, res) => {
   try {
     const galleryNameExists = await galleryNameModel.findById({

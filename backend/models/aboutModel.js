@@ -5,7 +5,6 @@ const aboutSchema = new mongoose.Schema({
   title: {
     type: String,
     maxlength: 20,
-    required: true,
   },
   subtitle: {
     type: String,

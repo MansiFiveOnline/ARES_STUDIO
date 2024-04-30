@@ -174,7 +174,7 @@ const Services = () => {
                             className="delete-btn"
                             onClick={() => handleDelete(service._id)}
                           >
-                            <i class="las la-trash"></i>{" "}
+                            <i class="las la-trash"></i>
                           </button>
                         </td>
                       </tr>

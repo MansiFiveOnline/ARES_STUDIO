@@ -13,7 +13,12 @@ const About = () => {
     subtitle: "",
     description: "",
     about_description: "",
-    media: "",
+    // media: "",
+    media: {
+      iframe: "",
+      filename: "",
+      filepath: "",
+    },
   });
 
   useEffect(() => {
@@ -98,32 +103,100 @@ const About = () => {
   //   }
   // };
 
+  // const handleChange = (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   // setFormData({
+  //   //   ...formData,
+  //   //   [e.target.name]: e.target.value,
+  //   // });
+  //   // If the target name is 'media' and files are present, it's a file upload
+  //   if (name === "media" && files && files.length > 0) {
+  //     setFormData({
+  //       ...formData,
+  //       media: files[0], // Set the media field to the selected file
+  //     });
+  //   }
+  //   // If the value is an object, it means it's already an uploaded file
+  //   if (typeof value === "object") {
+  //     setFormData({
+  //       ...formData,
+  //       media: {
+  //         ...formData.media,
+  //         filename: value.name,
+  //         filepath: URL.createObjectURL(value), // Set path to a local URL
+  //       },
+  //     });
+  //   } else {
+  //     // Otherwise, it's a URL input or other input change
+  //     setFormData({
+  //       ...formData,
+  //       [name]: value,
+  //     });
+  //   }
+  // };
+
+  // const handleChange = (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   if (name === "media") {
+  //     if (files && files.length > 0) {
+  //       // If files are present, it's a file upload
+  //       setFormData({
+  //         ...formData,
+  //         media: {
+  //           file: files[0], // Set the media field to the selected file
+  //           filename: files[0].name,
+  //           filepath: URL.createObjectURL(files[0]), // Set path to a local URL
+  //           iframe: "", // Set iframe to empty string for consistency
+  //         },
+  //       });
+  //     } else {
+  //       // If value is not an object, it's a URL input or other input change
+  //       setFormData({
+  //         ...formData,
+  //         media: {
+  //           ...formData.media, // Keep other properties intact
+  //           iframe: value, // Update the iframe property
+  //         },
+  //       });
+  //     }
+  //   } else {
+  //     // For other fields, simply update the formData state
+  //     setFormData({
+  //       ...formData,
+  //       [name]: value,
+  //     });
+  //   }
+  // };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    // setFormData({
-    //   ...formData,
-    //   [e.target.name]: e.target.value,
-    // });
-    // If the target name is 'media' and files are present, it's a file upload
-    if (name === "media" && files && files.length > 0) {
-      setFormData({
-        ...formData,
-        media: files[0], // Set the media field to the selected file
-      });
-    }
-    // If the value is an object, it means it's already an uploaded file
-    if (typeof value === "object") {
-      setFormData({
-        ...formData,
-        media: {
-          ...formData.media,
-          filename: value.name,
-          filepath: URL.createObjectURL(value), // Set path to a local URL
-        },
-      });
+    if (name === "media") {
+      if (files && files.length > 0) {
+        // If files are present, it's a file upload
+        setFormData({
+          ...formData,
+          media: {
+            file: files[0], // Set the media field to the selected file
+            filename: files[0].name,
+            filepath: URL.createObjectURL(files[0]), // Set path to a local URL
+            iframe: "", // Set iframe to empty string for consistency
+          },
+        });
+      } else {
+        // If value is not an object, it's a URL input or other input change
+        setFormData({
+          ...formData,
+          media: {
+            ...formData.media, // Ensure formData.media is initialized
+            iframe: value, // Update the iframe property
+          },
+        });
+      }
     } else {
-      // Otherwise, it's a URL input or other input change
+      // For other fields, simply update the formData state
       setFormData({
         ...formData,
         [name]: value,
@@ -242,7 +315,7 @@ const About = () => {
               </div>
             </div>
 
-            {/* <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+            {/*<div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Media</label>
                 <input
@@ -259,16 +332,14 @@ const About = () => {
                   // value={Qualification}
                   // onChange={(e) => setImage(e.target.files[0])}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> 
+                 <img className="form-profile" src="src/img/user-icon-img.png" /> 
               </div>
-            </div> */}
+            </div>*/}
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Media</label>
                 {/* {formData.media.type === "image" && ( // Check if iframe URL is not null */}
-
-                {/* )} */}
 
                 <>
                   <input
@@ -285,7 +356,7 @@ const About = () => {
                     type="file"
                     name="media"
                     // value={formData.media.filename}
-                    // onChange={(e) => setImage(e.target.files[0])}
+                    onChange={handleChange}
                   />
                   <img
                     className="form-profile"
