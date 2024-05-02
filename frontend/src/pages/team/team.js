@@ -154,8 +154,8 @@ const Team = () => {
                         <td>{user.linkedin_url}</td>
                         <td className="table-profile-img text-center">
                           <img
-                            src={user.image[0].path}
-                            alt={user.image[0].name}
+                            src={user.image[0].filepath}
+                            alt={user.image[0].filename}
                             style={{ width: "50px", height: "50px" }}
                           />
                         </td>

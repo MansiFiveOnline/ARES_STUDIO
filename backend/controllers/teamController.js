@@ -229,7 +229,7 @@ const getUsers = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const userExists = await teamModel.findById({
-      _id: req.params.id,
+      _id: req.params._id,
     });
 
     if (userExists.length === 0) {
