@@ -26,7 +26,7 @@ import EditGalleryName from "./pages/gallery_name/editgallery_name";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/aresstudio/admin">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
