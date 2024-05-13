@@ -3,7 +3,15 @@ const path = require("path");
 
 const createAbout = async (req, res) => {
   try {
-    const { title, subtitle, description, about_description, media } = req.body;
+    const {
+      title,
+      subtitle,
+      description,
+      about_description,
+      media,
+      metaTitle,
+      metaDescription,
+    } = req.body;
     // Function to check if the file is a WebP image
 
     let mediaData = {};
@@ -78,6 +86,8 @@ const createAbout = async (req, res) => {
       about_description,
       type: fileType,
       media: mediaData,
+      metaTitle,
+      metaDescription,
     });
 
     await newAbout.save();
@@ -95,7 +105,15 @@ const createAbout = async (req, res) => {
 
 const updateAbout = async (req, res) => {
   try {
-    const { title, subtitle, description, media, about_description } = req.body;
+    const {
+      title,
+      subtitle,
+      description,
+      media,
+      about_description,
+      metaTitle,
+      metaDescription,
+    } = req.body;
     // let image = req.body.image;
     const file = req.file;
 
@@ -157,6 +175,8 @@ const updateAbout = async (req, res) => {
         about_description,
         type: fileType,
         media: mediaData,
+        metaTitle,
+        metaDescription,
         // fileType === "image"
         //   ? {
         //       filename: file.originalname,

@@ -1,20 +1,19 @@
-const careerModel = require("../models/careerModel");
+const projectModel = require("../models/projectModel");
 const path = require("path");
 const url = require("url");
 
-// Function to check if the input is a URL
-const isURL = (str) => {
+const createProject = async (req, res) => {
   try {
-    new URL(str);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
-const createCareer = async (req, res) => {
-  try {
-    const { title, subtitle, media, metaTitle, metaDescription } = req.body;
+    const {
+      title,
+      subtitle,
+      description,
+      service,
+      gallery_name,
+      media,
+      metaTitle,
+      metaDescription,
+    } = req.body;
     let mediaData = {};
 
     const file = req.file;
@@ -66,35 +65,38 @@ const createCareer = async (req, res) => {
       });
     }
 
-    const newCareer = new careerModel({
+    const newProject = new projectModel({
       title,
       subtitle,
+      description,
+      service,
+      gallery_name,
       type: fileType,
       media: mediaData,
       metaTitle,
       metaDescription,
     });
 
-    await newCareer.save();
+    await newProject.save();
 
     return res.status(200).json({
-      message: "Added Career content successfully.",
-      newCareer,
+      message: "Added Project content successfully.",
+      newProject,
     });
   } catch (error) {
     return res.status(500).json({
-      message: `Error in adding career due to ${error.message}`,
+      message: `Error in adding project due to ${error.message}`,
     });
   }
 };
 
-// const updateCareer = async (req, res) => {
+// const updateProject = async (req, res) => {
 //   try {
 //     const { title, subtitle, media } = req.body;
 //     // let image = req.body.image;
 
 //     // Fetch the existing service data from the database
-//     const existingCareer = await careerModel.findById(req.params._id);
+//     const existingProject = await projectModel.findById(req.params._id);
 
 //     // Initialize variables to store updated field values
 //     let updatedFields = {};
@@ -111,7 +113,7 @@ const createCareer = async (req, res) => {
 
 //     // If media is not provided, retain the existing type
 //     if (media === undefined) {
-//       updatedFields.type = existingCareer.type;
+//       updatedFields.type = existingProject.type;
 //     } else {
 //       let fileType = "";
 //       let mediaData = {};
@@ -156,35 +158,44 @@ const createCareer = async (req, res) => {
 //         };
 //       } else {
 //         // If media is not provided, use the existing media data
-//         mediaData = existingCareer.media;
+//         mediaData = existingProject.media;
 //       }
 
 //       updatedFields.type = fileType;
 //       updatedFields.media = mediaData;
 //     }
-//     const updatedCareer = await careerModel.findByIdAndUpdate(
+//     const updatedProject = await projectModel.findByIdAndUpdate(
 //       req.params._id,
 //       updatedFields,
 //       { new: true }
 //     );
 
 //     return res.status(200).json({
-//       message: "Career content updated successfully.",
-//       updatedCareer,
+//       message: "project content updated successfully.",
+//       updatedProject,
 //     });
 //   } catch (error) {
 //     return res.status(500).json({
-//       message: `Error in updating Career due to ${error.message}`,
+//       message: `Error in updating project due to ${error.message}`,
 //     });
 //   }
 // };
 
-const updateCareer = async (req, res) => {
+const updateProject = async (req, res) => {
   try {
-    const { title, subtitle, media, metaTitle, metaDescription } = req.body;
+    const {
+      title,
+      subtitle,
+      description,
+      service,
+      gallery_name,
+      media,
+      metaTitle,
+      metaDescription,
+    } = req.body;
 
-    // Fetch the existing career data from the database
-    const existingCareer = await careerModel.findById(req.params._id);
+    // Fetch the existing project data from the database
+    const existingProject = await projectModel.findById(req.params._id);
 
     // Initialize variables to store updated field values
     let updatedFields = {};
@@ -194,6 +205,18 @@ const updateCareer = async (req, res) => {
     }
     if (subtitle !== undefined) {
       updatedFields.subtitle = subtitle;
+    }
+
+    if (description !== undefined) {
+      updatedFields.description = description;
+    }
+
+    if (service !== undefined) {
+      updatedFields.service = service;
+    }
+
+    if (gallery_name !== undefined) {
+      updatedFields.gallery_name = gallery_name;
     }
 
     if (metaTitle !== undefined) {
@@ -206,8 +229,8 @@ const updateCareer = async (req, res) => {
 
     if (media !== undefined) {
       // Determine the type based on the provided media
-      let fileType = existingCareer.type; // Default to existing type
-      let mediaData = existingCareer.media;
+      let fileType = existingProject.type; // Default to existing type
+      let mediaData = existingProject.media;
 
       // Function to check if the input is a URL
       const isURL = (str) => {
@@ -259,95 +282,95 @@ const updateCareer = async (req, res) => {
       updatedFields.media = mediaData;
     }
 
-    const updatedCareer = await careerModel.findByIdAndUpdate(
+    const updatedProject = await projectModel.findByIdAndUpdate(
       req.params._id,
       updatedFields,
       { new: true }
     );
 
     return res.status(200).json({
-      message: "Career content updated successfully.",
-      updatedCareer,
+      message: "Project content updated successfully.",
+      updatedProject,
     });
   } catch (error) {
     return res.status(500).json({
-      message: `Error in updating Career due to ${error.message}`,
+      message: `Error in updating project due to ${error.message}`,
     });
   }
 };
 
-const getCareers = async (req, res) => {
+const getProjects = async (req, res) => {
   try {
-    const careers = await careerModel.find();
+    const projects = await projectModel.find();
 
-    if (careers.length === 0) {
+    if (projects.length === 0) {
       return res.status(400).json({
-        message: "No careers are created. Kindly create one.",
+        message: "No projects are created. Kindly create one.",
       });
     }
     return res.status(200).json({
-      message: "All careers fetched successfully.",
-      careers,
+      message: "All projects fetched successfully.",
+      projects,
     });
   } catch (error) {
     return res.status(500).json({
-      message: `Error in fetching careers due to ${error.message}`,
+      message: `Error in fetching projects due to ${error.message}`,
     });
   }
 };
 
-const getCareer = async (req, res) => {
+const getProject = async (req, res) => {
   try {
-    const career = await careerModel.findById(req.params._id);
+    const project = await projectModel.findById(req.params._id);
     console.log(req.params._id);
-    if (!career) {
+    if (!project) {
       return res.status(400).json({
-        message: "No Career is created with this id.",
+        message: "No project is created with this id.",
       });
     }
 
     return res.status(200).json({
-      message: "Career fetched successfully.",
-      career,
+      message: "project fetched successfully.",
+      project,
     });
   } catch (error) {
     return res.status(500).json({
-      message: `Error in fetching career due to ${error.message}`,
+      message: `Error in fetching project due to ${error.message}`,
     });
   }
 };
 
-const deleteCareer = async (req, res) => {
+const deleteProject = async (req, res) => {
   try {
-    const careerExists = await careerModel.findById({
+    const projectExists = await projectModel.findById({
       _id: req.params._id,
     });
 
-    if (careerExists.length === 0) {
+    if (projectExists.length === 0) {
       return res.status(400).json({
-        message: "No career are created. Kindly create one.",
+        message: "No project are created. Kindly create one.",
       });
     }
 
-    const deletedCareer = await careerModel.findOneAndDelete({
+    const deletedProject = await projectModel.findOneAndDelete({
       _id: req.params._id,
     });
 
     return res.status(200).json({
-      message: "Career deleted successfully.",
-      deletedCareer,
+      message: "project deleted successfully.",
+      deletedProject,
     });
   } catch (error) {
     return res.status(500).json({
-      message: `Error in deleting career due to ${error.message}`,
+      message: `Error in deleting project due to ${error.message}`,
     });
   }
 };
 
 module.exports = {
-  createCareer,
-  updateCareer,
-  getCareers,
-  getCareer,
-  deleteCareer,
+  createProject,
+  updateProject,
+  getProjects,
+  getProject,
+  deleteProject,
 };

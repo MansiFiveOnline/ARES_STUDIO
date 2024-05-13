@@ -3,7 +3,7 @@ import Layout from "../../components/layout";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const AddGallery = () => {
+const AddProject = () => {
   const [gallery_name, setGalleryName] = useState("");
   const [service, setService] = useState("");
   const [title, setTitle] = useState("");
@@ -66,7 +66,7 @@ const AddGallery = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:8000/api/gallery",
+        "http://localhost:8000/api/project",
         formData,
         {
           headers: {
@@ -77,21 +77,60 @@ const AddGallery = () => {
 
       console.log(response.data.newGallery);
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/project");
       }, 2000);
     } catch (error) {
-      console.error("Error creating gallery:", error);
+      console.error("Error creating project:", error);
     }
   };
 
   return (
     <Layout>
       <div className="theme-form-header">
-        <h2>Add Service Gallery</h2>
+        <h2>Add Project</h2>
       </div>
       <div className="form-white-bg">
         <form onSubmit={handleSubmit}>
           <div className="row">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={title}
+                  onChange={(e) => setGalleryName(e.target.value)}
+                />
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Subtitle</label>
+                <input
+                  type="text"
+                  name="subtitle"
+                  value={subtitle}
+                  onChange={(e) => setGalleryName(e.target.value)}
+                />
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Descripiton</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={description}
+                  onChange={(e) => setGalleryName(e.target.value)}
+                />
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+              </div>
+            </div>
+
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Service</label>
@@ -182,4 +221,4 @@ const AddGallery = () => {
   );
 };
 
-export default AddGallery;
+export default AddProject;

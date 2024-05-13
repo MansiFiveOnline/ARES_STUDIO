@@ -36,7 +36,7 @@ const AddGalleryName = () => {
   return (
     <Layout>
       <div className="theme-form-header">
-        <h2>Add Gallery Name</h2>
+        <h2>Add Service Gallery Name</h2>
       </div>
       <div className="form-white-bg">
         <form onSubmit={handleSubmit}>

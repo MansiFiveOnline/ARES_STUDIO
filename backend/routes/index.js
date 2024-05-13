@@ -8,6 +8,7 @@ const opportunitityRoute = require("./opportunityRoute");
 const serviceRoute = require("./serviceRoute");
 const galleryRoute = require("./galleryRoute");
 const galleryNameRoute = require("./gallerynameRoute");
+const projectRoute = require("./projectRoute");
 
 module.exports = {
   authRoute,
@@ -20,4 +21,5 @@ module.exports = {
   serviceRoute,
   galleryRoute,
   galleryNameRoute,
+  projectRoute,
 };

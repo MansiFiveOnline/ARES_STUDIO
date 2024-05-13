@@ -67,13 +67,14 @@ const SideBar = () => {
           </li> */}
           <li>
             <NavLink to="/gallery" title="Gallery">
-              <span className="las la-sign-in-alt"></span> <span>Gallery</span>
+              <span className="las la-sign-in-alt"></span>{" "}
+              <span>Service Gallery</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/gallery_name" title="Gallery Name">
               <span className="las la-sign-in-alt"></span>{" "}
-              <span>Gallery Name</span>
+              <span>Service Gallery Name</span>
             </NavLink>
           </li>
 
@@ -100,6 +101,11 @@ const SideBar = () => {
           <li>
             <NavLink to="/services" title="Services">
               <span className="las la-sign-in-alt"></span> <span>Services</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/project" title="Project">
+              <span className="las la-sign-in-alt"></span> <span>Project</span>
             </NavLink>
           </li>
 

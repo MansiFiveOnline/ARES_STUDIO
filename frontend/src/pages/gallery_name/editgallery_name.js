@@ -71,7 +71,7 @@ const EditGalleryName = () => {
   return (
     <Layout>
       <div className="theme-form-header">
-        <h2>Edit Gallery Name</h2>
+        <h2>Edit Service Gallery Name</h2>
       </div>
       <div className="form-white-bg">
         <form onSubmit={handleSubmit}>

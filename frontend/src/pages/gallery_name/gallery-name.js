@@ -57,10 +57,10 @@ const GalleryName = () => {
     <Layout>
       <div className="pages-headers ">
         <h2>
-          GalleryName
+          Service Gallery Name
           <NavLink to="/add/gallery_name" className="theme-cta">
             <i class="las la-plus-circle"></i>
-            Add Gallery Name
+            Add Service Gallery Name
           </NavLink>
         </h2>
       </div>

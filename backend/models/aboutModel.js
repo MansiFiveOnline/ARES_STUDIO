@@ -29,6 +29,12 @@ const aboutSchema = new mongoose.Schema({
     type: String,
     maxlength: 500,
   },
+  metaTitle: {
+    type: String,
+  },
+  metaDescription: {
+    type: String,
+  },
 });
 
 const aboutModel = mongoose.model("About", aboutSchema);

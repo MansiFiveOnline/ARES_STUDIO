@@ -23,6 +23,8 @@ import EditService from "./pages/services/editservice";
 import About from "./pages/about/editabout";
 import AddGalleryName from "./pages/gallery_name/addgallery_name";
 import EditGalleryName from "./pages/gallery_name/editgallery_name";
+import Project from "./pages/project/project";
+import AddProject from "./pages/project/addproject";
 
 function App() {
   return (
@@ -52,6 +54,8 @@ function App() {
         <Route path={`/services`} element={<Services />} />
         <Route path={`/add/gallery_name`} element={<AddGalleryName />} />
         <Route path={`/edit/gallery_name/:id`} element={<EditGalleryName />} />
+        <Route path={`/project`} element={<Project />} />
+        <Route path={`/add/project`} element={<AddProject />} />
       </Routes>
     </Router>
   );

@@ -1,14 +1,27 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const careerSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
   title: {
     type: String,
     maxlength: 20,
   },
   subtitle: {
     type: String,
+    default: true,
     maxlength: 50,
+  },
+  description: {
+    type: String,
+    maxlength: 150,
+  },
+  service: {
+    type: String,
+    unique: true,
+  },
+  gallery_name: {
+    type: String,
+    trim: true,
   },
   type: {
     type: String,
@@ -21,6 +34,10 @@ const careerSchema = new mongoose.Schema({
       return this.type === "image" || this.type === "video";
     },
   },
+  isPublic: {
+    type: Boolean,
+    default: true,
+  },
   metaTitle: {
     type: String,
   },
@@ -29,6 +46,6 @@ const careerSchema = new mongoose.Schema({
   },
 });
 
-const careerModel = mongoose.model("Career", careerSchema);
+const projectModel = mongoose.model("Projects", projectSchema);
 
-module.exports = careerModel;
+module.exports = projectModel;

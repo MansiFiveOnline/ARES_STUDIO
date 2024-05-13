@@ -3,30 +3,30 @@ import Layout from "../../components/layout";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Gallery = () => {
-  const [galleries, setGalleries] = useState([]);
+const Project = () => {
+  const [projects, setProjects] = useState([]);
 
   const navigate = useNavigate();
 
   const tableRef = useRef(null);
 
   useEffect(() => {
-    const fetchGalleries = async () => {
+    const fetchProjects = async () => {
       try {
         // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
           baseURL: "http://localhost:8000/api/",
-          url: "gallery",
+          url: "project",
         });
-        console.log(response.data.galleries);
-        setGalleries(response.data.galleries);
+        console.log(response.data.projects);
+        setProjects(response.data.projects);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
-    fetchGalleries();
+    fetchProjects();
   }, []);
 
   const handleDelete = async (id) => {
@@ -35,29 +35,29 @@ const Gallery = () => {
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
-        url: `gallery/${id}`,
+        url: `project/${id}`,
       });
-      setGalleries(null); // Update user state to null after deletion
+      setProjects(null); // Update user state to null after deletion
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/project");
       }, 2000);
       console.log(response.data);
-      setGalleries(galleries.filter((gallery) => gallery._id !== id));
+      setProjects(projects.filter((project) => project._id !== id));
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/project");
       }, 3000);
     } catch (error) {
-      console.error("Error deleting gallery:", error);
+      console.error("Error deleting Project:", error);
     }
   };
   return (
     <Layout>
       <div className="pages-headers ">
         <h2>
-          Service Gallery
-          <NavLink to="/add/gallery" className="theme-cta">
+          Project
+          <NavLink to="/add/project" className="theme-cta">
             <i class="las la-plus-circle"></i>
-            Add Service Gallery
+            Add Project
           </NavLink>
         </h2>
       </div>
@@ -65,76 +65,48 @@ const Gallery = () => {
         <div className="col-md-12">
           <div className="infos-table">
             <div className="table-responsive">
-              {/* <DataTable
-        value={users}
-        paginator
-        sortMode="multiple"
-        rows={1}
-        rowsPerPageOptions={[5, 10, 25, 50]}
-      >
-        <Column
-          field="name"
-          header="Name"
-          sortable
-          style={{ width: "25%" }}
-        ></Column>
-        <Column
-          field="designation"
-          header="Designation"
-          sortable
-          style={{ width: "25%" }}
-        ></Column>
-        <Column
-          field="linkedin_url"
-          header="LinkedIn URL"
-          sortable
-          style={{ width: "25%" }}
-        ></Column>
-        <Column
-          field="users.imageUrl"
-          header="Image"
-          sortable
-          style={{ width: "25%" }}
-        >
-          {" "}
-          <img
-            src=""
-            alt="new"
-            style={{ width: "50px", height: "50px" }}
-            header="Image"
-          />
-        </Column> */}
-
               <table id="example" className="table nowrap">
                 <thead>
                   <tr>
-                    <th>Service</th>
+                    <th>Title</th>
+                    <th className="text-center">Subtitle</th>
+                    <th className="text-center">Descripiton</th>
+                    <th className="text-center">Service</th>
                     <th className="text-center">Gallery Name</th>
+                    <th className="text-center">Meta Title</th>
+                    <th className="text-center">Meta Descripiton</th>
                     <th className="text-center">Media</th>
                     <th className="text-center">Edit</th>
                     <th className="text-center">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {galleries &&
-                    galleries.map((gallery) => (
-                      <tr key={gallery._id}>
-                        <td>{gallery.service}</td>
-                        <td className="text-center">{gallery.gallery_name}</td>
+                  {projects &&
+                    projects.map((project) => (
+                      <tr key={project._id}>
+                        <td>{project.title}</td>
+                        <td className="text-center">{project.subtitle}</td>
+                        <td className="text-center">{project.description}</td>
+                        <td className="text-center">{project.service}</td>
+                        <td className="text-center">{project.gallery_name}</td>
+                        <td className="text-center">{project.metaTitle}</td>
+                        <td className="text-center">
+                          {project.metaDescription}
+                        </td>
                         <td className="table-profile-img text-center">
-                          {gallery.type === "image" ? (
+                          {project.type === "image" ? (
                             <img
-                              src={`http://localhost:8000/${gallery.media.filepath}`} // Assuming filepath contains the path to the image
-                              alt={`${gallery.media.filename}`}
+                              src={`http://localhost:8000/${project.media.filepath}`} // Assuming filepath contains the path to the image
+                              alt={`${project.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />
                           ) : (
-                            <span>{gallery.media.iframe}</span>
+                            <span>{project.media.iframe}</span>
                           )}
                         </td>
                         <td className="text-center">
                           <Link
-                            to={`/edit/gallery/${gallery._id}`}
+                            to={`/edit/Project/${project._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>
@@ -143,7 +115,7 @@ const Gallery = () => {
                         <td className="text-center">
                           <button
                             className="delete-btn"
-                            onClick={() => handleDelete(gallery._id)}
+                            onClick={() => handleDelete(project._id)}
                           >
                             <i class="las la-trash"></i>{" "}
                           </button>
@@ -160,4 +132,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default Project;
