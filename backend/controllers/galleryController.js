@@ -207,6 +207,7 @@ const getGalleries = async (req, res) => {
     }
     return res.status(200).json({
       message: "All galleries fetched successfully.",
+      count: galleries.length,
       galleries,
     });
   } catch (error) {

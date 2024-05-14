@@ -25,6 +25,7 @@ import AddGalleryName from "./pages/gallery_name/addgallery_name";
 import EditGalleryName from "./pages/gallery_name/editgallery_name";
 import Project from "./pages/project/project";
 import AddProject from "./pages/project/addproject";
+import EditProject from "./pages/project/editproject";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
         <Route path={`/edit/gallery_name/:id`} element={<EditGalleryName />} />
         <Route path={`/project`} element={<Project />} />
         <Route path={`/add/project`} element={<AddProject />} />
+        <Route path={`edit/project/:id`} element={<EditProject />} />
       </Routes>
     </Router>
   );

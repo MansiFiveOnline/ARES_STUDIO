@@ -78,6 +78,7 @@ const getGalleryNames = async (req, res) => {
     }
     return res.status(200).json({
       message: "All gallery names fetched successfully.",
+      count: galleryNames.length,
       galleryNames,
     });
   } catch (error) {

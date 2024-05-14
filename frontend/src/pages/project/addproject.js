@@ -9,6 +9,8 @@ const AddProject = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
   const [selectedService, setSelectedService] = useState("");
   const [selectedGallery, setSelectedGallery] = useState("");
   const [galleryNames, setGalleryNames] = useState([]);
@@ -49,6 +51,11 @@ const AddProject = () => {
         setIsPublic(false);
       }
       const formData = new FormData();
+      formData.append("title", title);
+      formData.append("subtitle", subtitle);
+      formData.append("description", description);
+      formData.append("metaTitle", metaTitle);
+      formData.append("metaDescription", metaDescription);
       formData.append("gallery_name", selectedGallery);
       formData.append("service", selectedService);
       formData.append("isPublic", isPublic); // Include isPublic in the form data
@@ -99,7 +106,7 @@ const AddProject = () => {
                   type="text"
                   name="title"
                   value={title}
-                  onChange={(e) => setGalleryName(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -112,7 +119,7 @@ const AddProject = () => {
                   type="text"
                   name="subtitle"
                   value={subtitle}
-                  onChange={(e) => setGalleryName(e.target.value)}
+                  onChange={(e) => setSubtitle(e.target.value)}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -125,7 +132,7 @@ const AddProject = () => {
                   type="text"
                   name="description"
                   value={description}
-                  onChange={(e) => setGalleryName(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -178,6 +185,33 @@ const AddProject = () => {
               />
               Public
             </label>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Meta Title</label>
+                <input
+                  type="text"
+                  name="metaTitle"
+                  value={metaTitle}
+                  onChange={(e) => setMetaTitle(e.target.value)}
+                />
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Meta Descripiton</label>
+                <input
+                  type="text"
+                  name="metaDescription"
+                  value={metaDescription}
+                  onChange={(e) => setMetaDescription(e.target.value)}
+                />
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+              </div>
+            </div>
+
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Media</label>

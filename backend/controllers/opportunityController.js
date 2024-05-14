@@ -62,6 +62,7 @@ const getOpportunity = async (req, res) => {
     }
     return res.status(200).json({
       message: "Opportunity fetched successfully.",
+
       opportunity,
     });
   } catch (error) {
@@ -82,6 +83,7 @@ const getOpportunities = async (req, res) => {
     }
     return res.status(200).json({
       message: "All opportunities fetched successfully.",
+      count: opportunities.length,
       opportunities,
     });
   } catch (error) {

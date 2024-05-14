@@ -23,7 +23,7 @@ const Team = () => {
         const response = await axios({
           method: "GET",
           baseURL: "http://localhost:8000/api/",
-          url: "user/allUsers",
+          url: "user",
         });
         console.log(response.data.users);
         setUsers(response.data.users);

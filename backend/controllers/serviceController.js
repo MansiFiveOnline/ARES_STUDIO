@@ -2278,6 +2278,7 @@ const getServices = async (req, res) => {
     }
     return res.status(200).json({
       message: "All services fetched successfully.",
+      count: services.length,
       services,
     });
   } catch (error) {

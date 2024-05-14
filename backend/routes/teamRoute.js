@@ -13,11 +13,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/new_user", upload.single("image"), teamController.createUser);
+route.post("/", upload.single("image"), teamController.createUser);
 
 route.patch("/:_id", upload.single("image"), teamController.updateUser);
 
-route.get("/allUsers", teamController.getUsers);
+route.get("/", teamController.getUsers);
 
 route.get("/:_id", teamController.getUser);
 

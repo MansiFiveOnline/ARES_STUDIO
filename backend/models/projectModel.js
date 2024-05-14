@@ -17,7 +17,6 @@ const projectSchema = new mongoose.Schema({
   },
   service: {
     type: String,
-    unique: true,
   },
   gallery_name: {
     type: String,

@@ -287,6 +287,7 @@ const getCareers = async (req, res) => {
     }
     return res.status(200).json({
       message: "All careers fetched successfully.",
+      count: careers.length,
       careers,
     });
   } catch (error) {

@@ -106,7 +106,7 @@ const Project = () => {
                         </td>
                         <td className="text-center">
                           <Link
-                            to={`/edit/Project/${project._id}`}
+                            to={`/edit/project/${project._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>

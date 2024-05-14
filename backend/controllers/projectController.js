@@ -310,6 +310,7 @@ const getProjects = async (req, res) => {
     }
     return res.status(200).json({
       message: "All projects fetched successfully.",
+      count: projects.length,
       projects,
     });
   } catch (error) {

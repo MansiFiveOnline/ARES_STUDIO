@@ -216,7 +216,7 @@ const getUsers = async (req, res) => {
 
     return res.status(200).json({
       message: "All user fetched successfully.",
-
+      count: users.length,
       users,
     });
   } catch (error) {

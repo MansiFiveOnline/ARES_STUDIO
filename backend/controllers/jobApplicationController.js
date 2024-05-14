@@ -291,7 +291,8 @@ const getApplications = async (req, res) => {
 
     return res.status(200).json({
       message: "Applications retrieved successfully.",
-      applications: applications,
+      count: applications.length,
+      applications,
     });
   } catch (error) {
     return res.status(500).json({

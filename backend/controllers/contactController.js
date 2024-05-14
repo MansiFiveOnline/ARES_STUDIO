@@ -12,7 +12,8 @@ const getContacts = async (req, res) => {
 
     res.status(200).json({
       message: "Contacts retrieved successfully.",
-      contacts: contacts,
+      count: contacts.length,
+      contacts,
     });
   } catch (error) {
     res.status(500).json({
