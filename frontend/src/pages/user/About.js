@@ -8,6 +8,7 @@ import {
   faLinkedinIn,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
+import "../../style/user.css";
 
 export default function About() {
   const data = [

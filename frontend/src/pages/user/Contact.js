@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
+import "../../style/user.css";
 
 export default function Contact() {
   return (

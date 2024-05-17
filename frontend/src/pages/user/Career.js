@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import HorizontalTabs from "../../components/HorizontalTabs";
+import "../../style/user.css";
 
 export default function Career() {
   return (

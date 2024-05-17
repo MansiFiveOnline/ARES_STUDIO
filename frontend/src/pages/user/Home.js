@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import VideoPlayer from "../../components/Videoplayer";
+import "../../style/user.css";
 
 const Home = () => {
   return (

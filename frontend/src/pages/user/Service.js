@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Gallery from "../../components/Gallery";
 // import FilterableGallery from './Lightboxgallery'
 // import MyComponent from './Mycomponent'
+import "../../style/user.css";
 
 const Service = () => {
   return (

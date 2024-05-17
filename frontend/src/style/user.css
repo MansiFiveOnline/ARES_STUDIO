@@ -20,7 +20,7 @@ body {
   padding: 0;
   overflow-x: hidden;
   font-family: "GlacialIndifference-Regular";
-  background-color: #000;
+  background-color: #000 !important;
   background: black;
 }
 
