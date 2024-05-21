@@ -5,18 +5,19 @@ const url = require("url");
 const createProject = async (req, res) => {
   try {
     const {
-      title,
+      project_name,
       subtitle,
       description,
-      service,
+      service_name,
       gallery_name,
-      media,
       metaTitle,
       metaDescription,
+      isPublic = true,
     } = req.body;
     let mediaData = {};
 
     const file = req.file;
+    const media = req.body.media;
 
     let fileType = "";
     // Function to check if the input is a URL
@@ -57,24 +58,25 @@ const createProject = async (req, res) => {
         filepath: req.file.path,
         iframe: null,
       };
-    } else {
-      // Neither iframe nor file is provided
-      return res.status(400).json({
-        message:
-          "Either an iFrame URL or an image file is required for the media field.",
-      });
+      // } else {
+      //   // Neither iframe nor file is provided
+      //   return res.status(400).json({
+      //     message:
+      //       "Either an iFrame URL or an image file is required for the media field.",
+      //   });
     }
 
     const newProject = new projectModel({
-      title,
+      project_name,
       subtitle,
       description,
-      service,
+      service_name,
       gallery_name,
       type: fileType,
       media: mediaData,
       metaTitle,
       metaDescription,
+      isPublic,
     });
 
     await newProject.save();
@@ -90,149 +92,38 @@ const createProject = async (req, res) => {
   }
 };
 
-// const updateProject = async (req, res) => {
-//   try {
-//     const { title, subtitle, media } = req.body;
-//     // let image = req.body.image;
-
-//     // Fetch the existing service data from the database
-//     const existingProject = await projectModel.findById(req.params._id);
-
-//     // Initialize variables to store updated field values
-//     let updatedFields = {};
-
-//     if (title !== undefined) {
-//       updatedFields.title = title;
-//     }
-//     if (subtitle !== undefined) {
-//       updatedFields.subtitle = subtitle;
-//     }
-//     // if (media !== undefined) {
-//     //   updatedFields.media = media;
-//     // }
-
-//     // If media is not provided, retain the existing type
-//     if (media === undefined) {
-//       updatedFields.type = existingProject.type;
-//     } else {
-//       let fileType = "";
-//       let mediaData = {};
-
-//       // Function to check if the input is a URL
-//       const isURL = (str) => {
-//         try {
-//           new URL(str);
-//           return true;
-//         } catch (error) {
-//           return false;
-//         }
-//       };
-
-//       // Check if media is provided and is a URL (iframe)
-//       if (media && isURL(media)) {
-//         fileType = "video"; // Set fileType to "video" for iframe URLs
-//         mediaData = {
-//           filename: null,
-//           filepath: null,
-//           iframe: media.trim(),
-//         };
-//       } else if (req.file) {
-//         // Handle the case where a file is uploaded
-//         // Check if the file is a WebP image
-//         const isWebPImage = (file) => {
-//           const extname = path.extname(file.originalname).toLowerCase();
-//           return extname === ".webp";
-//         };
-
-//         if (!isWebPImage(req.file)) {
-//           return res.status(400).json({
-//             message: "Unsupported file type. Please upload a WebP image.",
-//           });
-//         }
-
-//         fileType = "image";
-//         mediaData = {
-//           filename: req.file.originalname,
-//           filepath: req.file.path,
-//           iframe: null,
-//         };
-//       } else {
-//         // If media is not provided, use the existing media data
-//         mediaData = existingProject.media;
-//       }
-
-//       updatedFields.type = fileType;
-//       updatedFields.media = mediaData;
-//     }
-//     const updatedProject = await projectModel.findByIdAndUpdate(
-//       req.params._id,
-//       updatedFields,
-//       { new: true }
-//     );
-
-//     return res.status(200).json({
-//       message: "project content updated successfully.",
-//       updatedProject,
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       message: `Error in updating project due to ${error.message}`,
-//     });
-//   }
-// };
-
 const updateProject = async (req, res) => {
   try {
     const {
-      title,
+      project_name,
       subtitle,
       description,
-      service,
+      service_name,
       gallery_name,
-      media,
       metaTitle,
       metaDescription,
     } = req.body;
 
-    // Fetch the existing project data from the database
-    const existingProject = await projectModel.findById(req.params._id);
+    let mediaData = null;
 
-    // Initialize variables to store updated field values
-    let updatedFields = {};
+    if (req.file) {
+      const isWebPImage = (file) => {
+        const extname = path.extname(file.originalname).toLowerCase();
+        return extname === ".webp";
+      };
 
-    if (title !== undefined) {
-      updatedFields.title = title;
-    }
-    if (subtitle !== undefined) {
-      updatedFields.subtitle = subtitle;
-    }
+      if (!isWebPImage(req.file)) {
+        return res.status(400).json({
+          message: "Unsupported file type. Please upload a WebP image.",
+        });
+      }
 
-    if (description !== undefined) {
-      updatedFields.description = description;
-    }
-
-    if (service !== undefined) {
-      updatedFields.service = service;
-    }
-
-    if (gallery_name !== undefined) {
-      updatedFields.gallery_name = gallery_name;
-    }
-
-    if (metaTitle !== undefined) {
-      updatedFields.metaTitle = metaTitle;
-    }
-
-    if (metaDescription !== undefined) {
-      updatedFields.metaDescription = metaDescription;
-    }
-
-    if (media !== undefined) {
-      // Determine the type based on the provided media
-      let fileType = existingProject.type; // Default to existing type
-      let mediaData = existingProject.media;
-
-      // Function to check if the input is a URL
+      mediaData = {
+        filename: req.file.originalname,
+        filepath: req.file.path,
+        iframe: null,
+      };
+    } else if (req.body.media) {
       const isURL = (str) => {
         try {
           new URL(str);
@@ -242,48 +133,35 @@ const updateProject = async (req, res) => {
         }
       };
 
-      if (isURL(media)) {
-        fileType = "video"; // Set fileType to "video" for iframe URLs
-        mediaData = {
-          filename: null,
-          filepath: null,
-          iframe: media.trim(),
-        };
-      } else if (req.file) {
-        // A file is provided
-        // Check if the file is a WebP image
-        const isWebPImage = (file) => {
-          const extname = path.extname(file.originalname).toLowerCase();
-          return extname === ".webp";
-        };
-
-        if (!isWebPImage(req.file)) {
-          return res.status(400).json({
-            message: "Unsupported file type. Please upload a WebP image.",
-          });
-        }
-
-        fileType = "image";
-        // Set filename and filepath for the image
-        mediaData = {
-          filename: req.file.originalname,
-          filepath: req.file.path, // Assuming this is the correct file path
-          iframe: null,
-        };
-      } else {
-        // Neither iframe nor file is provided
+      if (!isURL(req.body.media)) {
         return res.status(400).json({
-          message:
-            "Either an iFrame URL or an image file is required for the media field.",
+          message: "Invalid media URL.",
         });
       }
 
-      updatedFields.type = fileType;
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: req.body.media.trim(),
+      };
+    }
+
+    const updatedFields = {
+      project_name,
+      subtitle,
+      description,
+      service_name,
+      gallery_name,
+      metaTitle,
+      metaDescription,
+    };
+
+    if (mediaData) {
       updatedFields.media = mediaData;
     }
 
     const updatedProject = await projectModel.findByIdAndUpdate(
-      req.params._id,
+      req.params.id,
       updatedFields,
       { new: true }
     );
@@ -295,6 +173,114 @@ const updateProject = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: `Error in updating project due to ${error.message}`,
+    });
+  }
+};
+
+// const getProjectMediaByServiceAndGallery = async (req, res) => {
+//   try {
+//     const { service_name, gallery_name } = req.query;
+
+//     // Validate input
+//     if (!service_name || !gallery_name) {
+//       return res
+//         .status(400)
+//         .json({ message: "Service name and gallery name are required." });
+//     }
+
+//     let projects;
+//     if (gallery_name === "all") {
+//       projects = await projectModel.find({ service_name });
+//     } else {
+//       projects = await projectModel.find({ service_name, gallery_name });
+//     }
+
+//     // Check if projects exist
+//     if (!projects || projects.length === 0) {
+//       return res.status(404).json({
+//         message: "No projects found for the given service and gallery name.",
+//       });
+//     }
+
+//     // Flatten media array from all projects and add isPublic property
+//     const media = projects.reduce((acc, project) => {
+//       if (Array.isArray(project.media)) {
+//         return acc.concat(
+//           project.media.map((item) => ({
+//             ...item,
+//             isPublic: project.isPublic,
+//           }))
+//         );
+//       } else {
+//         return acc.concat({
+//           ...project.media,
+//           isPublic: project.isPublic,
+//         });
+//       }
+//     }, []);
+
+//     return res.status(200).json({
+//       message: "Project media fetched successfully.",
+//       media,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: `Error fetching project media due to ${error.message}`,
+//     });
+//   }
+// };
+
+const getProjectMediaByServiceAndGallery = async (req, res) => {
+  try {
+    const { service_name, gallery_name } = req.query;
+
+    // Validate input
+    if (!service_name || !gallery_name) {
+      return res
+        .status(400)
+        .json({ message: "Service name and gallery name are required." });
+    }
+
+    let projects;
+    if (gallery_name === "all") {
+      projects = await projectModel.find({ service_name });
+    } else {
+      projects = await projectModel.find({ service_name, gallery_name });
+    }
+
+    // Check if projects exist
+    if (!projects || projects.length === 0) {
+      return res.status(404).json({
+        message: "No projects found for the given service and gallery name.",
+      });
+    }
+
+    // Flatten media array from all projects and add isPublic property
+    const media = projects.reduce((acc, project) => {
+      if (Array.isArray(project.media)) {
+        return acc.concat(
+          project.media.map((item) => ({
+            ...item,
+            isPublic: project.isPublic,
+            projectName: project.project_name, // Add project name here
+          }))
+        );
+      } else {
+        return acc.concat({
+          ...project.media,
+          isPublic: project.isPublic,
+          projectName: project.project_name, // Add project name here
+        });
+      }
+    }, []);
+
+    return res.status(200).json({
+      message: "Project media fetched successfully.",
+      media,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error fetching project media due to ${error.message}`,
     });
   }
 };
@@ -341,6 +327,29 @@ const getProject = async (req, res) => {
   }
 };
 
+const getProjectName = async (req, res) => {
+  try {
+    const projectnames = await projectModel.find({}, "project_name"); // Fetch only the 'title' field
+
+    if (projectnames.length === 0) {
+      return res.status(400).json({
+        message: `No project names found.`,
+      });
+    }
+
+    // Extract only the project names
+    const projectNameList = projectnames.map((project) => project.project_name);
+
+    res.status(200).json({
+      message: "Project Title fetched successfully.",
+      projectNames: projectNameList,
+    });
+  } catch (error) {
+    console.error("Error fetching project titles:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteProject = async (req, res) => {
   try {
     const projectExists = await projectModel.findById({
@@ -371,7 +380,9 @@ const deleteProject = async (req, res) => {
 module.exports = {
   createProject,
   updateProject,
+  getProjectMediaByServiceAndGallery,
   getProjects,
   getProject,
+  getProjectName,
   deleteProject,
 };

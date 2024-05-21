@@ -31,21 +31,23 @@ const Project = () => {
 
   const handleDelete = async (id) => {
     try {
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const access_token = localStorage.getItem("access_token");
+
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `project/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
       setProjects(null); // Update user state to null after deletion
-      setTimeout(() => {
-        navigate("/project");
-      }, 2000);
+
       console.log(response.data);
       setProjects(projects.filter((project) => project._id !== id));
       setTimeout(() => {
-        navigate("/project");
-      }, 3000);
+        navigate("/admin/project");
+      }, 2000);
     } catch (error) {
       console.error("Error deleting Project:", error);
     }
@@ -55,7 +57,7 @@ const Project = () => {
       <div className="pages-headers ">
         <h2>
           Project
-          <NavLink to="/add/project" className="theme-cta">
+          <NavLink to="/admin/add/project" className="theme-cta">
             <i class="las la-plus-circle"></i>
             Add Project
           </NavLink>
@@ -68,7 +70,7 @@ const Project = () => {
               <table id="example" className="table nowrap">
                 <thead>
                   <tr>
-                    <th>Title</th>
+                    <th>Project Name</th>
                     <th className="text-center">Subtitle</th>
                     <th className="text-center">Descripiton</th>
                     <th className="text-center">Service</th>
@@ -84,10 +86,10 @@ const Project = () => {
                   {projects &&
                     projects.map((project) => (
                       <tr key={project._id}>
-                        <td>{project.title}</td>
+                        <td>{project.project_name}</td>
                         <td className="text-center">{project.subtitle}</td>
                         <td className="text-center">{project.description}</td>
-                        <td className="text-center">{project.service}</td>
+                        <td className="text-center">{project.service_name}</td>
                         <td className="text-center">{project.gallery_name}</td>
                         <td className="text-center">{project.metaTitle}</td>
                         <td className="text-center">
@@ -106,7 +108,7 @@ const Project = () => {
                         </td>
                         <td className="text-center">
                           <Link
-                            to={`/edit/project/${project._id}`}
+                            to={`/admin/edit/project/${project._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>

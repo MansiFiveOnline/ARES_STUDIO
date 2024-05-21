@@ -31,19 +31,22 @@ const AddCareer = () => {
         formData.append("media", media.file);
       }
 
-      const response = await axios.post(
-        "http://localhost:8000/api/career",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const access_token = localStorage.getItem("access_token");
+
+      const response = await axios({
+        method: "POST",
+        baseURL: "http://localhost:8000/api/",
+        url: `career`,
+        data: formData, // Pass formData directly as the data parameter
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
 
       console.log(response.data.newCareer);
       setTimeout(() => {
-        navigate("/career");
+        navigate("/admin/career");
       }, 2000);
     } catch (error) {
       console.error("Error creating career:", error);

@@ -14,7 +14,7 @@ const EditGallery = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    service: "",
+    service_name: "",
     gallery_name: "",
     media: "",
   });
@@ -55,12 +55,14 @@ const EditGallery = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/gallery/${id}`
-        );
+        const response = await axios({
+          method: "GET",
+          baseURL: "http://localhost:8000/api/",
+          url: `gallery/${id}`,
+        });
         const galleryData = response.data.gallery;
         setGallery(galleryData);
-        setSelectedService(galleryData.service);
+        setSelectedService(galleryData.service_name);
         setSelectedGallery(galleryData.gallery_name);
 
         // Set media state from galleryData
@@ -84,27 +86,68 @@ const EditGallery = () => {
     fetchGallery();
   }, [id]);
 
+  // const handleChange = (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   if (name === "media") {
+  //     if (files && files.length > 0) {
+  //       setMedia({
+  //         ...media,
+  //         file: files[0],
+  //         filepath: URL.createObjectURL(files[0]),
+  //         iframe: "", // Reset iframe value
+  //       });
+  //     } else {
+  //       setMedia({
+  //         ...media,
+  //         iframe: value,
+  //       });
+  //     }
+  //   } else {
+  //     setFormData({
+  //       ...formData,
+  //       [name]: value,
+  //     });
+  //   }
+  // };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "media" && files && files.length > 0) {
-      setFormData({
-        ...formData,
-        media: { iframe: "", file: files[0] },
-      });
+    if (name === "media") {
+      if (files && files.length > 0) {
+        setMedia({
+          ...media,
+          file: files[0],
+          filepath: URL.createObjectURL(files[0]),
+          iframe: "", // Reset iframe value
+        });
+      } else {
+        setMedia({
+          ...media,
+          iframe: value,
+        });
+      }
     } else {
       setFormData({
         ...formData,
-        media: { ...formData.media, [name]: value },
+        [name]: value,
       });
     }
   };
 
   const fetchGalleryNames = async (service) => {
     try {
+      // const response = await axios({
+      //   method: "GET",
+      //   baseURL: "http://localhost:8000/api/",
+      //   url: `gallery_name/gallerynames?service_name=${selectedService}`,
+      // });
+
       const response = await axios.get(
-        `http://localhost:8000/api/gallery/gallery_names?service_name=${service}`
+        `http://localhost:8000/api/gallery_name/gallerynames?service_name=${selectedService}`
       );
+
       setGalleryNames(response.data.galleryNames);
     } catch (error) {
       console.error("Error fetching gallery names:", error);
@@ -121,35 +164,25 @@ const EditGallery = () => {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("gallery_name", selectedGallery);
-      formDataToSend.append("service", selectedService);
+      formDataToSend.append("service_name", selectedService);
+      formDataToSend.append("media", media.file || media.iframe);
 
-      // Check if both media fields are provided
-      if (media.iframe && media.file) {
-        throw new Error(
-          "Please provide either an iFrame URL or an image, not both."
-        );
-      }
+      const access_token = localStorage.getItem("access_token");
 
-      // Append media based on the provided type
-      if (media.iframe) {
-        formDataToSend.append("media", media.iframe);
-      } else if (media.file) {
-        formDataToSend.append("media", media.file);
-      }
-
-      const response = await axios.patch(
-        `http://localhost:8000/api/gallery/${id}`,
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios({
+        method: "PATCH",
+        baseURL: "http://localhost:8000/api/",
+        url: `gallery/${id}`,
+        data: formDataToSend, // Pass form data directly
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
 
       console.log("Gallery updated:", response.data.updatedGallery);
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/admin/gallery");
       }, 2000);
     } catch (error) {
       console.error("Error updating gallery:", error);
@@ -210,18 +243,20 @@ const EditGallery = () => {
                 <input
                   type="text"
                   name="media"
-                  value={formData.media.iframe}
+                  value={media.iframe}
                   placeholder="iFrame URL"
                   onChange={handleChange}
                 />
                 <span> OR </span>
                 <input type="file" name="media" onChange={handleChange} />
 
-                <img
-                  className="form-profile"
-                  src={`http://localhost:8000/${media.filepath}`}
-                  alt={`${media.filename}`}
-                />
+                {media.filepath && (
+                  <img
+                    className="form-profile"
+                    src={`http://localhost:8000/${media.filepath}`}
+                    alt={`${media.filename}`}
+                  />
+                )}
               </div>
             </div>
 

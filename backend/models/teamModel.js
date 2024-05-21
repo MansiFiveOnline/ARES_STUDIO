@@ -8,23 +8,19 @@ const teamSchema = new mongoose.Schema({
   },
   designation: {
     type: String,
-    required: true,
   },
   linkedin_url: {
     type: String,
-    required: true,
   },
   image: {
     type: Array,
     filename: {
       type: String,
-      required: true,
     },
     filepath: {
       type: String,
       required: true,
     },
-    required: true,
   },
   sequence: {
     type: Number,

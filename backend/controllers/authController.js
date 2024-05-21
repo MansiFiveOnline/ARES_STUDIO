@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     const newUsername = username.toLowerCase().replace(/ /g, "");
 
@@ -42,6 +42,7 @@ const register = async (req, res) => {
       username: newUsername,
       email,
       password: hashed_password,
+      role,
     });
 
     // Access token
@@ -67,7 +68,6 @@ const register = async (req, res) => {
       message: "User registered successfully.",
       newUser,
       access_token,
-      password: "",
     });
   } catch (error) {
     return res.status(500).json({
@@ -80,19 +80,19 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const emailExists = await authModel.findOne({
+    const user = await authModel.findOne({
       email,
     });
 
-    if (!emailExists) {
+    if (!user) {
       return res.status(400).json({
         message: "User email doesn't exist. Please register first.",
       });
     }
 
-    const passwordExists = await bcrypt.compare(password, emailExists.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
-    if (!passwordExists) {
+    if (!isMatch) {
       return res.status(400).json({
         message: "Password does not match. Please try again.",
       });
@@ -100,12 +100,12 @@ const login = async (req, res) => {
 
     // Access token
     const access_token = createAccessToken({
-      id: emailExists._id,
+      id: user._id,
     });
 
     // Refresh token
     const refresh_token = createRefreshToken({
-      id: emailExists._id,
+      id: user._id,
     });
 
     // Storing refresh token in cookie
@@ -118,8 +118,7 @@ const login = async (req, res) => {
     res.status(200).json({
       message: "User logged in successfully.",
       access_token,
-      user: emailExists,
-      password: "",
+      user,
     });
   } catch (error) {
     return res.status(500).json({
@@ -196,6 +195,20 @@ const recreateAccessToken = async (req, res) => {
   }
 };
 
+const authUser = (req, res) => {
+  res.status(200).json({
+    message: "User is authenticated",
+    valid: true,
+  });
+};
+
+const authAdmin = (req, res) => {
+  res.status(200).json({
+    message: "Admin is authenticated",
+    valid: true,
+  });
+};
+
 // Creating access token
 const createAccessToken = (payload) =>
   jwt.sign(payload, process.env.ACCESS_TOKEN, {
@@ -213,4 +226,6 @@ module.exports = {
   login,
   logout,
   recreateAccessToken,
+  authAdmin,
+  authUser,
 };

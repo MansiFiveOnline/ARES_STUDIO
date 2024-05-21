@@ -5,7 +5,7 @@ import axios from "axios";
 
 const AddGallery = () => {
   const [gallery_name, setGalleryName] = useState("");
-  const [service, setService] = useState("");
+  const [service_name, setServiceName] = useState("");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
@@ -18,9 +18,11 @@ const AddGallery = () => {
 
   const fetchGalleryNames = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/gallery/gallery_names?service_name=${selectedService}`
-      );
+      const response = await axios({
+        method: "GET",
+        baseURL: "http://localhost:8000/api/",
+        url: `gallery_name/gallerynames?service_name=${selectedService}`,
+      });
 
       console.log("Gallery names response:", response);
       console.log("Gallery names:", galleryNames);
@@ -35,35 +37,38 @@ const AddGallery = () => {
   };
 
   useEffect(() => {
-    fetchGalleryNames();
+    // fetchGalleryNames();
+    if (selectedService) {
+      fetchGalleryNames();
+    }
   }, [selectedService]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Set the service value before making the POST request
-      setService(selectedService);
       // Set isPublic to false if the checkbox is unchecked
       if (!isPublic) {
         setIsPublic(false);
       }
+
       const formData = new FormData();
       formData.append("gallery_name", selectedGallery);
-      formData.append("service", selectedService);
+      formData.append("service_name", selectedService);
       formData.append("isPublic", isPublic); // Include isPublic in the form data
 
-      if (media.iframe && media.file) {
+      // Check if either an iFrame URL or a file is provided for the media field
+      if (media.iframe && media.iframe.trim()) {
+        formData.append("media", media.iframe.trim());
+      } else if (media.file) {
+        formData.append("media", media.file);
+      } else {
         throw new Error(
-          "Please provide either an iFrame URL or an image, not both."
+          "Either a file or a valid URL is required for the media field."
         );
       }
 
-      if (media.iframe) {
-        formData.append("media", media.iframe);
-      } else if (media.file) {
-        formData.append("media", media.file);
-      }
+      const access_token = localStorage.getItem("access_token");
 
       const response = await axios.post(
         "http://localhost:8000/api/gallery",
@@ -71,13 +76,14 @@ const AddGallery = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${access_token}`,
           },
         }
       );
 
       console.log(response.data.newGallery);
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/admin/gallery");
       }, 2000);
     } catch (error) {
       console.error("Error creating gallery:", error);

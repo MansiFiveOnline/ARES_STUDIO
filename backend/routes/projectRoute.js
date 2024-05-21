@@ -2,10 +2,11 @@ const projectController = require("../controllers/projectController");
 const express = require("express");
 const route = express.Router();
 const multer = require("multer");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/career"); // Specify the folder where files will be stored
+    cb(null, "uploads/projects"); // Specify the folder where files will be stored
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname); // Use the original file name for storing
@@ -13,14 +14,31 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/", upload.single("media"), projectController.createProject);
+route.post(
+  "/",
+  upload.single("media"),
+  adminMiddleware,
+  projectController.createProject
+);
 
-route.patch("/:_id", upload.single("media"), projectController.updateProject);
+route.patch(
+  "/:_id",
+  upload.single("media"),
+  adminMiddleware,
+  projectController.updateProject
+);
+
+route.get(
+  "/project_media",
+  projectController.getProjectMediaByServiceAndGallery
+);
+
+route.get("/projectname", projectController.getProjectName);
 
 route.get("/", projectController.getProjects);
 
 route.get("/:_id", projectController.getProject);
 
-route.delete("/:_id", projectController.deleteProject);
+route.delete("/:_id", adminMiddleware, projectController.deleteProject);
 
 module.exports = route;

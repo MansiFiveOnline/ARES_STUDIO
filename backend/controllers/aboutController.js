@@ -103,94 +103,468 @@ const createAbout = async (req, res) => {
   }
 };
 
+// const updateAbout = async (req, res) => {
+//   try {
+//     const {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       metaTitle,
+//       metaDescription,
+//     } = req.body;
+//     // let image = req.body.image;
+//     let mediaData = null;
+
+//     if (req.file) {
+//       const isWebPImage = (file) => {
+//         const extname = path.extname(file.originalname).toLowerCase();
+//         return extname === ".webp";
+//       };
+
+//       // Validate file type
+//       if (!isWebPImage(req.file)) {
+//         return res.status(400).json({
+//           message: "Unsupported file type. Please upload a WebP image.",
+//         });
+//       }
+
+//       // Set media data for image
+//       mediaData = {
+//         filename: req.file.originalname,
+//         filepath: req.file.path,
+//         iframe: null,
+//       };
+//     } else if (req.body.media) {
+//       // Check if media is a URL
+//       const isURL = (str) => {
+//         try {
+//           new URL(str);
+//           return true;
+//         } catch (error) {
+//           return false;
+//         }
+//       };
+
+//       if (!isURL(req.body.media)) {
+//         return res.status(400).json({
+//           message: "Invalid media URL.",
+//         });
+//       }
+
+//       // Set media data for video
+//       mediaData = {
+//         filename: null,
+//         filepath: null,
+//         iframe: req.body.media.trim(),
+//       };
+//     }
+
+//     const updatedFields = {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       media: mediaData,
+//       metaTitle,
+//       metaDescription,
+//     };
+
+//     // Add media data if provided
+//     if (mediaData) {
+//       updatedFields.media = mediaData;
+//       updatedFields.type = mediaData.filename ? "image" : "video";
+//     }
+
+//     const updatedAbout = await aboutModel.findOneAndUpdate({}, updatedFields, {
+//       new: true,
+//     });
+
+//     console.log(updatedAbout);
+
+//     return res.status(200).json({
+//       message: "About content updated successfully.",
+//       updatedAbout,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: `Error in updating about due to ${error.message}`,
+//     });
+//   }
+// };
+
+// const updateAbout = async (req, res) => {
+//   try {
+//     const {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       metaTitle,
+//       metaDescription,
+//     } = req.body;
+
+//     // Fetch the current about document
+//     const currentAbout = await aboutModel.findOne({});
+//     if (!currentAbout) {
+//       return res.status(404).json({ message: "About content not found." });
+//     }
+
+//     let mediaData = currentAbout.media; // Initialize with current media data
+
+//     if (req.file) {
+//       const isWebPImage = (file) => {
+//         const extname = path.extname(file.originalname).toLowerCase();
+//         return extname === ".webp";
+//       };
+
+//       // Validate file type
+//       if (!isWebPImage(req.file)) {
+//         return res.status(400).json({
+//           message: "Unsupported file type. Please upload a WebP image.",
+//         });
+//       }
+
+//       // Set media data for image
+//       mediaData = {
+//         filename: req.file.originalname,
+//         filepath: req.file.path,
+//         iframe: null,
+//       };
+//     } else if (req.body.media) {
+//       // Check if media is a URL
+//       const isURL = (str) => {
+//         try {
+//           new URL(str);
+//           return true;
+//         } catch (error) {
+//           return false;
+//         }
+//       };
+
+//       if (!isURL(req.body.media)) {
+//         return res.status(400).json({
+//           message: "Invalid media URL.",
+//         });
+//       }
+
+//       // Set media data for video
+//       mediaData = {
+//         filename: null,
+//         filepath: null,
+//         iframe: req.body.media.trim(),
+//       };
+//     }
+
+//     const updatedFields = {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       metaTitle,
+//       metaDescription,
+//     };
+
+//     // Add media data if provided
+//     if (mediaData) {
+//       updatedFields.media = mediaData;
+//       updatedFields.type = mediaData.filename ? "image" : "video";
+//     }
+
+//     const updatedAbout = await aboutModel.findOneAndUpdate({}, updatedFields, {
+//       new: true,
+//     });
+
+//     console.log(updatedAbout);
+
+//     return res.status(200).json({
+//       message: "About content updated successfully.",
+//       updatedAbout,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: `Error in updating about due to ${error.message}`,
+//     });
+//   }
+// };
+
+// const updateAbout = async (req, res) => {
+//   try {
+//     const {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       metaTitle,
+//       metaDescription,
+//     } = req.body;
+
+//     // Fetch the current about document
+//     const currentAbout = await aboutModel.findOne({});
+//     if (!currentAbout) {
+//       return res.status(404).json({ message: "About content not found." });
+//     }
+
+//     let mediaData = currentAbout.media; // Initialize with current media data
+
+//     if (req.file) {
+//       const isWebPImage = (file) => {
+//         const extname = path.extname(file.originalname).toLowerCase();
+//         return extname === ".webp";
+//       };
+
+//       // Validate file type
+//       if (!isWebPImage(req.file)) {
+//         return res.status(400).json({
+//           message: "Unsupported file type. Please upload a WebP image.",
+//         });
+//       }
+
+//       // Set media data for image
+//       mediaData = {
+//         filename: req.file.originalname,
+//         filepath: req.file.path,
+//         iframe: null,
+//       };
+//     } else if (req.body.media !== undefined) {
+//       const trimmedMedia = req.body.media.trim();
+
+//       // Check if media is a URL
+//       const isURL = (str) => {
+//         try {
+//           new URL(str);
+//           return true;
+//         } catch (error) {
+//           return false;
+//         }
+//       };
+
+//       if (trimmedMedia && !isURL(trimmedMedia)) {
+//         return res.status(400).json({
+//           message: "Invalid media URL.",
+//         });
+//       }
+
+//       // Set media data for video
+//       mediaData = {
+//         filename: null,
+//         filepath: null,
+//         iframe: trimmedMedia,
+//       };
+//     }
+
+//     const updatedFields = {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       metaTitle,
+//       metaDescription,
+//     };
+
+//     // Add media data if it's been updated
+//     if (mediaData !== currentAbout.media) {
+//       updatedFields.media = mediaData;
+//       updatedFields.type = mediaData.filename ? "image" : "video";
+//     }
+
+//     const updatedAbout = await aboutModel.findOneAndUpdate({}, updatedFields, {
+//       new: true,
+//     });
+
+//     console.log(updatedAbout);
+
+//     return res.status(200).json({
+//       message: "About content updated successfully.",
+//       updatedAbout,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: `Error in updating about due to ${error.message}`,
+//     });
+//   }
+// };
+
+// const updateAbout = async (req, res) => {
+//   try {
+//     const {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       metaTitle,
+//       metaDescription,
+//     } = req.body;
+
+//     // Fetch the current about document
+//     const currentAbout = await aboutModel.findOne({});
+//     if (!currentAbout) {
+//       return res.status(404).json({ message: "About content not found." });
+//     }
+
+//     let mediaData = currentAbout.media; // Initialize with current media data
+
+//     if (req.file) {
+//       const isWebPImage = (file) => {
+//         const extname = path.extname(file.originalname).toLowerCase();
+//         return extname === ".webp";
+//       };
+
+//       // Validate file type
+//       if (!isWebPImage(req.file)) {
+//         return res.status(400).json({
+//           message: "Unsupported file type. Please upload a WebP image.",
+//         });
+//       }
+
+//       // Set media data for image
+//       mediaData = {
+//         filename: req.file.originalname,
+//         filepath: req.file.path,
+//         iframe: null,
+//       };
+//     } else {
+//       const trimmedMedia = req.body.media.trim();
+
+//       // Check if media is a URL
+//       const isURL = (str) => {
+//         try {
+//           new URL(str);
+//           return true;
+//         } catch (error) {
+//           return false;
+//         }
+//       };
+
+//       if (trimmedMedia && !isURL(trimmedMedia)) {
+//         return res.status(400).json({
+//           message: "Invalid media URL.",
+//         });
+//       }
+
+//       // Set media data for video
+//       mediaData = {
+//         filename: null,
+//         filepath: null,
+//         iframe: trimmedMedia,
+//       };
+//     }
+
+//     const updatedFields = {
+//       title,
+//       subtitle,
+//       description,
+//       about_description,
+//       metaTitle,
+//       metaDescription,
+//     };
+
+//     // Add media data if provided
+//     updatedFields.media = mediaData;
+//     updatedFields.type = mediaData.filename ? "image" : "video";
+
+//     const updatedAbout = await aboutModel.findOneAndUpdate({}, updatedFields, {
+//       new: true,
+//     });
+
+//     console.log(updatedAbout);
+
+//     return res.status(200).json({
+//       message: "About content updated successfully.",
+//       updatedAbout,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: `Error in updating about due to ${error.message}`,
+//     });
+//   }
+// };
+
 const updateAbout = async (req, res) => {
   try {
     const {
       title,
       subtitle,
       description,
-      media,
       about_description,
       metaTitle,
       metaDescription,
+      media, // Add media to destructuring to check its presence
     } = req.body;
-    // let image = req.body.image;
-    const file = req.file;
 
-    let fileType = "";
+    // Fetch the current about document
+    const currentAbout = await aboutModel.findOne({});
+    if (!currentAbout) {
+      return res.status(404).json({ message: "About content not found." });
+    }
 
-    let mediaData = {};
+    let mediaData = currentAbout.media; // Initialize with current media data
+    let fileType = currentAbout.type; // Initialize with current media type
 
-    // Function to check if the input is a URL
-    const isURL = (str) => {
-      try {
-        new URL(str);
-        return true;
-      } catch (error) {
-        return false;
-      }
-    };
-
-    // Check if media is a URL (iframe)
-    if (isURL(media)) {
-      fileType = "video"; // Set fileType to "video" for iframe URLs
-      mediaData = {
-        filename: null,
-        filepath: null,
-        iframe: media.trim(),
-      };
-    } else {
-      const file = req.file;
-      if (!file) {
-        return res.status(400).json({
-          message:
-            "Either a file or a valid URL is required for the media field.",
-        });
-      }
-      // Check if the file is a WebP image
+    if (req.file) {
       const isWebPImage = (file) => {
         const extname = path.extname(file.originalname).toLowerCase();
         return extname === ".webp";
       };
 
-      if (!isWebPImage(file)) {
+      // Validate file type
+      if (!isWebPImage(req.file)) {
         return res.status(400).json({
           message: "Unsupported file type. Please upload a WebP image.",
         });
       }
 
-      fileType = "image";
+      // Set media data for image
       mediaData = {
         filename: req.file.originalname,
         filepath: req.file.path,
         iframe: null,
       };
+      fileType = "image";
+    } else if (media) {
+      const trimmedMedia = media.trim();
+
+      // Check if media is a URL
+      const isURL = (str) => {
+        try {
+          new URL(str);
+          return true;
+        } catch (error) {
+          return false;
+        }
+      };
+
+      if (trimmedMedia && !isURL(trimmedMedia)) {
+        return res.status(400).json({
+          message: "Invalid media URL.",
+        });
+      }
+
+      // Set media data for video
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: trimmedMedia,
+      };
+      fileType = "video";
     }
-    const updatedAbout = await aboutModel.findOneAndUpdate(
-      {},
-      {
-        title,
-        subtitle,
-        description,
-        about_description,
-        type: fileType,
-        media: mediaData,
-        metaTitle,
-        metaDescription,
-        // fileType === "image"
-        //   ? {
-        //       filename: file.originalname,
-        //       filepath: file.path,
-        //       iframe: null,
-        //     }
-        //   : {
-        //       filename: null,
-        //       filepath: null,
-        //       iframe: media,
-        //     },
-      },
-      { new: true }
-    );
+
+    const updatedFields = {
+      title,
+      subtitle,
+      description,
+      about_description,
+      metaTitle,
+      metaDescription,
+      media: mediaData,
+      type: fileType,
+    };
+
+    const updatedAbout = await aboutModel.findOneAndUpdate({}, updatedFields, {
+      new: true,
+    });
+
+    console.log(updatedAbout);
 
     return res.status(200).json({
       message: "About content updated successfully.",
@@ -202,27 +576,6 @@ const updateAbout = async (req, res) => {
     });
   }
 };
-
-// const getAbout = async (req, res) => {
-//   try {
-//     const about = await aboutModel.findById(req.params._id);
-//     console.log(req.params._id);
-//     if (!about) {
-//       return res.status(400).json({
-//         message: "No About is created with this id.",
-//       });
-//     }
-
-//     return res.status(200).json({
-//       message: "About fetched successfully.",
-//       about,
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       message: `Error in fetching about due to ${error.message}`,
-//     });
-//   }
-// };
 
 const getAbout = async (req, res) => {
   try {

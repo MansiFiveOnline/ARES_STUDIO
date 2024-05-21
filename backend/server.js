@@ -21,7 +21,7 @@ app.get("/api", (req, res) => {
   res.send("This is backend");
 });
 app.use("/api/auth", Route.authRoute);
-app.use("/api/user", Route.teamRoute);
+app.use("/api/team", Route.teamRoute);
 app.use("/api/contact", Route.contactRoute);
 app.use("/api/jobapplication", Route.jobApplicationRoute);
 app.use("/api/about", Route.aboutRoute);
@@ -31,6 +31,7 @@ app.use("/api/service", Route.serviceRoute);
 app.use("/api/gallery", Route.galleryRoute);
 app.use("/api/gallery_name", Route.galleryNameRoute);
 app.use("/api/project", Route.projectRoute);
+app.use("/api/project_detail", Route.projectDetailsRoute);
 
 connectDb();
 

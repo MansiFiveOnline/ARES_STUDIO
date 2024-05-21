@@ -2,6 +2,7 @@ const careerController = require("../controllers/careerController");
 const express = require("express");
 const route = express.Router();
 const multer = require("multer");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -13,14 +14,24 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/", upload.single("media"), careerController.createCareer);
+route.post(
+  "/",
+  upload.single("media"),
+  adminMiddleware,
+  careerController.createCareer
+);
 
-route.patch("/:_id", upload.single("media"), careerController.updateCareer);
+route.patch(
+  "/:_id",
+  upload.single("media"),
+  adminMiddleware,
+  careerController.updateCareer
+);
 
 route.get("/", careerController.getCareers);
 
 route.get("/:_id", careerController.getCareer);
 
-route.delete("/:_id", careerController.deleteCareer);
+route.delete("/:_id", adminMiddleware, careerController.deleteCareer);
 
 module.exports = route;

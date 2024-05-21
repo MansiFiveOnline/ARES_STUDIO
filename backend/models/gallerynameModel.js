@@ -8,6 +8,7 @@ const galleryNameSchema = new mongoose.Schema({
   gallery_name: {
     type: String,
     trim: true,
+    required: true,
   },
 });
 

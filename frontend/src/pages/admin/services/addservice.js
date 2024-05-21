@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AddService = () => {
-  const [name, setName] = useState("");
+  const [service_name, setServiceName] = useState("");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
@@ -18,7 +18,7 @@ const AddService = () => {
 
     try {
       const formData = new FormData();
-      formData.append("name", name);
+      formData.append("service_name", service_name);
       formData.append("title", title);
       formData.append("subtitle", subtitle);
       formData.append("description", description);
@@ -32,37 +32,36 @@ const AddService = () => {
         );
       }
 
-      // Append media based on the provided type
-      // if (media.iframe) {
-      //   formData.append("media", media.iframe);
-      // } else if (media.file) {
-      //   formData.append("media", media.file);
-      // }
-
-      // Check if the media field is empty when providing an iframe URL
-      if (media.iframe && !media.file) {
-        formData.append("media", media.iframe);
-        console.log("iframe url", media.iframe);
+      // Check if the media field is empty
+      if (!media.iframe && !media.file) {
+        throw new Error(
+          "Either a file or a valid URL is required for the media field."
+        );
       }
 
-      // Check if the media field is empty when providing a file
-      if (media.file && !media.iframe) {
+      // Append media based on the provided type
+      if (media.iframe) {
+        formData.append("media", media.iframe);
+      } else if (media.file) {
         formData.append("media", media.file);
       }
 
-      const response = await axios.post(
-        "http://localhost:8000/api/service",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const access_token = localStorage.getItem("access_token");
+
+      const response = await axios({
+        method: "POST",
+        baseURL: "http://localhost:8000/api",
+        url: `service`,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
 
       console.log(response.data.newService);
       setTimeout(() => {
-        navigate("/services");
+        navigate("/admin/services");
       }, 2000);
     } catch (error) {
       console.error("Error creating service:", error);
@@ -82,9 +81,9 @@ const AddService = () => {
                 <label>Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  name="service_name"
+                  value={service_name}
+                  onChange={(e) => setServiceName(e.target.value)}
                 />
               </div>
             </div>

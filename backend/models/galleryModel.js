@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const gallerySchema = new mongoose.Schema({
-  service: {
+  service_name: {
     type: String,
     unique: true,
+    index: true,
   },
   gallery_name: {
     type: String,

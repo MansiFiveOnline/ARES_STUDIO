@@ -31,22 +31,30 @@ const GalleryName = () => {
 
   const handleDelete = async (id) => {
     try {
+      const access_token = localStorage.getItem("access_token");
+
       // await axios.delete(`http://localhost:8000/api/user/${id}`);
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `gallery_name/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
+
       setGalleryNames(null); // Update user state to null after deletion
       setTimeout(() => {
         navigate("/gallery_name");
       }, 2000);
+
       console.log(response.data);
       setGalleryNames(
         galleryNames.filter((galleryname) => galleryname._id !== id)
       );
+
       setTimeout(() => {
-        navigate("/gallery_name");
+        navigate("/admin/gallery_name");
       }, 3000);
     } catch (error) {
       console.error("Error deleting gallery name:", error);
@@ -58,7 +66,7 @@ const GalleryName = () => {
       <div className="pages-headers ">
         <h2>
           Service Gallery Name
-          <NavLink to="/add/gallery_name" className="theme-cta">
+          <NavLink to="/admin/add/gallery_name" className="theme-cta">
             <i class="las la-plus-circle"></i>
             Add Service Gallery Name
           </NavLink>
@@ -131,7 +139,7 @@ const GalleryName = () => {
                   <CreateIcon />
                 </button>  */}
                           <Link
-                            to={`/edit/gallery_name/${galleryname._id}`}
+                            to={`/admin/edit/gallery_name/${galleryname._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>

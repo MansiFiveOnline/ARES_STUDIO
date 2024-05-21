@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, teamef } from "react";
 import Layout from "../../../components/adminLayout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,17 +21,20 @@ const AddTeam = () => {
       formData.append("linkedin_url", linkedin_url);
       formData.append("image", image);
 
-      // Make a POST request to the backend to create a new user
+      const access_token = localStorage.getItem("access_token");
+
+      // Make a POST request to the backend to create a new team
       const response = await axios({
         method: "POST",
         baseURL: "http://localhost:8000/api/",
-        url: "user/new_user",
+        url: "team",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${access_token}`,
         },
       });
-      // const response = await axios.post("/api/user/createUser", formData, {
+      // const response = await axios.post("/api/team/createteam", formData, {
       //   headers: {
       //     "Content-Type": "multipart/form-data",
       //   },
@@ -39,10 +42,10 @@ const AddTeam = () => {
 
       console.log(response.data);
       setTimeout(() => {
-        navigate("/team");
+        navigate("/admin/team");
       }, 2000);
     } catch (error) {
-      console.error("Error creating user:", error);
+      console.error("Error creating team:", error);
     }
   };
 
@@ -102,7 +105,7 @@ const AddTeam = () => {
                   onChange={(e) => setImage(e.target.files[0])}
                   required
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+                {/* <img className="form-profile" src="src/img/team-icon-img.png" /> */}
               </div>
             </div>
 

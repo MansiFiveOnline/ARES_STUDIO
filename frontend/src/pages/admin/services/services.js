@@ -32,19 +32,22 @@ const AdminServices = () => {
   const handleDelete = async (id) => {
     try {
       // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const access_token = localStorage.getItem("access_token");
+
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `service/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
       setServices(null); // Update user state to null after deletion
-      setTimeout(() => {
-        navigate("/services");
-      }, 2000);
+
       console.log(response.data);
       setServices(services.filter((service) => service._id !== id));
       setTimeout(() => {
-        navigate("/services");
+        navigate("/admin/services");
       }, 2000);
     } catch (error) {
       console.error("Error deleting service:", error);
@@ -75,7 +78,7 @@ const AdminServices = () => {
       <div className="pages-headers ">
         <h2>
           Services
-          <NavLink to="/add/service" className="theme-cta">
+          <NavLink to="/admin/add/service" className="theme-cta">
             <i class="las la-plus-circle"></i>
             Add Service
           </NavLink>
@@ -142,7 +145,7 @@ const AdminServices = () => {
                   {services &&
                     services.map((service) => (
                       <tr key={service._id}>
-                        <td>{service.name}</td>
+                        <td>{service.service_name}</td>
                         {/* <td>{service.url}</td>
                         <td>{service.title}</td>
                         <td className="text-center">{service.subtitle}</td>
@@ -163,7 +166,7 @@ const AdminServices = () => {
                     <CreateIcon />
                   </button>  */}
                           <Link
-                            to={`/edit/service/${service._id}`}
+                            to={`/admin/edit/service/${service._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>

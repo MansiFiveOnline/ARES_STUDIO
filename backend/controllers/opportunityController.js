@@ -14,8 +14,13 @@ const createOpportunity = async (req, res) => {
     await newOpportunity.save();
 
     return res.status(200).json({
-      message: "Added Opportunity content sucessfully.",
-      newOpportunity,
+      message: "Added Opportunity content successfully.",
+      newOpportunity: {
+        title: newOpportunity.title,
+        description: newOpportunity.description,
+        responsibility: newOpportunity.responsibility,
+        qualification: newOpportunity.qualification,
+      },
     });
   } catch (error) {
     return res.status(500).json({
@@ -27,18 +32,23 @@ const createOpportunity = async (req, res) => {
 const updateOpportunity = async (req, res) => {
   try {
     const { title, description, responsibility, qualification } = req.body;
-    // let image = req.body.image;
 
     const updatedOpportunity = await opportunityModel.findByIdAndUpdate(
-      req.params._id,
+      req.params.id,
       {
         title,
         description,
         responsibility,
         qualification,
       },
-      { new: true }
+      { new: true } // This ensures the updated document is returned
     );
+
+    if (!updatedOpportunity) {
+      return res.status(404).json({
+        message: "Opportunity not found.",
+      });
+    }
 
     return res.status(200).json({
       message: "Opportunity content updated successfully.",
@@ -93,6 +103,29 @@ const getOpportunities = async (req, res) => {
   }
 };
 
+const getOpportunityTitle = async (req, res) => {
+  try {
+    const titles = await opportunityModel.find({}, "title"); // Fetch only the 'title' field
+
+    if (titles.length === 0) {
+      return res.status(400).json({
+        message: `No titles found.`,
+      });
+    }
+
+    // Extract only the project names
+    const titleList = titles.map((title) => title.title);
+
+    res.status(200).json({
+      message: "Opportunity Title fetched successfully.",
+      opportunityTitles: titleList,
+    });
+  } catch (error) {
+    console.error("Error fetching opportunity titles:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteOpportunity = async (req, res) => {
   try {
     const opportunityExists = await opportunityModel.findById({
@@ -123,6 +156,7 @@ const deleteOpportunity = async (req, res) => {
 module.exports = {
   createOpportunity,
   updateOpportunity,
+  getOpportunityTitle,
   getOpportunity,
   getOpportunities,
   deleteOpportunity,

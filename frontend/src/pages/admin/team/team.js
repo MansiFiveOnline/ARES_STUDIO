@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Layout from "../../../components/adminLayout";
 import axios from "axios";
@@ -10,81 +10,57 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
 const Team = () => {
-  const [users, setUsers] = useState([]);
+  const [teams, setTeams] = useState([]);
 
   const navigate = useNavigate();
 
-  const tableRef = useRef(null);
-
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchTeams = async () => {
       try {
-        // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
           baseURL: "http://localhost:8000/api/",
-          url: "user",
+          url: "team",
         });
-        console.log(response.data.users);
-        setUsers(response.data.users);
+        console.log(response.data.teams);
+        // console.log(teams.image[0].filepath);
+        setTeams(response.data.teams);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching teams:", error);
       }
     };
 
-    fetchUsers();
+    fetchTeams();
   }, []);
 
   const handleDelete = async (id) => {
     try {
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const access_token = localStorage.getItem("access_token");
+
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
-        url: `user/${id}`,
+        url: `team/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
-      setUsers(null); // Update user state to null after deletion
+      setTeams(teams.filter((team) => team._id !== id));
       setTimeout(() => {
-        navigate("/team");
+        navigate("/admin/team");
       }, 2000);
-      console.log(response.data);
-      setUsers(users.filter((user) => user._id !== id));
-      setTimeout(() => {
-        navigate("/team");
-      }, 3000);
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.error("Error deleting team:", error);
     }
   };
 
-  // useEffect(() => {
-  // Initialize DataTable when the component mounts
-  // $(tableRef.current).DataTable({
-  //   paging: true, // Enable pagination
-  //   pageLength: 2, // Number of records per page
-  // });
-
-  // // Destroy DataTable when the component unmounts
-  // return () => {
-  //   $('.data-table-wrapper')
-  //     .find('table')
-  //     .DataTable()
-  //     .destroy(true);
-  // };
-  //   if (tableRef.current && !$.fn.DataTable.isDataTable(tableRef.current)) {
-  //     $(tableRef.current).DataTable({
-  //       paging: true, // Enable pagination
-  //       pageLength: 2, // Number of records per page
-  //     });
-  //   }
-  // }, [users]);
   return (
     <Layout>
       <div className="pages-headers ">
         <h2>
           Team
-          <NavLink to="/add/team" className="theme-cta">
-            <i class="las la-plus-circle"></i>
+          <NavLink to="/admin/add/team" className="theme-cta">
+            <i className="las la-plus-circle"></i>
             Add Team Member
           </NavLink>
         </h2>
@@ -93,46 +69,6 @@ const Team = () => {
         <div className="col-md-12">
           <div className="infos-table">
             <div className="table-responsive">
-              {/* <DataTable
-                value={users}
-                paginator
-                sortMode="multiple"
-                rows={1}
-                rowsPerPageOptions={[5, 10, 25, 50]}
-              >
-                <Column
-                  field="name"
-                  header="Name"
-                  sortable
-                  style={{ width: "25%" }}
-                ></Column>
-                <Column
-                  field="designation"
-                  header="Designation"
-                  sortable
-                  style={{ width: "25%" }}
-                ></Column>
-                <Column
-                  field="linkedin_url"
-                  header="LinkedIn URL"
-                  sortable
-                  style={{ width: "25%" }}
-                ></Column>
-                <Column
-                  field="users.imageUrl"
-                  header="Image"
-                  sortable
-                  style={{ width: "25%" }}
-                >
-                  {" "}
-                  <img
-                    src=""
-                    alt="new"
-                    style={{ width: "50px", height: "50px" }}
-                    header="Image"
-                  />
-                </Column> */}
-
               <table id="example" className="table nowrap">
                 <thead>
                   <tr>
@@ -146,34 +82,38 @@ const Team = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users &&
-                    users.map((user) => (
-                      <tr key={user._id}>
-                        <td>{user.name}</td>
-                        <td>{user.designation}</td>
-                        <td>{user.linkedin_url}</td>
+                  {teams &&
+                    teams.map((team) => (
+                      <tr key={team._id}>
+                        <td>{team.name}</td>
+                        <td>{team.designation}</td>
+                        <td>{team.linkedin_url}</td>
                         <td className="table-profile-img text-center">
-                          <img
-                            src={user.image[0].filepath}
-                            alt={user.image[0].filename}
-                            style={{ width: "50px", height: "50px" }}
-                          />
+                          {team.image && team.image.length > 0 ? (
+                            <img
+                              src={`http://localhost:8000/${team.image[0].filepath}`}
+                              alt={team.image[0].filename}
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            "No image"
+                          )}
                         </td>
-                        <td className="text-center">{user.sequence}</td>
+                        <td className="text-center">{team.sequence}</td>
                         <td className="text-center">
-                          {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
-                          <CreateIcon />
-                        </button>  */}
-                          <Link to={`/edit/team/${user._id}`} title="Edit">
-                            <i class="las la-pencil-alt"></i>
+                          <Link
+                            to={`/admin/edit/team/${team._id}`}
+                            title="Edit"
+                          >
+                            <i className="las la-pencil-alt"></i>
                           </Link>
                         </td>
                         <td className="text-center">
                           <button
                             className="delete-btn"
-                            onClick={() => handleDelete(user._id)}
+                            onClick={() => handleDelete(team._id)}
                           >
-                            <i class="las la-trash"></i>{" "}
+                            <i className="las la-trash"></i>
                           </button>
                         </td>
                       </tr>
@@ -187,33 +127,5 @@ const Team = () => {
     </Layout>
   );
 };
-{
-  /* <h1>Team Members</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>LinkedIn URL</th>
-            <th>Image</th>
-            <th>Sequence</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>{user.designation}</td>
-              <td>{user.linkedin_url}</td>
-              <td>
-                <img src={user.imageUrl} alt={user.name} style={{ width: "50px", height: "50px" }} />
-              </td>
-              <td>{user.sequence}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> 
-      </Layout>*/
-}
 
 export default Team;

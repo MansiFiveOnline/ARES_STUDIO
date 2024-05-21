@@ -4,6 +4,11 @@ const createGalleryName = async (req, res) => {
   try {
     const { service_name, gallery_name } = req.body;
 
+    if (!service_name || !gallery_name) {
+      return res.status(400).json({
+        message: "Service name and gallery name are required.",
+      });
+    }
     const newGalleryName = new galleryNameModel({
       service_name,
       gallery_name,
@@ -67,6 +72,44 @@ const getGalleryName = async (req, res) => {
   }
 };
 
+const getGalleryNamesByService = async (req, res) => {
+  try {
+    const { service_name } = req.query;
+
+    console.log(req.query);
+
+    // Check if the service_name name is provided
+    if (!service_name) {
+      return res.status(400).json({
+        message: "Please provide a service name.",
+      });
+    }
+
+    // Find all galleries with the specified service_name name
+    const galleries = await galleryNameModel.find({ service_name });
+
+    // Check if galleries with the specified service_name name exist
+    if (galleries.length === 0) {
+      return res.status(400).json({
+        message: `No galleries found for the service name: ${service_name}.`,
+      });
+    }
+
+    // Extract gallery names from the found galleries
+    const galleryNames = galleries.map((gallery) => gallery.gallery_name);
+
+    // Return the gallery names for the specified service_name
+    return res.status(200).json({
+      message: `Gallery names fetched successfully for service name: ${service_name}.`,
+      galleryNames,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error in fetching gallery names due to ${error.message}`,
+    });
+  }
+};
+
 const getGalleryNames = async (req, res) => {
   try {
     const galleryNames = await galleryNameModel.find();
@@ -87,21 +130,6 @@ const getGalleryNames = async (req, res) => {
     });
   }
 };
-
-// const getGalleryNamesByService = async (req, res) => {
-//   try {
-//     const { service } = req.query;
-//     const gallery = await galleryModel.find({ service });
-//     res.status(200).json({
-//       message: "Gallery names fetched successfully",
-//       gallery,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: `Error is fetching gallery names due to ${error.message}`,
-//     });
-//   }
-// };
 
 const deleteGalleryName = async (req, res) => {
   try {
@@ -135,5 +163,6 @@ module.exports = {
   updateGalleryName,
   getGalleryName,
   getGalleryNames,
+  getGalleryNamesByService,
   deleteGalleryName,
 };

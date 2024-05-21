@@ -4,9 +4,10 @@ const galleryNameModel = require("../models/gallerynameModel");
 
 const createGallery = async (req, res) => {
   try {
-    const { service, gallery_name, isPublic = true, media } = req.body;
+    const { service_name, gallery_name, isPublic = true, media } = req.body;
 
     let mediaData = {};
+    let fileType = "";
     // Function to check if the input is a URL
     const isURL = (str) => {
       try {
@@ -60,7 +61,7 @@ const createGallery = async (req, res) => {
     //   };
 
     const newGallery = new galleryModel({
-      service,
+      service_name,
       gallery_name,
       type: fileType,
       media: mediaData,
@@ -82,86 +83,69 @@ const createGallery = async (req, res) => {
 
 const updateGallery = async (req, res) => {
   try {
-    const { service, gallery_name, isPublic, media } = req.body;
-    // Check if a new image file is uploaded
-    // let updateFields = {
-    //   service,
-    //   name,
-    //   isPublic,
-    //   media,
-    // };
-    const file = req.file;
-
-    let fileType = "";
-
-    let mediaData = {};
-
-    // Function to check if the input is a URL
-    const isURL = (str) => {
-      try {
-        new URL(str);
-        return true;
-      } catch (error) {
-        return false;
-      }
-    };
-
-    // Check if media is a URL (iframe)
-    if (isURL(media)) {
-      fileType = "video"; // Set fileType to "video" for iframe URLs
-      mediaData = {
-        filename: null,
-        filepath: null,
-        iframe: media.trim(),
-      };
-    } else {
-      const file = req.file;
-      if (!file) {
-        return res.status(400).json({
-          message:
-            "Either a file or a valid URL is required for the media field.",
-        });
-      }
-      // Check if the file is a WebP image
+    const { service_name, gallery_name, isPublic } = req.body;
+    let mediaData = null;
+    // Check if media file is provided
+    if (req.file) {
       const isWebPImage = (file) => {
         const extname = path.extname(file.originalname).toLowerCase();
         return extname === ".webp";
       };
 
-      if (!isWebPImage(file)) {
+      // Validate file type
+      if (!isWebPImage(req.file)) {
         return res.status(400).json({
           message: "Unsupported file type. Please upload a WebP image.",
         });
       }
 
-      fileType = "image";
+      // Set media data for image
       mediaData = {
         filename: req.file.originalname,
         filepath: req.file.path,
         iframe: null,
       };
+    } else if (req.body.media) {
+      // Check if media is a URL
+      const isURL = (str) => {
+        try {
+          new URL(str);
+          return true;
+        } catch (error) {
+          return false;
+        }
+      };
+
+      if (!isURL(req.body.media)) {
+        return res.status(400).json({
+          message: "Invalid media URL.",
+        });
+      }
+
+      // Set media data for video
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: req.body.media.trim(),
+      };
     }
 
-    // updateFields = {
-    //   ...updateFields,
-    //   type: fileType,
-    // };
+    // Create object with updated fields
+    const updatedFields = {
+      service_name,
+      gallery_name,
+      isPublic,
+    };
+
+    // Add media data if provided
+    if (mediaData) {
+      updatedFields.media = mediaData;
+      updatedFields.type = mediaData.filename ? "image" : "video";
+    }
+
     const updatedGallery = await galleryModel.findByIdAndUpdate(
       req.params._id,
-      {
-        // service,
-        // name,
-        // type: fileType,
-        // file: {
-        //   name: fileName,
-        //   path: filePath,
-        // },
-        service,
-        gallery_name,
-        type: fileType,
-        isPublic,
-        media: mediaData,
-      },
+      updatedFields,
       { new: true }
     );
 
@@ -217,38 +201,48 @@ const getGalleries = async (req, res) => {
   }
 };
 
-const getGalleryNamesByService = async (req, res) => {
+const getMediaByGalleryNames = async (req, res) => {
   try {
-    const { service_name } = req.query;
+    const { service_name, gallery_name } = req.query;
 
-    // Check if the service name is provided
-    if (!service_name) {
+    // Check if the service_name name and gallery name are provided
+    if (!service_name || !gallery_name) {
       return res.status(400).json({
-        message: "Please provide a service name.",
+        message: "Please provide both service name and gallery name.",
       });
     }
 
-    // Find all galleries with the specified service name
-    const galleries = await galleryNameModel.find({ service_name });
-
-    // Check if galleries with the specified service name exist
-    if (galleries.length === 0) {
-      return res.status(400).json({
-        message: `No galleries found for the service: ${service}.`,
+    // Fetch media for all gallery names
+    if (gallery_name === "all") {
+      const galleries = await galleryModel.find({ service_name });
+      const media = galleries.map((gallery) => gallery.media);
+      return res.status(200).json({
+        message: "Gallery media fetched successfully.",
+        media,
       });
     }
 
-    // Extract gallery names from the found galleries
-    const galleryNames = galleries.map((gallery) => gallery.gallery_name);
+    // Find the gallery with the specified service_name and gallery name
+    const gallery = await galleryModel.find({ service_name, gallery_name });
 
-    // Return the gallery names for the specified service
+    // Check if the gallery exists
+    if (gallery.length === 0) {
+      return res.status(404).json({
+        message: "Gallery not found.",
+      });
+    }
+
+    // Extract media from the gallery
+    const media = gallery.map((gallery) => gallery.media).flat();
+
     return res.status(200).json({
-      message: `Gallery names fetched successfully for service: ${service_name}.`,
-      galleryNames,
+      message: "Gallery media fetched successfully.",
+      media,
     });
   } catch (error) {
+    console.error("Error fetching gallery media:", error);
     return res.status(500).json({
-      message: `Error in fetching gallery names due to ${error.message}`,
+      message: "Internal server error.",
     });
   }
 };
@@ -286,6 +280,6 @@ module.exports = {
   getGallery,
   getGalleries,
   deleteGallery,
-  getGalleryNamesByService,
-  // getGalleryNamesByService,
+  getMediaByGalleryNames,
+  // getGalleryNamesByservice_name,
 };

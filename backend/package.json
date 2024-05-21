@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "homepage": "https://stg.bhaviklogistics.com/aresstudio/admin/backend",
+  "homepage": "https://stg.bhaviklogistics.com/ares_studio/admin",
   "version": "1.0.0",
   "description": "",
   "node": "npm start",

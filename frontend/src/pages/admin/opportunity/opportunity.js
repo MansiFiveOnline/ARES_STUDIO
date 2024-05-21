@@ -31,23 +31,26 @@ const Opportunities = () => {
 
   const handleDelete = async (id) => {
     try {
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const access_token = localStorage.getItem("access_token");
+
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `opportunity/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
       setOpportunities(null); // Update user state to null after deletion
-      setTimeout(() => {
-        navigate("/opportunities");
-      }, 2000);
+
       console.log(response.data);
       setOpportunities(
         opportunities.filter((opportunity) => opportunity._id !== id)
       );
+
       setTimeout(() => {
-        navigate("/opportunities");
-      }, 3000);
+        navigate("/admin/opportunities");
+      }, 2000);
     } catch (error) {
       console.error("Error deleting opportunity:", error);
     }
@@ -58,7 +61,7 @@ const Opportunities = () => {
       <div className="pages-headers ">
         <h2>
           Opportunities
-          <NavLink to="/add/opportunity" className="theme-cta">
+          <NavLink to="/admin/add/opportunity" className="theme-cta">
             <i class="las la-plus-circle"></i>
             Add Opportunity
           </NavLink>
@@ -139,7 +142,7 @@ const Opportunities = () => {
                   <CreateIcon />
                 </button>  */}
                           <Link
-                            to={`/edit/opportunity/${opportunity._id}`}
+                            to={`/admin/edit/opportunity/${opportunity._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>

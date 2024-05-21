@@ -5,8 +5,8 @@ import axios from "axios";
 
 const AddProject = () => {
   const [gallery_name, setGalleryName] = useState("");
-  const [service, setService] = useState("");
-  const [title, setTitle] = useState("");
+  const [service_name, setServiceName] = useState("");
+  const [project_name, setProjectName] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
@@ -20,9 +20,11 @@ const AddProject = () => {
 
   const fetchGalleryNames = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/gallery/gallery_names?service_name=${selectedService}`
-      );
+      const response = await axios({
+        method: "GET",
+        baseURL: "http://localhost:8000/api/",
+        url: `gallery_name/gallerynames?service_name=${selectedService}`,
+      });
 
       console.log("Gallery names response:", response);
       console.log("Gallery names:", galleryNames);
@@ -37,7 +39,9 @@ const AddProject = () => {
   };
 
   useEffect(() => {
-    fetchGalleryNames();
+    if (selectedService) {
+      fetchGalleryNames();
+    }
   }, [selectedService]);
 
   const handleSubmit = async (e) => {
@@ -45,25 +49,27 @@ const AddProject = () => {
 
     try {
       // Set the service value before making the POST request
-      setService(selectedService);
+      setServiceName(selectedService);
       // Set isPublic to false if the checkbox is unchecked
-      if (!isPublic) {
-        setIsPublic(false);
-      }
+      // if (!isPublic) {
+      //   setIsPublic(false);
+      // }
+
       const formData = new FormData();
-      formData.append("title", title);
+      formData.append("project_name", project_name);
       formData.append("subtitle", subtitle);
       formData.append("description", description);
       formData.append("metaTitle", metaTitle);
       formData.append("metaDescription", metaDescription);
       formData.append("gallery_name", selectedGallery);
-      formData.append("service", selectedService);
+      formData.append("service_name", selectedService);
       formData.append("isPublic", isPublic); // Include isPublic in the form data
 
       if (media.iframe && media.file) {
         throw new Error(
           "Please provide either an iFrame URL or an image, not both."
         );
+        // alert("Please provide either an iFrame URL or an image, not both.");
       }
 
       if (media.iframe) {
@@ -72,19 +78,36 @@ const AddProject = () => {
         formData.append("media", media.file);
       }
 
+      const access_token = localStorage.getItem("access_token");
+
+      // const response = await axios({
+      //   method: "POST",
+      //   baseURL: "http://localhost:8000/api/",
+      //   url: `project/`,
+      //   formData,
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     Authorization: `Bearer ${access_token}`,
+      //   },
+      // });
+
       const response = await axios.post(
         "http://localhost:8000/api/project",
+        // method: "POST",
+        // baseURL: "http://localhost:8000/api/",
+        // url: `project/`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${access_token}`,
           },
         }
       );
 
-      console.log(response.data.newGallery);
+      console.log(response.data.newProject);
       setTimeout(() => {
-        navigate("/project");
+        navigate("/admin/project");
       }, 2000);
     } catch (error) {
       console.error("Error creating project:", error);
@@ -101,12 +124,12 @@ const AddProject = () => {
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
-                <label>Title</label>
+                <label>Project Name</label>
                 <input
                   type="text"
-                  name="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  name="project_name"
+                  value={project_name}
+                  onChange={(e) => setProjectName(e.target.value)}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -180,8 +203,8 @@ const AddProject = () => {
             <label>
               <input
                 type="checkbox"
-                checked={isPublic}
-                onChange={(e) => setIsPublic(e.target.checked)}
+                checked={isPublic} // Controlled by isPublic state
+                onChange={(e) => setIsPublic(e.target.checked)} // Update isPublic state directly
               />
               Public
             </label>

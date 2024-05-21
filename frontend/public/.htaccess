@@ -1,6 +1,6 @@
 <ifmodule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /aresstudio/admin
+  RewriteBase /ares_studio
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

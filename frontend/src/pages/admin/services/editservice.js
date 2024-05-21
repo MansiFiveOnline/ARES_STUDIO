@@ -4,17 +4,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const EditService = () => {
-  const { id } = useParams(); // Assuming the parameter is named userId
+  const { id } = useParams();
   const [service, setService] = useState(null);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: "",
+    service_name: "",
     url: "",
     title: "",
     subtitle: "",
     description: "",
-    media: "",
+    media: {
+      file: null,
+      iframe: "",
+      filepath: "",
+    },
     metaTitle: "",
     metaDescription: "",
   });
@@ -27,12 +31,16 @@ const EditService = () => {
         );
         setService(response.data.service);
         setFormData({
-          name: response.data.service.name,
+          service_name: response.data.service.service_name,
           url: response.data.service.url,
           title: response.data.service.title,
           subtitle: response.data.service.subtitle,
           description: response.data.service.description,
-          media: response.data.service.media,
+          media: {
+            file: null,
+            iframe: response.data.service.media.iframe || "",
+            filepath: response.data.service.media.filepath || "",
+          },
           metaTitle: response.data.service.metaTitle,
           metaDescription: response.data.service.metaDescription,
         });
@@ -47,11 +55,26 @@ const EditService = () => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "media" && files && files.length > 0) {
-      setFormData({
-        ...formData,
-        media: files[0],
-      });
+    if (name === "media") {
+      if (files && files.length > 0) {
+        setFormData({
+          ...formData,
+          media: {
+            file: files[0],
+            filename: files[0].name,
+            filepath: URL.createObjectURL(files[0]),
+            iframe: "",
+          },
+        });
+      } else {
+        setFormData({
+          ...formData,
+          media: {
+            ...formData.media,
+            iframe: value,
+          },
+        });
+      }
     } else {
       setFormData({
         ...formData,
@@ -64,22 +87,42 @@ const EditService = () => {
     e.preventDefault();
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("url", formData.url);
-      formDataToSend.append("title", formData.title);
-      formDataToSend.append("subtitle", formData.subtitle);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("media", formData.media);
-      formDataToSend.append("metaTitle", formData.metaTitle);
-      formDataToSend.append("metaDescription", formData.metaDescription);
+
+      // Append fields only if they are provided
+      if (formData.service_name)
+        formDataToSend.append("service_name", formData.service_name);
+      if (formData.url) formDataToSend.append("url", formData.url);
+      if (formData.title) formDataToSend.append("title", formData.title);
+      if (formData.subtitle)
+        formDataToSend.append("subtitle", formData.subtitle);
+      if (formData.description)
+        formDataToSend.append("description", formData.description);
+      if (formData.metaTitle)
+        formDataToSend.append("metaTitle", formData.metaTitle);
+      if (formData.metaDescription)
+        formDataToSend.append("metaDescription", formData.metaDescription);
+
+      if (formData.media.file) {
+        formDataToSend.append("media", formData.media.file);
+      } else if (formData.media.iframe.trim()) {
+        formDataToSend.append("media", formData.media.iframe.trim());
+      }
+
+      const access_token = localStorage.getItem("access_token");
 
       const response = await axios.patch(
         `http://localhost:8000/api/service/${id}`,
-        formDataToSend
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
       );
-      console.log("Service updated:", response.data.updatedService);
 
-      navigate("/services"); // Navigate after successful update
+      console.log("Service updated:", response.data.updatedService);
+      navigate("/admin/services"); // Navigate after successful update
     } catch (error) {
       console.error("Error updating service:", error);
     }
@@ -95,11 +138,11 @@ const EditService = () => {
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
-                <label>name</label>
+                <label>Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="service_name"
+                  value={formData.service_name}
                   onChange={handleChange}
                 />
               </div>
@@ -137,59 +180,40 @@ const EditService = () => {
                   value={formData.subtitle}
                   onChange={handleChange}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
-                <label>Descripiton</label>
+                <label>Description</label>
                 <input
                   type="text"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
-                {/* Display a message if media field has a value before submitting */}
-                {/* {formData.media.iframe || formData.media.file ? (
-                  <p>Media field has a value.</p>
-                ) : (
-                  <p>Media field is empty.</p>
-                )} */}
                 <label>Media</label>
-                {/* {formData.media.type === "image" && ( // Check if iframe URL is not null */}
-
-                {/* )} */}
-
-                <>
-                  <input
-                    type="text"
-                    name="media"
-                    value={formData.media.iframe}
-                    placeholder="iFrame URL"
-                    onChange={handleChange}
-                  />
-                  <span> OR </span>
-                </>
-                <>
-                  <input
-                    type="file"
-                    name="media"
-                    //value={formData.media.filename}
-                    onChange={handleChange}
-                  />
+                <input
+                  type="text"
+                  name="media"
+                  value={formData.media.iframe || ""}
+                  placeholder="iFrame URL"
+                  onChange={handleChange}
+                />
+                <span> OR </span>
+                <input type="file" name="media" onChange={handleChange} />
+                {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`http://localhost:8000/${formData.media.filepath}`} // Display image
+                    src={`http://localhost:8000/${formData.media.filepath}`}
                     alt="Media"
                   />
-                </>
+                )}
               </div>
             </div>
 
@@ -219,7 +243,6 @@ const EditService = () => {
 
             <div className="col-12">
               <div className="theme-form">
-                {/* <input type="button" value="Save" onClick={handleSubmit}/> */}
                 <button type="submit">Save</button>
               </div>
             </div>

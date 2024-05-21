@@ -5,7 +5,6 @@ import axios from "axios";
 
 const EditOpportunity = () => {
   const { id } = useParams(); // Assuming the parameter is named userId
-  const [opportunity, setOpportunity] = useState(null);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -18,11 +17,15 @@ const EditOpportunity = () => {
   useEffect(() => {
     const fetchOpportunity = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/opportunity/${id}`
-        );
+        const response = await axios({
+          method: "GET",
+          baseURL: "http://localhost:8000/api/",
+          url: `opportunity/${id}/`,
+        });
+
         const { title, description, responsibility, qualification } =
           response.data.opportunity;
+
         setFormData({
           title,
           description,
@@ -48,13 +51,23 @@ const EditOpportunity = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.patch(
-        `http://localhost:8000/api/opportunity/${id}`,
-        formData
-      );
+      const access_token = localStorage.getItem("access_token");
+
+      const response = await axios({
+        method: "PATCH",
+        baseURL: "http://localhost:8000/api/",
+        url: `opportunity/${id}`,
+        data: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+
       console.log("Opportunity updated:", response.data.updatedOpportunity);
+
       setTimeout(() => {
-        navigate("/opportunities");
+        navigate("/admin/opportunities");
       }, 2000);
     } catch (error) {
       console.error("Error updating opportunity:", error);
@@ -64,7 +77,7 @@ const EditOpportunity = () => {
   return (
     <Layout>
       <div className="theme-form-header">
-        <h2>Add Opportunity</h2>
+        <h2>Edit Opportunity</h2>
       </div>
       <div className="form-white-bg">
         <form onSubmit={handleSubmit}>
@@ -83,14 +96,13 @@ const EditOpportunity = () => {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
-                <label>Descripiton</label>
+                <label>Description</label>
                 <input
                   type="text"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
@@ -103,7 +115,6 @@ const EditOpportunity = () => {
                   value={formData.responsibility}
                   onChange={handleChange}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
@@ -116,13 +127,11 @@ const EditOpportunity = () => {
                   value={formData.qualification}
                   onChange={handleChange}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
             <div className="col-12">
               <div className="theme-form">
-                {/* <input type="button" value="Save" onClick={handleSubmit}/> */}
                 <button type="submit">Save</button>
               </div>
             </div>

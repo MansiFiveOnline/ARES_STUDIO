@@ -32,19 +32,25 @@ const Gallery = () => {
   const handleDelete = async (id) => {
     try {
       // await axios.delete(`http://localhost:8000/api/user/${id}`);
+
+      const access_token = localStorage.getItem("access_token");
+
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `gallery/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
       setGalleries(null); // Update user state to null after deletion
-      setTimeout(() => {
-        navigate("/gallery");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/gallery");
+      // }, 2000);
       console.log(response.data);
       setGalleries(galleries.filter((gallery) => gallery._id !== id));
       setTimeout(() => {
-        navigate("/gallery");
+        navigate("/admin/gallery");
       }, 3000);
     } catch (error) {
       console.error("Error deleting gallery:", error);
@@ -55,7 +61,7 @@ const Gallery = () => {
       <div className="pages-headers ">
         <h2>
           Service Gallery
-          <NavLink to="/add/gallery" className="theme-cta">
+          <NavLink to="/admin/add/gallery" className="theme-cta">
             <i class="las la-plus-circle"></i>
             Add Service Gallery
           </NavLink>
@@ -119,7 +125,7 @@ const Gallery = () => {
                   {galleries &&
                     galleries.map((gallery) => (
                       <tr key={gallery._id}>
-                        <td>{gallery.service}</td>
+                        <td>{gallery.service_name}</td>
                         <td className="text-center">{gallery.gallery_name}</td>
                         <td className="table-profile-img text-center">
                           {gallery.type === "image" ? (
@@ -134,7 +140,7 @@ const Gallery = () => {
                         </td>
                         <td className="text-center">
                           <Link
-                            to={`/edit/gallery/${gallery._id}`}
+                            to={`/admin/edit/gallery/${gallery._id}`}
                             title="Edit"
                           >
                             <i class="las la-pencil-alt"></i>

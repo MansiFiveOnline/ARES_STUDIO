@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const projectSchema = new mongoose.Schema({
-  title: {
+  project_name: {
     type: String,
     maxlength: 20,
+    required: true,
   },
   subtitle: {
     type: String,
@@ -15,12 +16,14 @@ const projectSchema = new mongoose.Schema({
     type: String,
     maxlength: 150,
   },
-  service: {
+  service_name: {
     type: String,
+    required: true,
   },
   gallery_name: {
     type: String,
     trim: true,
+    required: true,
   },
   type: {
     type: String,

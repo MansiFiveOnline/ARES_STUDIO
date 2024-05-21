@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../../components/adminLayout";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { get } from "jquery";
 
 const AdminCareer = () => {
   const [careers, setCareers] = useState([]);
@@ -31,21 +32,22 @@ const AdminCareer = () => {
 
   const handleDelete = async (id) => {
     try {
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const access_token = localStorage.getItem("access_token");
+
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `career/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
       setCareers(null); // Update user state to null after deletion
-      setTimeout(() => {
-        navigate("/career");
-      }, 2000);
       console.log(response.data);
       setCareers(careers.filter((career) => career._id !== id));
       setTimeout(() => {
-        navigate("/career");
-      }, 3000);
+        navigate("/admin/career");
+      }, 2000);
     } catch (error) {
       console.error("Error deleting career:", error);
     }
@@ -56,7 +58,7 @@ const AdminCareer = () => {
       <div className="pages-headers ">
         <h2>
           Career
-          <NavLink to="/add/career" className="theme-cta">
+          <NavLink to="/admin/add/career" className="theme-cta">
             <i class="las la-plus-circle"></i>
             Add Career
           </NavLink>
@@ -137,7 +139,10 @@ const AdminCareer = () => {
                           {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>
                   <CreateIcon />
                 </button>  */}
-                          <Link to={`/edit/career/${career._id}`} title="Edit">
+                          <Link
+                            to={`/admin/edit/career/${career._id}`}
+                            title="Edit"
+                          >
                             <i class="las la-pencil-alt"></i>
                           </Link>
                         </td>

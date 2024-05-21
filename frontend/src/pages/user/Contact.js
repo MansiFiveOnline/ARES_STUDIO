@@ -1,12 +1,46 @@
-import React from "react";
-import Layout from "../../components/Layout";
+import React, { useState } from "react";
+import Layout from "../../components/layout";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 import "../../style/user.css";
+import axios from "axios";
 
 export default function Contact() {
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/contact", formData);
+      setStatusMessage(response.data.message);
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+      alert("Application submitted successfully");
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      alert("Error submitting application");
+    }
+  };
+
   return (
     <Layout>
       {/* Header banner section start */}
@@ -41,16 +75,18 @@ export default function Contact() {
             </div>
             <div className="col-lg-8">
               <div className="getin_touch_form">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-lg-6">
                       <div class="mb-5">
                         <input
                           type="text"
-                          class="form-control"
-                          id="exampleInputName"
-                          aria-describedby="nameHelp"
+                          className="form-control"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
                           placeholder="Name*"
+                          required
                         />
                         {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                       </div>
@@ -59,10 +95,12 @@ export default function Contact() {
                       <div class="mb-5">
                         <input
                           type="email"
-                          class="form-control"
-                          id="exampleInputEmail"
-                          aria-describedby="emailHelp"
+                          className="form-control"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
                           placeholder="Email Address*"
+                          required
                         />
                       </div>
                     </div>
@@ -70,20 +108,25 @@ export default function Contact() {
                       <div class="mb-5">
                         <input
                           type="text"
-                          class="form-control"
-                          id="exampleInputSubject"
-                          aria-describedby="subjectHelp"
+                          className="form-control"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleInputChange}
                           placeholder="Subject"
+                          required
                         />
                       </div>
                     </div>
                     <div className="col-lg-12">
                       <div class="mb-5">
                         <textarea
-                          class="form-control"
-                          id="exampleFormControlTextarea1"
+                          className="form-control"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
                           rows="3"
                           placeholder="Message"
+                          required
                         ></textarea>
                       </div>
                     </div>

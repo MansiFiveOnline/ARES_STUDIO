@@ -30,22 +30,24 @@ const Application = () => {
 
   const handleDelete = async (id) => {
     try {
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      const access_token = localStorage.getItem("access_token");
+
       const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `jobapplication/${id}`,
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       });
       setApplications(null); // Update user state to null after deletion
-      setTimeout(() => {
-        navigate("/applications");
-      }, 2000);
+
       console.log(response.data);
       setApplications(
         applications.filter((application) => application._id !== id)
       );
       setTimeout(() => {
-        navigate("/applications");
+        navigate("/admin/applications");
       }, 2000);
     } catch (error) {
       console.error("Error deleting application:", error);

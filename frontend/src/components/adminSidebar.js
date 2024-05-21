@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, Link, useParams } from "react-router-dom";
 import "../style/index.css";
 import axios from "axios";
+import { useAuth } from "../context/authContext";
 
 // import PeopleIcon from "@mui/icons-material/People";
 // import ArticleIcon from "@mui/icons-material/Article";
@@ -11,52 +12,107 @@ import axios from "axios";
 // import LogoutIcon from "@mui/icons-material/Logout";
 
 const SideBar = () => {
-  const { id } = useParams();
-  const [about, setAbout] = useState([]);
+  const { auth, setAuth } = useAuth();
 
-  // useEffect(() => {
-  //   console.log("ID", id);
+  console.log("Auth:", auth);
+  console.log("User:", auth.user);
+  console.log("Access Token:", auth.access_token);
+  console.log("LocalStorage - auth:", localStorage.getItem("auth"));
+  console.log(
+    "LocalStorage - access_token:",
+    localStorage.getItem("access_token")
+  );
 
-  //   const fetchAbout = async () => {
-  //     try {
-  //       // const response = await axios.get(`http://localhost:8000/api/about/${aboutId}`);
-  //       const response = await axios({
-  //         method: "GET",
-  //         baseURL: "http://localhost:8000/api/",
-  //         url: `/about/${id}`,
-  //       });
-  //       console.log("about", response.data.about);
-  //       setAbout(response.data.about);
-  //     } catch (error) {
-  //       console.error("Error fetching about:", error);
-  //     }
-  //   };
-  //   fetchAbout();
-  // }, [id]);
+  const handleLogout = () => {
+    setAuth({
+      user: null,
+      access_token: "",
+    });
+    localStorage.removeItem("access_token");
+  };
+
+  if (!auth) {
+    // Handle case when auth is not defined
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <div className="sidebar-brand">
-        <NavLink to="/">ARES Studio</NavLink>
+        <NavLink to="/admin/dashboard">ARES Studio</NavLink>
       </div>
       <div className="sidebar-menu">
         <ul>
           <li>
-            <NavLink to="/" className="nav-link" title="Home">
+            <NavLink to="/admin/dashboard" className="nav-link" title="Home">
               <span className="las la-home"></span> <span>Home</span>
             </NavLink>
           </li>
+
           <li>
-            <NavLink to="/team" title="Team">
+            <NavLink to="/admin/services" title="Services">
+              <span className="las la-sign-in-alt"></span> <span>Services</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/gallery" title="Gallery">
+              <span className="las la-sign-in-alt"></span>{" "}
+              <span>Service Gallery</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/gallery_name" title="Gallery Name">
+              <span className="las la-sign-in-alt"></span>{" "}
+              <span>Service Gallery Name</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/project" title="Project">
+              <span className="las la-sign-in-alt"></span> <span>Project</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/project_detail" title="Project Detail">
+              <span className="las la-sign-in-alt"></span>{" "}
+              <span>Project Detail</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/edit/about" title="About Us">
+              <span className="las la-sign-in-alt"></span> <span>About Us</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/team" title="Team">
               <span className="las la-user-tie"></span> <span>Team</span>
             </NavLink>
           </li>
+
           <li>
-            <NavLink to="/applications" title="Applications">
-              <span className="las la-book"></span> <span>Applications</span>
+            <NavLink to="/admin/career" title="Career">
+              <span className="las la-sign-in-alt"></span> <span>Career</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/opportunities" title="Opportunities">
+              <span className="las la-sign-in-alt"></span>{" "}
+              <span>Opportunity</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/applications" title="Applications">
+              <span className="las la-book"></span> <span>Application</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/contact" title="Contact">
+            <NavLink to="/admin/contact" title="Contact">
               <span className="las la-users"></span> <span>Contact</span>
             </NavLink>
           </li>
@@ -65,52 +121,13 @@ const SideBar = () => {
               <span className="las la-certificate"></span> <span>Register</span>
             </NavLink>
           </li> */}
-          <li>
-            <NavLink to="/gallery" title="Gallery">
-              <span className="las la-sign-in-alt"></span>{" "}
-              <span>Service Gallery</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/gallery_name" title="Gallery Name">
-              <span className="las la-sign-in-alt"></span>{" "}
-              <span>Service Gallery Name</span>
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/opportunities" title="Opportunities">
-              <span className="las la-sign-in-alt"></span>{" "}
-              <span>Opportunities</span>
-            </NavLink>
-          </li>
 
           {/* {about.map((aboutItem) => ( */}
-          <li>
-            <NavLink to="/edit/about" title="About">
-              <span className="las la-sign-in-alt"></span> <span>About</span>
-            </NavLink>
-          </li>
+
           {/* ))} */}
 
-          <li>
-            <NavLink to="/career" title="Career">
-              <span className="las la-sign-in-alt"></span> <span>Career</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/services" title="Services">
-              <span className="las la-sign-in-alt"></span> <span>Services</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/project" title="Project">
-              <span className="las la-sign-in-alt"></span> <span>Project</span>
-            </NavLink>
-          </li>
-
           <li className="logout-menu" title="Logout">
-            <NavLink to="/login">
+            <NavLink to="/login" onClick={handleLogout}>
               <span className="las la-sign-out-alt"></span> <span>Logout</span>
             </NavLink>
           </li>

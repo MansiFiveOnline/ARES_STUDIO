@@ -1,29 +1,33 @@
 const jwt = require("jsonwebtoken");
-
-const connectDb = require("../config/database");
+const authModel = require("../models/authModel");
 
 const authenticateUser = async (req, res, next) => {
   try {
     const accessToken = req.header("Authorization");
-
     if (!accessToken) {
       return res.status(400).json({
         message: "Invalid authentication. No token present",
       });
     }
 
-    const decodeToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN);
-
-    if (!decodeToken) {
+    const decodedToken = jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    if (!decodedToken) {
       return res.status(400).json({
         message: "Invalid authentication. Wrong token",
       });
     }
 
-    req.user = {
-      user_id: decodeToken.user_id,
-    };
+    const user = await authModel.findById(decodedToken.id);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
 
+    req.user = user;
     next();
   } catch (error) {
     return res.status(500).json({

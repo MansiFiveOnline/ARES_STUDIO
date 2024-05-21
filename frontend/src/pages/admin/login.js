@@ -10,31 +10,34 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    // Fetch the access token from localStorage
+    // const access_token = localStorage.getItem("access_token");
+    // console.log("Access token from localStorage:", access_token);
     try {
       const response = await axios.post(
         "http://localhost:8000/api/auth/login",
         {
           email,
           password,
-
-          // const response = await fetch("/api/auth/login", {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify({ email, password }),
-          // });
-          // method: "POST",
-          // baseUrl: "http://localhost:8000/api/",
-          // url: "auth/login",
-          // email,
-          // password,
         }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${access_token}`,
+        //   },
+        // }
       );
-      // const data = await response.json();
-      // Handle response data, e.g., store tokens in local storage
+
+      localStorage.setItem("access_token", response.data.access_token);
+      console.log(
+        "Access token set in localStorage:",
+        response.data.access_token
+      );
 
       console.log(response.data);
+
+      // console.log(response.data);
+      // console.log("AT", access_token);
+
       // Redirect to home page after successful login
       setTimeout(() => {
         navigate("/admin/dashboard");

@@ -2,6 +2,7 @@ const aboutController = require("../controllers/aboutController");
 const express = require("express");
 const route = express.Router();
 const multer = require("multer");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -13,9 +14,19 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/", upload.single("media"), aboutController.createAbout);
+route.post(
+  "/",
+  upload.single("media"),
+  adminMiddleware,
+  aboutController.createAbout
+);
 
-route.patch("/", upload.single("media"), aboutController.updateAbout);
+route.patch(
+  "/",
+  upload.single("media"),
+  adminMiddleware,
+  aboutController.updateAbout
+);
 
 // route.get("/:_id", aboutController.getAbout);
 

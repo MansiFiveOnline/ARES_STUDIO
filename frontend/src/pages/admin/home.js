@@ -28,7 +28,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/user")
+      .get("/api/team")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -105,7 +105,7 @@ const AdminHome = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-3">
-            <NavLink to="/team" title="View Team Members">
+            <NavLink to="/admin/team" title="View Team Members">
               <div className="dashboardcard">
                 <h2>
                   {usersCount}
@@ -119,7 +119,7 @@ const AdminHome = () => {
           </div>
 
           <div className="col-md-3">
-            <NavLink to="/applications" title="View Appllications">
+            <NavLink to="/admin/applications" title="View Appllications">
               <div className="dashboardcard">
                 <h2>
                   {applicationCount}
@@ -132,7 +132,7 @@ const AdminHome = () => {
             </NavLink>
           </div>
           <div className="col-md-3">
-            <NavLink to="/contact" title="View Contacts">
+            <NavLink to="/admin/contact" title="View Contacts">
               <div className="dashboardcard">
                 <h2>
                   {contactCount}
@@ -146,7 +146,7 @@ const AdminHome = () => {
           </div>
 
           <div className="col-md-3">
-            <NavLink to="/gallery" title="View Service Gallery">
+            <NavLink to="/admin/gallery" title="View Service Gallery">
               <div className="dashboardcard">
                 <h2>
                   {galleryCount}
@@ -160,7 +160,10 @@ const AdminHome = () => {
           </div>
 
           <div className="col-md-3">
-            <NavLink to="/gallery_name" title="View Service Gallery Names">
+            <NavLink
+              to="/admin/gallery_name"
+              title="View Service Gallery Names"
+            >
               <div className="dashboardcard">
                 <h2>
                   {galleryNameCount}
@@ -174,7 +177,7 @@ const AdminHome = () => {
           </div>
 
           <div className="col-md-3">
-            <NavLink to="/opportunities" title="View Opportunities">
+            <NavLink to="/admin/opportunities" title="View Opportunities">
               <div className="dashboardcard">
                 <h2>
                   {opportunityCount}
@@ -188,7 +191,7 @@ const AdminHome = () => {
           </div>
 
           <div className="col-md-3">
-            <NavLink to="/career" title="View Careers">
+            <NavLink to="/admin/career" title="View Careers">
               <div className="dashboardcard">
                 <h2>
                   {careerCount}
@@ -202,7 +205,7 @@ const AdminHome = () => {
           </div>
 
           <div className="col-md-3">
-            <NavLink to="/services" title="View Services">
+            <NavLink to="/admin/services" title="View Services">
               <div className="dashboardcard">
                 <h2>
                   {serviceCount}
@@ -216,7 +219,7 @@ const AdminHome = () => {
           </div>
 
           <div className="col-md-3">
-            <NavLink to="/project" title="View Projects">
+            <NavLink to="/admin/project" title="View Projects">
               <div className="dashboardcard">
                 <h2>
                   {projectCount}

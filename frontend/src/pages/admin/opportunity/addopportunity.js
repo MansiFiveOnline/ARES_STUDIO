@@ -21,14 +21,22 @@ const AddOpportunity = () => {
         qualification,
       };
 
-      const response = await axios.post(
-        "http://localhost:8000/api/opportunity",
-        formData
-      );
+      const access_token = localStorage.getItem("access_token");
+
+      const response = await axios({
+        method: "POST",
+        baseURL: "http://localhost:8000/api/",
+        url: `opportunity`,
+        data: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
 
       console.log(response.data.newOpportunity);
       setTimeout(() => {
-        navigate("/opportunities");
+        navigate("/admin/opportunities");
       }, 2000);
     } catch (error) {
       console.error("Error creating opportunity:", error);
@@ -57,14 +65,13 @@ const AddOpportunity = () => {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
-                <label>Descripiton</label>
+                <label>Description</label>
                 <input
                   type="text"
                   name="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
@@ -77,7 +84,6 @@ const AddOpportunity = () => {
                   value={responsibility}
                   onChange={(e) => setResponsibility(e.target.value)}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
@@ -90,13 +96,11 @@ const AddOpportunity = () => {
                   value={qualification}
                   onChange={(e) => setQualification(e.target.value)}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
             <div className="col-12">
               <div className="theme-form">
-                {/* <input type="button" value="Save" onClick={handleSubmit}/> */}
                 <button type="submit">Save</button>
               </div>
             </div>

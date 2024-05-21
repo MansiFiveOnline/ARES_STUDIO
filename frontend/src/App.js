@@ -27,6 +27,11 @@ import EditGalleryName from "./pages/admin/gallery_name/editgallery_name";
 import Project from "./pages/admin/project/project";
 import AddProject from "./pages/admin/project/addproject";
 import EditProject from "./pages/admin/project/editproject";
+import ProjectDetail from "./pages/admin/projectDetail/projectDetail";
+import AddProjectDetail from "./pages/admin/projectDetail/addprojectDetail";
+import EditProjectDetail from "./pages/admin/projectDetail/editprojectDetail";
+
+import AdminRoute from "./routes/AdminRoutes";
 
 import Home from "./pages/user/Home";
 import About from "./pages/user/About";
@@ -40,42 +45,50 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/admin" element={<Login />} />
-        <Route path="/admin/dashboard" element={<Home />} />
-        {/* <Route path="/register" element={<Register />} /> */}
-        <Route path="/team" element={<Team />} />
-        <Route path="/applications" element={<Application />} />
-        <Route path="/contact" element={<AdminContact />} />
-        <Route path="/add/team" element={<AddTeam />} />
-        <Route path={`/edit/team/:id`} element={<EditTeam />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/gallery_name" element={<GalleryName />} />
-        <Route path="/opportunities" element={<Opportunities />} />
-        <Route path="/edit/about" element={<EditAbout />} />
-        <Route path="/career" element={<AdminCareer />} />
-        <Route path="add/career/" element={<AddCareer />} />
-        <Route path={`/edit/career/:id`} element={<EditCareer />} />
-        <Route path="add/gallery/" element={<AddGallery />} />
-        <Route path={`/edit/gallery/:id`} element={<EditGallery />} />
-        <Route path="add/opportunity/" element={<AddOpportunity />} />
-        <Route path={`/edit/opportunity/:id`} element={<EditOpportunity />} />
-        <Route path="add/service" element={<AddService />} />
-        <Route path={`/edit/service/:id`} element={<EditService />} />
-        <Route path={`/services`} element={<AdminServices />} />
-        <Route path={`/add/gallery_name`} element={<AddGalleryName />} />
-        <Route path={`/edit/gallery_name/:id`} element={<EditGalleryName />} />
-        <Route path={`/project`} element={<Project />} />
-        <Route path={`/add/project`} element={<AddProject />} />
-        <Route path={`edit/project/:id`} element={<EditProject />} />
-
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/service" element={<Service />} />
-        <Route path="*" element={<Pagenotfound />} />
-        <Route path="/career" element={<Career />} />
+        <Route path="/service/:service_name" element={<Service />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/career" element={<Career />} />
         <Route path="/service-detail" element={<Servicedetail />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminRoute />}>
+          <Route path="dashboard" element={<AdminHome />} />
+          <Route path="team" element={<Team />} />
+          <Route path="applications" element={<Application />} />
+          <Route path="contact" element={<AdminContact />} />
+          <Route path="add/team" element={<AddTeam />} />
+          <Route path="edit/team/:id" element={<EditTeam />} />
+          <Route path="gallery" element={<Gallery />} />
+          <Route path="gallery_name" element={<GalleryName />} />
+          <Route path="opportunities" element={<Opportunities />} />
+          <Route path="edit/about" element={<EditAbout />} />
+          <Route path="career" element={<AdminCareer />} />
+          <Route path="add/career" element={<AddCareer />} />
+          <Route path="edit/career/:id" element={<EditCareer />} />
+          <Route path="add/gallery" element={<AddGallery />} />
+          <Route path="edit/gallery/:id" element={<EditGallery />} />
+          <Route path="add/opportunity" element={<AddOpportunity />} />
+          <Route path="edit/opportunity/:id" element={<EditOpportunity />} />
+          <Route path="add/service" element={<AddService />} />
+          <Route path="edit/service/:id" element={<EditService />} />
+          <Route path="services" element={<AdminServices />} />
+          <Route path="add/gallery_name" element={<AddGalleryName />} />
+          <Route path="edit/gallery_name/:id" element={<EditGalleryName />} />
+          <Route path="project" element={<Project />} />
+          <Route path="add/project" element={<AddProject />} />
+          <Route path="edit/project/:id" element={<EditProject />} />
+          <Route path="project_detail" element={<ProjectDetail />} />
+          <Route path="add/project_detail" element={<AddProjectDetail />} />
+          <Route
+            path="edit/project_detail/:id"
+            element={<EditProjectDetail />}
+          />
+        </Route>
+
+        <Route path="*" element={<Pagenotfound />} />
       </Routes>
     </Router>
   );

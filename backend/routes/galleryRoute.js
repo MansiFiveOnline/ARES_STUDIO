@@ -2,6 +2,7 @@ const galleryController = require("../controllers/galleryController");
 const express = require("express");
 const route = express.Router();
 const multer = require("multer");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -13,16 +14,26 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-route.post("/", upload.single("media"), galleryController.createGallery);
+route.post(
+  "/",
+  upload.single("media"),
+  adminMiddleware,
+  galleryController.createGallery
+);
 
-route.patch("/:_id", upload.single("media"), galleryController.updateGallery);
+route.patch(
+  "/:_id",
+  upload.single("media"),
+  adminMiddleware,
+  galleryController.updateGallery
+);
 
-route.get("/gallery_names", galleryController.getGalleryNamesByService);
+route.get("/media", galleryController.getMediaByGalleryNames);
 
 route.get("/:_id", galleryController.getGallery);
 
 route.get("/", galleryController.getGalleries);
 
-route.delete("/:_id", galleryController.deleteGallery);
+route.delete("/:_id", adminMiddleware, galleryController.deleteGallery);
 
 module.exports = route;

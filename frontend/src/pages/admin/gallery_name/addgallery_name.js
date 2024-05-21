@@ -6,7 +6,6 @@ import axios from "axios";
 const AddGalleryName = () => {
   const [service_name, setServiceName] = useState("");
   const [gallery_name, setGalleryName] = useState("");
-  //const [selectedService, setSelectedService] = useState(""); // Define selectedService state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,15 +17,22 @@ const AddGalleryName = () => {
         gallery_name,
       };
 
-      const response = await axios.post(
-        "http://localhost:8000/api/gallery_name",
-        formData
-      );
+      const access_token = localStorage.getItem("access_token");
 
-      console.log(response.data.galleryNames);
-      //   console.log(service_name);
+      const response = await axios({
+        method: "POST",
+        baseURL: "http://localhost:8000/api/",
+        url: "gallery_name",
+        data: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+
+      console.log(response.data.newGalleryName);
       setTimeout(() => {
-        navigate("/gallery_name");
+        navigate("/admin/gallery_name");
       }, 2000);
     } catch (error) {
       console.error("Error creating gallery name:", error);
@@ -48,8 +54,7 @@ const AddGalleryName = () => {
                   value={service_name}
                   onChange={(e) => setServiceName(e.target.value)}
                 >
-                  <option value="">Select a service</option>{" "}
-                  {/* Empty option */}
+                  <option value="">Select a service</option>
                   <option value="Games">Games</option>
                   <option value="VFX">VFX</option>
                 </select>
@@ -65,13 +70,11 @@ const AddGalleryName = () => {
                   value={gallery_name}
                   onChange={(e) => setGalleryName(e.target.value)}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
             </div>
 
             <div className="col-12">
               <div className="theme-form">
-                {/* <input type="button" value="Save" onClick={handleSubmit}/> */}
                 <button type="submit">Save</button>
               </div>
             </div>

@@ -2,6 +2,7 @@ const jobApplicationController = require("../controllers/jobApplicationControlle
 const express = require("express");
 const route = express.Router();
 const multer = require("multer");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -17,17 +18,23 @@ const upload = multer({ storage: storage });
 route.post(
   "/",
   upload.single("document"),
+  adminMiddleware,
   jobApplicationController.createApplication
 );
 
 route.patch(
   "/:_id",
   upload.single("document"),
+  adminMiddleware,
   jobApplicationController.updateApplication
 );
 
 route.get("/", jobApplicationController.getApplications);
 
-route.delete("/:_id", jobApplicationController.deleteApplication);
+route.delete(
+  "/:_id",
+  adminMiddleware,
+  jobApplicationController.deleteApplication
+);
 
 module.exports = route;
