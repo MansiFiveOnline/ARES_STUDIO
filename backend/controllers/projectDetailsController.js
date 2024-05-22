@@ -3,7 +3,12 @@ const projectDetailsModel = require("../models/projectDetailsModel");
 
 const createProjectDetail = async (req, res) => {
   try {
-    const { project_name, media } = req.body;
+    const { project_name } = req.body;
+    let mediaData = {};
+    let fileType = "";
+
+    const file = req.file;
+    const media = req.body.media;
 
     // Function to check if the input is a URL
     const isURL = (str) => {
@@ -15,65 +20,43 @@ const createProjectDetail = async (req, res) => {
       }
     };
 
-    // Process media inputs
-    let mediaData = [];
+    if (isURL(media)) {
+      fileType = "video"; // Set fileType to "video" for iframe URLs
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: media.trim(),
+      };
+    } else if (file) {
+      // A file is provided
+      const isWebPImage = (file) => {
+        const extname = path.extname(file.originalname).toLowerCase();
+        return extname === ".webp";
+      };
 
-    // Check if media is an array and process each entry
-    if (Array.isArray(media)) {
-      media.forEach((item) => {
-        if (isURL(item)) {
-          mediaData.push({
-            type: "video",
-            filename: null,
-            filepath: null,
-            iframe: item.trim(),
-          });
-        }
-      });
-    } else {
-      // Handle single media input
-      if (isURL(media)) {
-        mediaData.push({
-          type: "video",
-          filename: null,
-          filepath: null,
-          iframe: media.trim(),
+      if (!isWebPImage(file)) {
+        return res.status(400).json({
+          message: "Unsupported file type. Please upload a WebP image.",
         });
       }
-    }
 
-    // Process uploaded files
-    if (req.files && req.files.length > 0) {
-      req.files.forEach((file) => {
-        const isWebPImage = (file) => {
-          const extname = path.extname(file.originalname).toLowerCase();
-          return extname === ".webp";
-        };
-
-        if (!isWebPImage(file)) {
-          return res.status(400).json({
-            message: "Unsupported file type. Please upload a WebP image.",
-          });
-        }
-
-        mediaData.push({
-          type: "image",
-          filename: file.originalname,
-          filepath: file.path,
-          iframe: null,
-        });
-      });
-    }
-
-    if (mediaData.length === 0) {
+      fileType = "image";
+      mediaData = {
+        filename: file.originalname,
+        filepath: file.path,
+        iframe: null,
+      };
+    } else {
+      // Handle the case where neither media nor file is provided
       return res.status(400).json({
-        message: "At least one media input (file or URL) is required.",
+        message: "Please provide either an iFrame URL or an image.",
       });
     }
 
     const newProjectDetail = new projectDetailsModel({
       project_name,
       media: mediaData,
+      type: fileType, // Add the type property here
     });
 
     await newProjectDetail.save();
@@ -91,24 +74,27 @@ const createProjectDetail = async (req, res) => {
 
 const updateProjectDetail = async (req, res) => {
   try {
-    const projectId = req.params._id;
     const { project_name } = req.body;
     let mediaData = null;
 
-    // Find the project detail by ID
-    let projectDetail = await projectDetailsModel.findById(projectId);
-    if (!projectDetail) {
-      return res.status(404).json({ message: "Project detail not found." });
-    }
-
-    // Update project name if provided
-    if (project_name) {
-      projectDetail.project_name = project_name;
-    }
-
-    // Process media updates
     if (req.file) {
-      // Function to check if the input is a URL
+      const isWebPImage = (file) => {
+        const extname = path.extname(file.originalname).toLowerCase();
+        return extname === ".webp";
+      };
+
+      if (!isWebPImage(req.file)) {
+        return res.status(400).json({
+          message: "Unsupported file type. Please upload a WebP image.",
+        });
+      }
+
+      mediaData = {
+        filename: req.file.originalname,
+        filepath: req.file.path,
+        iframe: null,
+      };
+    } else if (req.body.media) {
       const isURL = (str) => {
         try {
           new URL(str);
@@ -118,63 +104,37 @@ const updateProjectDetail = async (req, res) => {
         }
       };
 
-      // Check if media is an array and process each entry
-      if (Array.isArray(req.body.media)) {
-        media.forEach((item) => {
-          if (isURL(item)) {
-            mediaData.push({
-              type: "video",
-              filename: null,
-              filepath: null,
-              iframe: item.trim(),
-            });
-          }
-        });
-      } else {
-        // Handle single media input
-        if (isURL(req.body.media)) {
-          mediaData.push({
-            type: "video",
-            filename: null,
-            filepath: null,
-            iframe: media.trim(),
-          });
-        }
-      }
-
-      // Process uploaded files
-      if (req.files && req.files.length > 0) {
-        req.files.forEach((file) => {
-          const isWebPImage = (file) => {
-            const extname = path.extname(file.originalname).toLowerCase();
-            return extname === ".webp";
-          };
-
-          if (!isWebPImage(file)) {
-            return res.status(400).json({
-              message: "Unsupported file type. Please upload a WebP image.",
-            });
-          }
-
-          mediaData.push({
-            type: "image",
-            filename: file.originalname,
-            filepath: file.path,
-            iframe: null,
-          });
+      if (!isURL(req.body.media)) {
+        return res.status(400).json({
+          message: "Invalid media URL.",
         });
       }
 
-      // Update project media
-      projectDetail.media = mediaData;
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: req.body.media.trim(),
+      };
     }
 
-    // Save the updated project detail
-    await projectDetail.save();
+    const updatedFields = {
+      project_name,
+    };
+
+    if (mediaData) {
+      updatedFields.media = mediaData;
+      updatedFields.type = mediaData.filename ? "image" : "video";
+    }
+
+    const updatedProjectDetail = await projectDetailsModel.findByIdAndUpdate(
+      req.params._id,
+      updatedFields,
+      { new: true }
+    );
 
     return res.status(200).json({
       message: "Project details updated successfully.",
-      updatedProjectDetail: projectDetail,
+      updatedProjectDetail,
     });
   } catch (error) {
     return res.status(500).json({
@@ -182,7 +142,6 @@ const updateProjectDetail = async (req, res) => {
     });
   }
 };
-
 const getProjectDetails = async (req, res) => {
   try {
     const projectDetails = await projectDetailsModel.find();

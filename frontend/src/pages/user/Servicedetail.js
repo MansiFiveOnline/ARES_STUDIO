@@ -1,71 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Lightboxcomponent from "../../components/Lightboxcomponent";
 import "../../style/user.css";
+import axios from "axios";
+import VideoPlayer from "../../components/Videoplayer";
+
+// Function to reverse the formatted project name
+const reverseFormat = (formattedName) => {
+  let originalName = formattedName
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ")
+    .trim();
+  return originalName;
+};
 
 const Servicedetail = () => {
+  const { project_name } = useParams();
+  const [projectData, setProjectData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // useEffect(() => {
+  //   const fetchProject = async () => {
+  //     try {
+  //       const decodedProjectName = reverseFormat(project_name); // Reverse the formatting
+  //       // const encodedProjectName = encodeURIComponent(project_name);
+  //       const response = await axios.get(
+  //         `http://localhost:8000/api/project/project_details?project_name=${decodedProjectName}`
+  //       );
+  //       setProjectData(response.data.project);
+  //       console.log(response.data.project.project_name);
+  //       if (
+  //         response.data.project.media &&
+  //         response.data.project.media.length < 0
+  //       ) {
+  //         console.log(response.data.project.media[0].filename);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching project data:", error);
+  //       setErrorMessage(
+  //         "No media found for the given service and gallery name."
+  //       );
+  //     }
+  //   };
+
+  //   fetchProject();
+  // }, [project_name]);
+
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/project/${project_name}`
+        );
+        setProjectData(response.data.project);
+      } catch (error) {
+        setErrorMessage("Error fetching project data");
+      }
+    };
+    fetchProjectData();
+  }, [project_name]);
+
   return (
     <Layout>
-      {/* Embark on Epic Adventures section start */}
-      <div className="service_section position-relative">
-        <div className="app">
-          <div className="video-list">
-            {/* <VideoPlayer src="images/video2.mp4" /> */}
-            <img src="images/service-detail.jpg" />
-          </div>
-        </div>
-        <div className="about_title">
-          <h1>
-            We Reimagine Standards & <span>forge New Creative Paths</span>
-          </h1>
-        </div>
-        <div className="arrow_down">
-          <a href="#gaming_sec">
-            <div class="sr-arrow sr-bounce"></div>
-          </a>
-        </div>
-      </div>
-
-      {/* Embark on Epic Adventures section start */}
-      <div className="epic_adventures_section pt-5 mt-5" id="gaming_sec">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-12 text-center">
-              <h2 className="pb-5">
-                <strong>Embark on Epic Adventures,</strong>
-                <br />
-                Dive into Captivating World of Gaming
-              </h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Pellentesque convallis eu nibh ut hendrerit. Mauris quis ex ut
-                metus scelerisque efficitur gravida ac metus. Donec fringilla
-                nibh et suscipit pellentesque. Curabitur laoreet semper neque
-                commodo fringilla. Etiam maximus sem sit amet velit consequat,
-                et pulvinar metus egestas. Nam dignissim in lacus ut facilisis.
-                Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                Fusce mollis ac odio vitae euismod. Maecenas id vehicula turpis.
-                Etiam consequat vehicula enim in aliquam.
-              </p>
+      {projectData ? (
+        <>
+          <div className="project_section position-relative">
+            <div className="app">
+              <div className="video-list">
+                {projectData.media && projectData.media.iframe ? (
+                  <VideoPlayer src={projectData.media.iframe} />
+                ) : (
+                  <img
+                    src={`http://localhost:8000/${projectData.media.filepath}`}
+                    alt="Media"
+                  />
+                )}
+              </div>
+            </div>
+            <div className="about_title">
+              <h1>{projectData.project_name}</h1>
+            </div>
+            <div className="arrow_down">
+              <a href="#gaming_sec">
+                <div class="sr-arrow sr-bounce"></div>
+              </a>
             </div>
           </div>
-        </div>
-      </div>
-      {/* Embark on Epic Adventures section close */}
 
-      {/* Gallery section start */}
-      <section className="mt-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12 text-center">
-              <div className="section_title">
-                <h2 className="pb-3">Gallery</h2>
+          {/* Embark on Epic Adventures section start */}
+          <div className="epic_adventures_section pt-5 mt-5" id="gaming_sec">
+            <div className="container">
+              <div className="row justify-content-center">
+                <div className="col-lg-12 text-center">
+                  <h2 className="pb-5">
+                    {/* <strong>Embark on Epic Adventures,</strong> */}
+                    {/* <br /> */}
+                    {projectData.subtitle}
+                  </h2>
+                  <p>{projectData.description}</p>
+                </div>
               </div>
             </div>
           </div>
+          {/* Embark on Epic Adventures section close */}
+
+          {/* Gallery section start */}
+          <section className="mt-5">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12 text-center">
+                  <div className="section_title">
+                    <h2 className="pb-3">Gallery</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <div className="no-media-message text-center">
+          <p>{errorMessage}</p>
         </div>
-      </section>
+      )}
       <section>
         <Lightboxcomponent />
       </section>

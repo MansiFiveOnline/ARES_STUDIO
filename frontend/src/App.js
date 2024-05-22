@@ -51,7 +51,10 @@ function App() {
         <Route path="/service/:service_name" element={<Service />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/career" element={<Career />} />
-        <Route path="/service-detail" element={<Servicedetail />} />
+        <Route
+          path="/service-detail/:project_name"
+          element={<Servicedetail />}
+        />
 
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminRoute />}>

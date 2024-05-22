@@ -9,48 +9,20 @@ const EditGallery = () => {
   const [galleryNames, setGalleryNames] = useState([]);
   const [selectedService, setSelectedService] = useState("");
   const [selectedGallery, setSelectedGallery] = useState("");
-  const [media, setMedia] = useState({ iframe: "", file: null });
+  // const [media, setMedia] = useState({ iframe: "", file: null });
   const [isPublic, setIsPublic] = useState(true);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     service_name: "",
     gallery_name: "",
-    media: "",
+    media: {
+      file: null,
+      iframe: "",
+      filepath: "",
+    },
+    isPublic: "",
   });
-
-  // useEffect(() => {
-  //   const fetchGallery = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8000/api/gallery/${id}`
-  //       );
-  //       const galleryData = response.data.gallery;
-  //       console.log(galleryData);
-  //       setGallery(galleryData);
-  //       setSelectedService(galleryData.service);
-  //       setSelectedGallery(galleryData.gallery_name);
-
-  //       // Set media state from galleryData
-  //       setMedia(galleryData.media);
-
-  //       // Set formData based on gallery media type
-  //       setFormData({
-  //         ...formData,
-  //         media: galleryData.media.iframe
-  //           ? { iframe: galleryData.media.iframe, file: null }
-  //           : { iframe: "", file: galleryData.media.filename },
-  //       });
-
-  //       // Fetch gallery names based on the selected service
-  //       fetchGalleryNames(galleryData.service);
-  //     } catch (error) {
-  //       console.error("Error fetching gallery:", error);
-  //     }
-  //   };
-
-  //   fetchGallery();
-  // }, [id]);
 
   useEffect(() => {
     const fetchGallery = async () => {
@@ -66,18 +38,22 @@ const EditGallery = () => {
         setSelectedGallery(galleryData.gallery_name);
 
         // Set media state from galleryData
-        setMedia(galleryData.media);
+        // setMedia(galleryData.media);
 
         // Set formData based on gallery media type
         setFormData({
-          ...formData,
-          media: galleryData.media.iframe
-            ? { iframe: galleryData.media.iframe, file: null }
-            : { iframe: "", file: galleryData.media.filename },
+          service_name: galleryData.service_name,
+          gallery_name: galleryData.gallery_name,
+          media: {
+            file: null,
+            iframe: galleryData.media.iframe || "",
+            filepath: galleryData.media.filepath || "",
+          },
+          isPublic: galleryData.isPublic,
         });
 
         // Fetch gallery names based on the selected service
-        fetchGalleryNames(galleryData.service);
+        fetchGalleryNames(galleryData.service_name);
       } catch (error) {
         console.error("Error fetching gallery:", error);
       }
@@ -86,46 +62,26 @@ const EditGallery = () => {
     fetchGallery();
   }, [id]);
 
-  // const handleChange = (e) => {
-  //   const { name, value, files } = e.target;
-
-  //   if (name === "media") {
-  //     if (files && files.length > 0) {
-  //       setMedia({
-  //         ...media,
-  //         file: files[0],
-  //         filepath: URL.createObjectURL(files[0]),
-  //         iframe: "", // Reset iframe value
-  //       });
-  //     } else {
-  //       setMedia({
-  //         ...media,
-  //         iframe: value,
-  //       });
-  //     }
-  //   } else {
-  //     setFormData({
-  //       ...formData,
-  //       [name]: value,
-  //     });
-  //   }
-  // };
-
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
     if (name === "media") {
       if (files && files.length > 0) {
-        setMedia({
-          ...media,
-          file: files[0],
-          filepath: URL.createObjectURL(files[0]),
-          iframe: "", // Reset iframe value
+        setFormData({
+          ...formData,
+          media: {
+            file: files[0],
+            filename: files[0].name,
+            filepath: URL.createObjectURL(files[0]),
+            iframe: "",
+          },
         });
       } else {
-        setMedia({
-          ...media,
-          iframe: value,
+        setFormData({
+          ...formData,
+          media: {
+            ...formData.media,
+            iframe: value,
+          },
         });
       }
     } else {
@@ -136,7 +92,7 @@ const EditGallery = () => {
     }
   };
 
-  const fetchGalleryNames = async (service) => {
+  const fetchGalleryNames = async (service_name) => {
     try {
       // const response = await axios({
       //   method: "GET",
@@ -145,7 +101,7 @@ const EditGallery = () => {
       // });
 
       const response = await axios.get(
-        `http://localhost:8000/api/gallery_name/gallerynames?service_name=${selectedService}`
+        `http://localhost:8000/api/gallery_name/gallerynames?service_name=${service_name}`
       );
 
       setGalleryNames(response.data.galleryNames);
@@ -163,9 +119,21 @@ const EditGallery = () => {
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("gallery_name", selectedGallery);
-      formDataToSend.append("service_name", selectedService);
-      formDataToSend.append("media", media.file || media.iframe);
+
+      if (formData.service_name)
+        formDataToSend.append("service_name", formData.service_name);
+
+      if (formData.gallery_name)
+        formDataToSend.append("gallery_name", formData.gallery_name);
+
+      // Append media file if it exists
+      if (formData.media.file) {
+        formDataToSend.append("media", formData.media.file);
+      } else if (formData.media.iframe.trim()) {
+        // Append media URL if it exists
+        formDataToSend.append("media", formData.media.iframe.trim());
+      }
+      console.log("media", formData.media.filepath);
 
       const access_token = localStorage.getItem("access_token");
 
@@ -173,13 +141,13 @@ const EditGallery = () => {
         method: "PATCH",
         baseURL: "http://localhost:8000/api/",
         url: `gallery/${id}`,
-        data: formDataToSend, // Pass form data directly
+        formDataToSend, // Pass form data directly
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${access_token}`,
         },
       });
-
+      setGallery(response.data.updatedGallery);
       console.log("Gallery updated:", response.data.updatedGallery);
       setTimeout(() => {
         navigate("/admin/gallery");
@@ -221,11 +189,12 @@ const EditGallery = () => {
                   onChange={(e) => setSelectedGallery(e.target.value)}
                 >
                   {galleryNames.map((name) => (
-                    <option key={name._id} value={name}>
+                    <option key={name._id} value={name._id}>
                       {name}
                     </option>
                   ))}
                 </select>
+                <div>{gallery && gallery.gallery_name}</div>
               </div>
             </div>
 
@@ -243,18 +212,18 @@ const EditGallery = () => {
                 <input
                   type="text"
                   name="media"
-                  value={media.iframe}
+                  value={formData.media.iframe || ""}
                   placeholder="iFrame URL"
                   onChange={handleChange}
                 />
                 <span> OR </span>
                 <input type="file" name="media" onChange={handleChange} />
 
-                {media.filepath && (
+                {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`http://localhost:8000/${media.filepath}`}
-                    alt={`${media.filename}`}
+                    src={`http://localhost:8000/${formData.media.filepath}`}
+                    alt={`${formData.media.filename}`}
                   />
                 )}
               </div>

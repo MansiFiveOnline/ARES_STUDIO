@@ -81,7 +81,12 @@ const Gallery = ({ service_name }) => {
       setSelectedMedia(media);
       if (media.isPublic) {
         // If media is public, navigate to the service detail page
-        navigate(`/service-detail/${media.projectName}`);
+
+        const formattedProjectName = decodeURIComponent(media.projectName)
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-"); // Replace spaces with hyphens
+        navigate(`/service-detail/${formattedProjectName}`);
       } else {
         // If media is not public, show modal
         setModalVisible(true);

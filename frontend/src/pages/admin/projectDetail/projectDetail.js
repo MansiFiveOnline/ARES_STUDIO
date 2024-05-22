@@ -28,7 +28,7 @@ const ProjectDetail = () => {
     try {
       const access_token = localStorage.getItem("access_token");
 
-      await axios({
+      const response = await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `project_detail/${id}`,
@@ -37,6 +37,9 @@ const ProjectDetail = () => {
         },
       });
 
+      setProjectDetails(null); // Update user state to null after deletion
+
+      console.log(response.data);
       setProjectDetails(
         projectDetails.filter((projectDetail) => projectDetail._id !== id)
       );
@@ -70,55 +73,39 @@ const ProjectDetail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {projectDetails.map((projectDetail) => (
-                    <tr key={projectDetail._id}>
-                      <td>{projectDetail.project_name}</td>
-                      <td className="text-center">
-                        {projectDetail.media.map((mediaItem, index) => (
-                          <div key={index}>
-                            {mediaItem.type === "image" ? (
-                              <img
-                                src={`http://localhost:8000/${mediaItem.filepath}`}
-                                alt={mediaItem.filename}
-                                style={{
-                                  width: "50px",
-                                  height: "50px",
-                                  margin: "5px",
-                                }}
-                              />
-                            ) : (
-                              //   <iframe
-                              //     src={mediaItem.iframe}
-                              //     title={`iframe-${index}`}
-                              //     style={{
-                              //       width: "200px",
-                              //       height: "100px",
-                              //       margin: "5px",
-                              //     }}
-                              //   ></iframe>
-                              <span>{mediaItem.iframe}</span>
-                            )}
-                          </div>
-                        ))}
-                      </td>
-                      <td className="text-center">
-                        <Link
-                          to={`/admin/edit/project_detail/${projectDetail._id}`}
-                          title="Edit"
-                        >
-                          <i className="las la-pencil-alt"></i>
-                        </Link>
-                      </td>
-                      <td className="text-center">
-                        <button
-                          className="delete-btn"
-                          onClick={() => handleDelete(projectDetail._id)}
-                        >
-                          <i className="las la-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {projectDetails &&
+                    projectDetails.map((projectDetail) => (
+                      <tr key={projectDetail._id}>
+                        <td>{projectDetail.project_name}</td>
+                        <td className="text-center">
+                          {projectDetail.type === "image" ? (
+                            <img
+                              src={`http://localhost:8000/${projectDetail.media.filepath}`} // Assuming filepath contains the path to the image
+                              alt={`${projectDetail.media.filename}`}
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            <span>{projectDetail.media.iframe}</span>
+                          )}
+                        </td>
+                        <td className="text-center">
+                          <Link
+                            to={`/admin/edit/project_detail/${projectDetail._id}`}
+                            title="Edit"
+                          >
+                            <i className="las la-pencil-alt"></i>
+                          </Link>
+                        </td>
+                        <td className="text-center">
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleDelete(projectDetail._id)}
+                          >
+                            <i className="las la-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

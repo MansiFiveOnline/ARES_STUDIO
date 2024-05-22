@@ -6,7 +6,7 @@ import axios from "axios";
 const AddProjectDetail = () => {
   const [projectNames, setProjectNames] = useState([]);
   const [selectedProjectName, setSelectedProjectName] = useState("");
-  const [media, setMedia] = useState({ iframe: "", files: [] });
+  const [media, setMedia] = useState({ iframe: "", file: null });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,43 +24,6 @@ const AddProjectDetail = () => {
     fetchProjectNames();
   }, []);
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append("project_name", selectedProjectName);
-
-  //       if (media.iframe) {
-  //         formData.append("media", media.iframe);
-  //       }
-
-  //       media.files.forEach((file) => {
-  //         formData.append("media", file);
-  //       });
-
-  //       const access_token = localStorage.getItem("access_token");
-
-  //       const response = await axios.post(
-  //         "http://localhost:8000/api/project_detail",
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //             Authorization: `Bearer ${access_token}`,
-  //           },
-  //         }
-  //       );
-
-  //       console.log(response.data.newProjectDetail);
-  //       setTimeout(() => {
-  //         navigate("/admin/project_detail");
-  //       }, 2000);
-  //     } catch (error) {
-  //       console.error("Error creating project detail:", error);
-  //     }
-  //   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -68,13 +31,19 @@ const AddProjectDetail = () => {
       const formData = new FormData();
       formData.append("project_name", selectedProjectName);
 
-      if (media.iframe) {
-        formData.append("media", media.iframe);
+      if (media.iframe && media.file) {
+        throw new Error(
+          "Please provide either an iFrame URL or an image, not both."
+        );
       }
 
-      media.files.forEach((file) => {
-        formData.append("media", file);
-      });
+      if (media.iframe) {
+        formData.append("media", media.iframe);
+      } else if (media.file) {
+        formData.append("media", media.file);
+      } else {
+        throw new Error("Please provide either an iFrame URL or an image.");
+      }
 
       const access_token = localStorage.getItem("access_token");
 
@@ -134,32 +103,23 @@ const AddProjectDetail = () => {
                   value={media.iframe}
                   placeholder="iFrame URL"
                   onChange={(e) =>
-                    // setMedia({
-                    //   ...media,
-                    //   iframe: e.target.value,
-                    //   files: [],
-                    // })
-                    setMedia((prevMedia) => ({
-                      ...prevMedia,
+                    setMedia({
+                      ...media,
                       iframe: e.target.value,
-                    }))
+                      file: null,
+                    })
                   }
                 />
-
+                <span> OR </span>
                 <input
                   type="file"
                   name="media"
-                  multiple
                   onChange={(e) =>
-                    // setMedia({
-                    //   ...media,
-                    //   files: Array.from(e.target.files),
-                    //   iframe: "",
-                    // })
-                    setMedia((prevMedia) => ({
-                      ...prevMedia,
-                      files: Array.from(e.target.files),
-                    }))
+                    setMedia({
+                      ...media,
+                      file: e.target.files[0],
+                      iframe: "",
+                    })
                   }
                 />
               </div>

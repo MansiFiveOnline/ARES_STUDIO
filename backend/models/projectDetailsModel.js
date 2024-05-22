@@ -6,11 +6,11 @@ const projectDetailsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  //   type: {
-  //     type: String,
-  //     enum: ["", "image", "video"],
-  //     default: "",
-  //   },
+  type: {
+    type: String,
+    enum: ["", "image", "video"],
+    default: "",
+  },
   media: {
     type: Schema.Types.Mixed,
     required: function () {

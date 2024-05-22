@@ -196,6 +196,7 @@ const updateService = async (req, res) => {
       description,
       metaTitle,
       metaDescription,
+      media,
     } = req.body;
 
     // Fetch the existing service to retain current media values if not updated
@@ -230,8 +231,8 @@ const updateService = async (req, res) => {
         filepath: req.file.path,
         iframe: null,
       };
-    } else if (req.body.media) {
-      const trimmedMedia = req.body.media.trim();
+    } else if (media !== undefined && media !== null) {
+      const trimmedMedia = media.trim();
 
       // Check if media is a URL
       const isURL = (str) => {
@@ -266,6 +267,7 @@ const updateService = async (req, res) => {
       ...(metaTitle && { metaTitle }),
       ...(metaDescription && { metaDescription }),
       media: mediaData,
+      type: mediaData.filename ? "image" : "video",
     };
 
     // Update the URL based on the updated name
@@ -291,6 +293,7 @@ const updateService = async (req, res) => {
     });
   }
 };
+
 const getByServiceName = async (req, res) => {
   const { service_name } = req.query;
   try {

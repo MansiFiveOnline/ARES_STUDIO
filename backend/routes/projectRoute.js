@@ -33,6 +33,8 @@ route.get(
   projectController.getProjectMediaByServiceAndGallery
 );
 
+route.get("project_details/:projectId", projectController.getByProjectName);
+
 route.get("/projectname", projectController.getProjectName);
 
 route.get("/", projectController.getProjects);

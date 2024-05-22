@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../components/adminLayout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const EditProjectDetail = () => {
+  const { id } = useParams();
+  const [projectDetail, setProjectDetail] = useState(null);
   const [projectNames, setProjectNames] = useState([]);
   const [selectedProjectName, setSelectedProjectName] = useState("");
-  const [media, setMedia] = useState({ iframe: "", files: [] });
+  const [media, setMedia] = useState({ iframe: "", file: null, filepath: "" });
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    project_name: "",
+    media: "",
+  });
 
   useEffect(() => {
     const fetchProjectNames = async () => {
@@ -21,66 +28,73 @@ const EditProjectDetail = () => {
       }
     };
 
+    const fetchProjectDetail = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/project_detail/${id}`
+        );
+        const projectDetailData = response.data.projectDetail;
+
+        setProjectDetail(projectDetailData);
+        setSelectedProjectName(projectDetailData.project_name);
+        setMedia(projectDetailData.media);
+
+        setFormData({
+          project_name: projectDetailData.project_name,
+          media: projectDetailData.media.iframe
+            ? { iframe: projectDetailData.media.iframe, file: null }
+            : { iframe: "", file: projectDetailData.media.filename },
+        });
+      } catch (error) {
+        console.error("Error fetching project detail:", error);
+      }
+    };
+
     fetchProjectNames();
-  }, []);
+    fetchProjectDetail();
+  }, [id]);
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
 
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append("project_name", selectedProjectName);
-
-  //       if (media.iframe) {
-  //         formData.append("media", media.iframe);
-  //       }
-
-  //       media.files.forEach((file) => {
-  //         formData.append("media", file);
-  //       });
-
-  //       const access_token = localStorage.getItem("access_token");
-
-  //       const response = await axios.post(
-  //         "http://localhost:8000/api/project_detail",
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //             Authorization: `Bearer ${access_token}`,
-  //           },
-  //         }
-  //       );
-
-  //       console.log(response.data.newProjectDetail);
-  //       setTimeout(() => {
-  //         navigate("/admin/project_detail");
-  //       }, 2000);
-  //     } catch (error) {
-  //       console.error("Error creating project detail:", error);
-  //     }
-  //   };
+    if (name === "media") {
+      if (files && files.length > 0) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          media: { iframe: "", file: files[0] },
+        }));
+      } else {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          media: { iframe: value, file: null },
+        }));
+      }
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const formData = new FormData();
-      formData.append("project_name", selectedProjectName);
+      const formDataToSend = new FormData();
+      formDataToSend.append("project_name", formData.project_name);
 
-      if (media.iframe) {
-        formData.append("media", media.iframe);
+      if (formData.media.file) {
+        formDataToSend.append("media", formData.media.file);
+      } else if (formData.media.iframe) {
+        formDataToSend.append("media", formData.media.iframe);
       }
-
-      media.files.forEach((file) => {
-        formData.append("media", file);
-      });
 
       const access_token = localStorage.getItem("access_token");
 
-      const response = await axios.post(
-        "http://localhost:8000/api/project_detail",
-        formData,
+      const response = await axios.patch(
+        `http://localhost:8000/api/project_detail/${id}`,
+        formDataToSend,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -89,12 +103,13 @@ const EditProjectDetail = () => {
         }
       );
 
-      console.log(response.data.newProjectDetail);
+      const updatedProjectDetail = response.data.updatedProjectDetail;
+      setProjectDetail(updatedProjectDetail);
       setTimeout(() => {
         navigate("/admin/project_detail");
       }, 2000);
     } catch (error) {
-      console.error("Error creating project detail:", error);
+      console.error("Error updating project detail:", error);
     }
   };
 
@@ -113,12 +128,9 @@ const EditProjectDetail = () => {
                   value={selectedProjectName}
                   onChange={(e) => setSelectedProjectName(e.target.value)}
                 >
-                  <option value="" disabled>
-                    Select a project name
-                  </option>
-                  {projectNames.map((projectName, index) => (
-                    <option key={index} value={projectName}>
-                      {projectName}
+                  {projectNames.map((name) => (
+                    <option key={name._id} value={name}>
+                      {name}
                     </option>
                   ))}
                 </select>
@@ -131,37 +143,20 @@ const EditProjectDetail = () => {
                 <input
                   type="text"
                   name="media"
-                  value={media.iframe}
+                  value={formData.media.iframe || ""}
                   placeholder="iFrame URL"
-                  onChange={(e) =>
-                    // setMedia({
-                    //   ...media,
-                    //   iframe: e.target.value,
-                    //   files: [],
-                    // })
-                    setMedia((prevMedia) => ({
-                      ...prevMedia,
-                      iframe: e.target.value,
-                    }))
-                  }
+                  onChange={handleChange}
                 />
+                <span> OR </span>
+                <input type="file" name="media" onChange={handleChange} />
 
-                <input
-                  type="file"
-                  name="media"
-                  multiple
-                  onChange={(e) =>
-                    // setMedia({
-                    //   ...media,
-                    //   files: Array.from(e.target.files),
-                    //   iframe: "",
-                    // })
-                    setMedia((prevMedia) => ({
-                      ...prevMedia,
-                      files: Array.from(e.target.files),
-                    }))
-                  }
-                />
+                {media.filepath && (
+                  <img
+                    className="form-profile"
+                    src={`http://localhost:8000/${media.filepath}`}
+                    alt={`${media.filename}`}
+                  />
+                )}
               </div>
             </div>
 

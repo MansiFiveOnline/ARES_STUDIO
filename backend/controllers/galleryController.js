@@ -83,8 +83,19 @@ const createGallery = async (req, res) => {
 
 const updateGallery = async (req, res) => {
   try {
-    const { service_name, gallery_name, isPublic } = req.body;
-    let mediaData = null;
+    const { service_name, gallery_name, isPublic, media } = req.body;
+    // Fetch the existing service to retain current media values if not updated
+    const existingGallery = await galleryModel.findById(req.params._id);
+    if (!existingGallery) {
+      return res.status(404).json({ message: "Service not found." });
+    }
+
+    let mediaData = {
+      filename: existingGallery.media.filename,
+      filepath: existingGallery.media.filepath,
+      iframe: existingGallery.media.iframe,
+    };
+
     // Check if media file is provided
     if (req.file) {
       const isWebPImage = (file) => {
@@ -105,7 +116,9 @@ const updateGallery = async (req, res) => {
         filepath: req.file.path,
         iframe: null,
       };
-    } else if (req.body.media) {
+    } else if (media !== undefined && media !== null) {
+      const trimmedMedia = media.trim();
+
       // Check if media is a URL
       const isURL = (str) => {
         try {
@@ -116,7 +129,7 @@ const updateGallery = async (req, res) => {
         }
       };
 
-      if (!isURL(req.body.media)) {
+      if (trimmedMedia && !isURL(trimmedMedia)) {
         return res.status(400).json({
           message: "Invalid media URL.",
         });
@@ -126,22 +139,17 @@ const updateGallery = async (req, res) => {
       mediaData = {
         filename: null,
         filepath: null,
-        iframe: req.body.media.trim(),
+        iframe: trimmedMedia,
       };
     }
-
     // Create object with updated fields
     const updatedFields = {
-      service_name,
-      gallery_name,
+      ...(service_name && { service_name }),
+      ...(gallery_name && { gallery_name }),
       isPublic,
+      media: mediaData,
+      type: mediaData.filename ? "image" : "video",
     };
-
-    // Add media data if provided
-    if (mediaData) {
-      updatedFields.media = mediaData;
-      updatedFields.type = mediaData.filename ? "image" : "video";
-    }
 
     const updatedGallery = await galleryModel.findByIdAndUpdate(
       req.params._id,
