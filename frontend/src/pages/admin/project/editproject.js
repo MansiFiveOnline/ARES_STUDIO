@@ -597,13 +597,13 @@ const EditProject = () => {
                 />
                 <span> OR </span>
                 <input type="file" name="media" onChange={handleChange} />
-                {/* {formData.media.file && ( */}
-                <img
-                  className="form-profile"
-                  src={`http://localhost:8000/${formData.media.filepath}`}
-                  alt={`${formData.media.filename}`}
-                />
-                {/* )} */}
+                {formData.media.file && (
+                  <img
+                    className="form-profile"
+                    src={`http://localhost:8000/${formData.media.filepath}`}
+                    alt={`${formData.media.filename}`}
+                  />
+                )}
               </div>
             </div>
             <div className="col-12">

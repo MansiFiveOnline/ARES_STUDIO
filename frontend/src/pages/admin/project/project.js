@@ -71,12 +71,10 @@ const Project = () => {
                 <thead>
                   <tr>
                     <th>Project Name</th>
-                    <th className="text-center">Subtitle</th>
-                    <th className="text-center">Descripiton</th>
+
                     <th className="text-center">Service</th>
                     <th className="text-center">Gallery Name</th>
-                    <th className="text-center">Meta Title</th>
-                    <th className="text-center">Meta Descripiton</th>
+                    <th className="text-center">Status</th>
                     <th className="text-center">Media</th>
                     <th className="text-center">Edit</th>
                     <th className="text-center">Delete</th>
@@ -87,14 +85,16 @@ const Project = () => {
                     projects.map((project) => (
                       <tr key={project._id}>
                         <td>{project.project_name}</td>
-                        <td className="text-center">{project.subtitle}</td>
-                        <td className="text-center">{project.description}</td>
                         <td className="text-center">{project.service_name}</td>
                         <td className="text-center">{project.gallery_name}</td>
-                        <td className="text-center">{project.metaTitle}</td>
                         <td className="text-center">
-                          {project.metaDescription}
+                          {project.isPublic === true ? (
+                            <span>Public</span>
+                          ) : (
+                            <span>Private</span>
+                          )}
                         </td>
+
                         <td className="table-profile-img text-center">
                           {project.type === "image" ? (
                             <img

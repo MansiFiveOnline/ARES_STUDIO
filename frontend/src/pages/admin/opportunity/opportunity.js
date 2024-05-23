@@ -116,8 +116,8 @@ const Opportunities = () => {
                   <tr>
                     <th>Title</th>
                     <th className="text-center">Description</th>
-                    <th className="text-center">Responsibility</th>
-                    <th className="text-center">Qualification</th>
+                    {/* <th className="text-center">Responsibility</th> */}
+                    {/* <th className="text-center">Qualification</th> */}
                     <th className="text-center">Edit</th>
                     <th className="text-center">Delete</th>
                   </tr>
@@ -130,12 +130,12 @@ const Opportunities = () => {
                         <td className="text-center">
                           {opportunity.description}
                         </td>
-                        <td className="text-center">
+                        {/* <td className="text-center">
                           {opportunity.responsibility}
                         </td>
                         <td className="text-center">
                           {opportunity.qualification}
-                        </td>
+                        </td> */}
 
                         <td className="text-center">
                           {/* <button title="Edit" onClick={() => navigate(`/edit/team/${user._id}`)}>

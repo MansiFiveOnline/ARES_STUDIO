@@ -92,6 +92,7 @@ export default function Career() {
     const data = new FormData();
     for (const key in formData) {
       data.append(key, formData[key]);
+      data.append("position", selectedTitle);
     }
 
     try {
@@ -237,8 +238,9 @@ export default function Career() {
                       <div class="mb-5">
                         <select
                           class="form-select"
+                          // value={formData.position}
                           // aria-label="Default select example"
-                          alue={selectedTitle}
+                          value={selectedTitle}
                           onChange={(e) => setSelectedTitle(e.target.value)}
                         >
                           <option selected>Select Position</option>

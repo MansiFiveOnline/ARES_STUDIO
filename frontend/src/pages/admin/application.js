@@ -181,7 +181,7 @@ const Application = () => {
                         <td>{application.email}</td>
                         <td>{application.phone_no}</td>
                         <td>{application.location}</td>
-                        <td>{application.designation}</td>
+                        <td>{application.position}</td>
                         <td>{application.message}</td>
                         <td className="table-profile-img text-center">
                           {application.document && (

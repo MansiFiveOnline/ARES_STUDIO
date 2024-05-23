@@ -74,7 +74,7 @@ const Team = () => {
                   <tr>
                     <th>Name</th>
                     <th>Designation</th>
-                    <th>LinkedIn URL</th>
+                    {/* <th>LinkedIn URL</th> */}
                     <th className="text-center">Image</th>
                     <th className="text-center">Sequence</th>
                     <th className="text-center">Edit</th>
@@ -87,7 +87,7 @@ const Team = () => {
                       <tr key={team._id}>
                         <td>{team.name}</td>
                         <td>{team.designation}</td>
-                        <td>{team.linkedin_url}</td>
+                        {/* <td>{team.linkedin_url}</td> */}
                         <td className="table-profile-img text-center">
                           {team.image && team.image.length > 0 ? (
                             <img
