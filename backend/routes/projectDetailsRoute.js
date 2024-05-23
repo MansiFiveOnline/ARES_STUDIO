@@ -29,6 +29,8 @@ route.patch(
   projectDetailsController.updateProjectDetail
 );
 
+route.get("/project_media", projectDetailsController.getProjectMediaByName);
+
 route.get("/:_id", projectDetailsController.getProjectDetail);
 
 route.get("/", projectDetailsController.getProjectDetails);

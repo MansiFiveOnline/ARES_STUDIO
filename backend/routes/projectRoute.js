@@ -28,12 +28,12 @@ route.patch(
   projectController.updateProject
 );
 
+route.get("/project_details", projectController.getByProjectName);
+
 route.get(
   "/project_media",
   projectController.getProjectMediaByServiceAndGallery
 );
-
-route.get("project_details/:projectId", projectController.getByProjectName);
 
 route.get("/projectname", projectController.getProjectName);
 

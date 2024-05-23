@@ -5,18 +5,26 @@ import { Link, useParams } from "react-router-dom"; // Import useParams
 import Gallery from "../../components/Gallery";
 import axios from "axios";
 import "../../style/user.css";
+import { Helmet } from "react-helmet";
 
 const Service = () => {
   // Access service name parameter from URL
   const { service_name } = useParams();
   const [serviceData, setServiceData] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [metaData, setMetaData] = useState({
+    metaTitle: "",
+    metaDescription: "",
+  });
+  // const serviceName = service_name.toUpperCase();
+  const serviceName = service_name ? service_name.toUpperCase() : "";
 
   useEffect(() => {
     const fetchServiceData = async () => {
       try {
+        console.log("formattedServiceName", serviceName);
         const response = await axios.get(
-          `http://localhost:8000/api/service/servicename?service_name=${service_name}`
+          `http://localhost:8000/api/service/servicename?service_name=${serviceName}`
         );
         setServiceData(response.data.service);
         if (
@@ -40,6 +48,14 @@ const Service = () => {
 
   return (
     <Layout>
+      {serviceData && (
+        <Helmet>
+          <title>{serviceData.metaTitle}</title>
+          <meta name="title" content={serviceData.metaTitle} />
+          <meta name="description" content={serviceData.metaDescription} />
+          {/* Add other meta tags as needed */}
+        </Helmet>
+      )}
       {serviceData ? (
         <>
           <div className="service_section position-relative">
@@ -92,7 +108,7 @@ const Service = () => {
 
       <section>
         <div className="service">
-          <Gallery service_name={service_name} />
+          <Gallery service_name={serviceName} />
         </div>
       </section>
       {/* // {/* gallery section section close */}

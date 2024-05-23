@@ -36,6 +36,7 @@ const Gallery = ({ service_name }) => {
 
   useEffect(() => {
     const fetchProjectMedia = async () => {
+      console.log("Gallery Name", selectedTab);
       try {
         let response;
         if (selectedTab === "all") {
@@ -82,7 +83,7 @@ const Gallery = ({ service_name }) => {
       if (media.isPublic) {
         // If media is public, navigate to the service detail page
 
-        const formattedProjectName = decodeURIComponent(media.projectName)
+        const formattedProjectName = decodeURIComponent(media.project_Name)
           .toLowerCase()
           .trim()
           .replace(/\s+/g, "-"); // Replace spaces with hyphens

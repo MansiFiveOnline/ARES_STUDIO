@@ -90,11 +90,43 @@ const createCareer = async (req, res) => {
 
 const updateCareer = async (req, res) => {
   try {
-    const { title, subtitle, metaTitle, metaDescription } = req.body;
-    let mediaData = null;
+    const { title, subtitle, metaTitle, metaDescription, media } = req.body;
+
+    // Fetch the existing service to retain current media values if not updated
+    const existingCareer = await careerModel.findById(req.params._id);
+    if (!existingCareer) {
+      return res.status(404).json({ message: "Career not found." });
+    }
+
+    let mediaData = {
+      filename: existingCareer.media.filename,
+      filepath: existingCareer.media.filepath,
+      iframe: existingCareer.media.iframe,
+    };
 
     // Check if media file is provided
-    if (req.file || req.body.media) {
+    if (req.file) {
+      const isWebPImage = (file) => {
+        const extname = path.extname(file.originalname).toLowerCase();
+        return extname === ".webp";
+      };
+
+      // Validate file type
+      if (!isWebPImage(req.file)) {
+        return res.status(400).json({
+          message: "Unsupported file type. Please upload a WebP image.",
+        });
+      }
+
+      // Set media data for image
+      mediaData = {
+        filename: req.file.originalname,
+        filepath: req.file.path,
+        iframe: null,
+      };
+    } else if (media !== undefined && media !== null) {
+      const trimmedMedia = media.trim();
+
       // Check if media is a URL
       const isURL = (str) => {
         try {
@@ -105,58 +137,32 @@ const updateCareer = async (req, res) => {
         }
       };
 
-      if (req.file) {
-        // A file is provided
-        const isWebPImage = (file) => {
-          const extname = path.extname(file.originalname).toLowerCase();
-          return extname === ".webp";
-        };
-
-        // Validate file type
-        if (!isWebPImage(req.file)) {
-          return res.status(400).json({
-            message: "Unsupported file type. Please upload a WebP image.",
-          });
-        }
-
-        // Set media data for image
-        mediaData = {
-          filename: req.file.originalname,
-          filepath: req.file.path,
-          iframe: null,
-        };
-      } else if (isURL(req.body.media)) {
-        // Check if media is a URL (video)
-        mediaData = {
-          filename: null,
-          filepath: null,
-          iframe: req.body.media.trim(),
-        };
-      } else {
+      if (trimmedMedia && !isURL(trimmedMedia)) {
         return res.status(400).json({
-          message:
-            "Invalid media provided. Please upload a WebP image or provide a valid URL.",
+          message: "Invalid media URL.",
         });
       }
-    }
 
+      // Set media data for video
+      mediaData = {
+        filename: null,
+        filepath: null,
+        iframe: trimmedMedia,
+      };
+    }
     // Create object with updated fields
     const updatedFields = {
-      title,
-      subtitle,
-      metaTitle,
-      metaDescription,
+      ...(title && { title }),
+      ...(subtitle && { subtitle }),
+      ...(metaTitle && { metaTitle }),
+      ...(metaDescription && { metaDescription }),
+      media: mediaData,
+      type: mediaData.filename ? "image" : "video",
     };
-
-    // Add media data if provided
-    if (mediaData) {
-      updatedFields.media = mediaData;
-      updatedFields.type = mediaData.filename ? "image" : "video";
-    }
 
     // Update career in the database
     const updatedCareer = await careerModel.findByIdAndUpdate(
-      req.params.id,
+      req.params._id,
       updatedFields,
       { new: true }
     );

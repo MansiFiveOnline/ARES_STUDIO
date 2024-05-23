@@ -297,7 +297,8 @@ const updateService = async (req, res) => {
 const getByServiceName = async (req, res) => {
   const { service_name } = req.query;
   try {
-    const service = await serviceModel.findOne({ service_name });
+    const serviceName = service_name.toUpperCase();
+    const service = await serviceModel.findOne({ service_name: serviceName });
 
     if (!service) {
       return res.status(400).json({

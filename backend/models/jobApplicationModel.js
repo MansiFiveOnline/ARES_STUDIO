@@ -8,7 +8,6 @@ const jobApplicationSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   phone_no: {
     type: Number,
@@ -28,7 +27,6 @@ const jobApplicationSchema = new mongoose.Schema({
   message: {
     type: String,
     required: true,
-    maxlength: 500,
   },
 });
 

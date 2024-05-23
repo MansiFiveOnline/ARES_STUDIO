@@ -4,15 +4,12 @@ const Schema = mongoose.Schema;
 const aboutSchema = new mongoose.Schema({
   title: {
     type: String,
-    maxlength: 20,
   },
   subtitle: {
     type: String,
-    maxlength: 50,
   },
   description: {
     type: String,
-    maxlength: 150,
   },
   type: {
     type: String,
@@ -27,7 +24,6 @@ const aboutSchema = new mongoose.Schema({
   },
   about_description: {
     type: String,
-    maxlength: 500,
   },
   metaTitle: {
     type: String,

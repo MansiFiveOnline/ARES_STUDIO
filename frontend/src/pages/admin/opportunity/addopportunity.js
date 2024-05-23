@@ -66,11 +66,12 @@ const AddOpportunity = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Description</label>
-                <input
+                <textarea
                   type="text"
                   name="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  rows={4}
                 />
               </div>
             </div>
@@ -78,11 +79,12 @@ const AddOpportunity = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Responsibility</label>
-                <input
+                <textarea
                   type="text"
                   name="responsibility"
                   value={responsibility}
                   onChange={(e) => setResponsibility(e.target.value)}
+                  rows={4}
                 />
               </div>
             </div>
@@ -90,11 +92,12 @@ const AddOpportunity = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Qualification</label>
-                <input
+                <textarea
                   type="text"
                   name="qualification"
                   value={qualification}
                   onChange={(e) => setQualification(e.target.value)}
+                  rows={4}
                 />
               </div>
             </div>

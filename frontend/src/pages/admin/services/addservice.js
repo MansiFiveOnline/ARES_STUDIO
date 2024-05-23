@@ -116,11 +116,12 @@ const AddService = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Description</label>
-                <input
+                <textarea
                   type="text"
                   name="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  rows={4}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -180,11 +181,12 @@ const AddService = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Meta Description</label>
-                <input
+                <textarea
                   type="text"
                   name="metaDescription"
                   value={metaDescription}
                   onChange={(e) => setMetaDescription(e.target.value)}
+                  rows={4}
                 />
               </div>
             </div>

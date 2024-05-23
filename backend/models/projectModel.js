@@ -4,17 +4,13 @@ const Schema = mongoose.Schema;
 const projectSchema = new mongoose.Schema({
   project_name: {
     type: String,
-    maxlength: 20,
     required: true,
   },
   subtitle: {
     type: String,
-    default: true,
-    maxlength: 50,
   },
   description: {
     type: String,
-    maxlength: 150,
   },
   service_name: {
     type: String,

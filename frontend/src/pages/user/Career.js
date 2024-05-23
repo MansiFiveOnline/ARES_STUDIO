@@ -4,12 +4,17 @@ import HorizontalTabs from "../../components/HorizontalTabs";
 import "../../style/user.css";
 import axios from "axios";
 import VideoPlayer from "../../components/Videoplayer";
+import { Helmet } from "react-helmet";
 
 export default function Career() {
   const [careerData, setCareerData] = useState(null);
   const [opportunities, setOpportunities] = useState(null);
   const [opportunityTitles, setOpportunityTitles] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState("");
+  const [metaData, setMetaData] = useState({
+    metaTitle: "",
+    metaDescription: "",
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -110,6 +115,15 @@ export default function Career() {
 
   return (
     <Layout>
+      {careerData && (
+        <Helmet>
+          {/* Meta tags specific to the About page */}
+          <title>{careerData[0].metaTitle}</title>
+          <meta name="title" content={careerData[0].metaTitle} />
+          <meta name="description" content={careerData[0].metaDescription} />
+          {/* Add other meta tags as needed */}
+        </Helmet>
+      )}
       {/* Header banner section start */}
       <div className="service_section position-relative">
         <div className="app">

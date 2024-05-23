@@ -6,6 +6,7 @@ import { faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 import "../../style/user.css";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 export default function Contact() {
   const [statusMessage, setStatusMessage] = useState("");
@@ -43,6 +44,9 @@ export default function Contact() {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Contact | ARES STUDIO</title>
+      </Helmet>
       {/* Header banner section start */}
       <div className="service_section position-relative">
         <div className="app">

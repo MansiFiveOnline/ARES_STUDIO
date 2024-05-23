@@ -34,7 +34,7 @@ const updateOpportunity = async (req, res) => {
     const { title, description, responsibility, qualification } = req.body;
 
     const updatedOpportunity = await opportunityModel.findByIdAndUpdate(
-      req.params.id,
+      req.params._id,
       {
         title,
         description,

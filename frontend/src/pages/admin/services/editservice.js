@@ -186,11 +186,12 @@ const EditService = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Description</label>
-                <input
+                <textarea
                   type="text"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
+                  rows={4}
                 />
               </div>
             </div>
@@ -232,11 +233,12 @@ const EditService = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Meta Description</label>
-                <input
+                <textarea
                   type="text"
                   name="metaDescription"
                   value={formData.metaDescription}
                   onChange={handleChange}
+                  rows={4}
                 />
               </div>
             </div>

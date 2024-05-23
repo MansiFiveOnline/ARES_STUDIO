@@ -109,7 +109,7 @@ const AddGallery = () => {
                   }}
                 >
                   <option value="">Select a service</option>
-                  <option value="Games">Games</option>
+                  <option value="GAMES">GAMES</option>
                   <option value="VFX">VFX</option>
                 </select>
               </div>

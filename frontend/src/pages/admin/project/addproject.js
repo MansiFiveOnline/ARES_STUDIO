@@ -9,8 +9,8 @@ const AddProject = () => {
   const [project_name, setProjectName] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
-  const [metaTitle, setMetaTitle] = useState("");
-  const [metaDescription, setMetaDescription] = useState("");
+  // const [metaTitle, setMetaTitle] = useState("");
+  // const [metaDescription, setMetaDescription] = useState("");
   const [selectedService, setSelectedService] = useState("");
   const [selectedGallery, setSelectedGallery] = useState("");
   const [galleryNames, setGalleryNames] = useState([]);
@@ -59,8 +59,8 @@ const AddProject = () => {
       formData.append("project_name", project_name);
       formData.append("subtitle", subtitle);
       formData.append("description", description);
-      formData.append("metaTitle", metaTitle);
-      formData.append("metaDescription", metaDescription);
+      // formData.append("metaTitle", metaTitle);
+      // formData.append("metaDescription", metaDescription);
       formData.append("gallery_name", selectedGallery);
       formData.append("service_name", selectedService);
       formData.append("isPublic", isPublic); // Include isPublic in the form data
@@ -151,11 +151,12 @@ const AddProject = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Descripiton</label>
-                <input
+                <textarea
                   type="text"
                   name="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  rows={4}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
               </div>
@@ -172,7 +173,7 @@ const AddProject = () => {
                   }}
                 >
                   <option value="">Select a service</option>
-                  <option value="Games">Games</option>
+                  <option value="GAMES">GAMES</option>
                   <option value="VFX">VFX</option>
                 </select>
               </div>
@@ -209,7 +210,7 @@ const AddProject = () => {
               Public
             </label>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+            {/* <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Meta Title</label>
                 <input
@@ -218,22 +219,23 @@ const AddProject = () => {
                   value={metaTitle}
                   onChange={(e) => setMetaTitle(e.target.value)}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> 
               </div>
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Meta Descripiton</label>
-                <input
+                <textarea
                   type="text"
                   name="metaDescription"
                   value={metaDescription}
                   onChange={(e) => setMetaDescription(e.target.value)}
+                  rows={4}
                 />
-                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+                {/* <img className="form-profile" src="src/img/user-icon-img.png" /> 
               </div>
-            </div>
+            </div> */}
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">

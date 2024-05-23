@@ -1,6 +1,14 @@
 import React from "react";
 import "../../style/user.css";
+import { Helmet } from "react-helmet";
 
 export default function Pagenotfound() {
-  return <div>Page Not Found</div>;
+  return (
+    <>
+      <Helmet>
+        <title>Page Not Found | ARES STUDIO</title>
+      </Helmet>
+      <div>Page Not Found</div>;
+    </>
+  );
 }

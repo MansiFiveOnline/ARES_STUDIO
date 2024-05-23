@@ -89,7 +89,7 @@ const EditGalleryName = () => {
                     }));
                   }}
                 >
-                  <option value="Games">Games</option>
+                  <option value="GAMES">GAMES</option>
                   <option value="VFX">VFX</option>
                 </select>
               </div>

@@ -6,6 +6,8 @@ import axios from "axios";
 const AddCareer = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
   const [media, setMedia] = useState({ iframe: "", file: null });
   const navigate = useNavigate();
 
@@ -16,6 +18,8 @@ const AddCareer = () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("subtitle", subtitle);
+      formData.append("metaTitle", metaTitle);
+      formData.append("metaDescription", metaDescription);
 
       // Check if both media fields are provided
       if (media.iframe && media.file) {
@@ -83,6 +87,31 @@ const AddCareer = () => {
                   onChange={(e) => setSubtitle(e.target.value)}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Meta Title</label>
+                <input
+                  type="text"
+                  name="metaTitle"
+                  value={metaTitle}
+                  onChange={(e) => setSubtitle(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+              <div className="theme-form">
+                <label>Meta Description</label>
+                <textarea
+                  type="text"
+                  name="metaDescription"
+                  value={metaDescription}
+                  onChange={(e) => setSubtitle(e.target.value)}
+                  rows={4}
+                />
               </div>
             </div>
 
