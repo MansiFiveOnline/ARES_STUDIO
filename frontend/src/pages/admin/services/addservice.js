@@ -130,11 +130,7 @@ const AddService = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 {/* Display a message if media field has a value before submitting */}
-                {media.iframe || media.file ? (
-                  <p>Media field has a value.</p>
-                ) : (
-                  <p>Media field is empty.</p>
-                )}
+
                 <label>Media</label>
                 <input
                   type="text"

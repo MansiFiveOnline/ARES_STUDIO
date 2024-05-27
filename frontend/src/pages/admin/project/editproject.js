@@ -577,14 +577,18 @@ const EditProject = () => {
                 </select>
               </div>
             </div>
-            <label>
-              <input
-                type="checkbox"
-                checked={isPublic}
-                onChange={(e) => setIsPublic(e.target.checked)}
-              />
-              Public
-            </label>
+
+            <div className="py-3">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isPublic} // Controlled by isPublic state
+                  onChange={(e) => setIsPublic(e.target.checked)} // Update isPublic state directly
+                />
+                Public
+              </label>
+            </div>
+
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Media</label>
@@ -597,7 +601,7 @@ const EditProject = () => {
                 />
                 <span> OR </span>
                 <input type="file" name="media" onChange={handleChange} />
-                {formData.media.file && (
+                {formData.media.filepath && (
                   <img
                     className="form-profile"
                     src={`http://localhost:8000/${formData.media.filepath}`}

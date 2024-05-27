@@ -50,59 +50,59 @@ const SideBar = () => {
 
           <li>
             <NavLink to="/admin/services" title="Services">
-              <span className="las la-sign-in-alt"></span> <span>Services</span>
+              <span className="las la-hands-helping"></span>{" "}
+              <span>Services</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/gallery" title="Gallery">
-              <span className="las la-sign-in-alt"></span>{" "}
+              <span className="las la-photo-video"></span>{" "}
               <span>Service Gallery</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/gallery_name" title="Gallery Name">
-              <span className="las la-sign-in-alt"></span>{" "}
+              <span className="las la-images"></span>{" "}
               <span>Service Gallery Name</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/project" title="Project">
-              <span className="las la-sign-in-alt"></span> <span>Project</span>
+              <span className="las la-briefcase"></span> <span>Project</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/project_detail" title="Project Detail">
-              <span className="las la-sign-in-alt"></span>{" "}
-              <span>Project Detail</span>
+              <span className="las la-tasks"></span> <span>Project Detail</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/edit/about" title="About Us">
-              <span className="las la-sign-in-alt"></span> <span>About Us</span>
+              <span className="las la-user-friends"></span>{" "}
+              <span>About Us</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/team" title="Team">
-              <span className="las la-user-tie"></span> <span>Team</span>
+              <span className="las la-users"></span> <span>Team</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/career" title="Career">
-              <span className="las la-sign-in-alt"></span> <span>Career</span>
+              <span className="las la-user-tie"></span> <span>Career</span>
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/admin/opportunities" title="Opportunities">
-              <span className="las la-sign-in-alt"></span>{" "}
-              <span>Opportunity</span>
+              <span className="las la-rocket"></span> <span>Opportunity</span>
             </NavLink>
           </li>
 
@@ -112,8 +112,9 @@ const SideBar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin/contact" title="Contact">
-              <span className="las la-users"></span> <span>Contact</span>
+            <NavLink to="/admin/contact" title="Contact Us">
+              <span className="las la-map-marker"></span>{" "}
+              <span>Contact Us</span>
             </NavLink>
           </li>
           {/* <li>
