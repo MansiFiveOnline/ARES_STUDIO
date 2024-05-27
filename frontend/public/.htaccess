@@ -4,5 +4,5 @@
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /aresstudio/admin/index.html [L]
+  RewriteRule . /ares-studio/index.html [L]
 </ifmodule>
