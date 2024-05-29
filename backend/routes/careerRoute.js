@@ -22,16 +22,16 @@ route.post(
 );
 
 route.patch(
-  "/:_id",
+  "/",
   upload.single("media"),
   adminMiddleware,
   careerController.updateCareer
 );
 
-route.get("/", careerController.getCareers);
+route.get("/", careerController.getCareer);
 
-route.get("/:_id", careerController.getCareer);
+// route.get("/:_id", careerController.getCareer);
 
-route.delete("/:_id", adminMiddleware, careerController.deleteCareer);
+// route.delete("/:_id", adminMiddleware, careerController.deleteCareer);
 
 module.exports = route;

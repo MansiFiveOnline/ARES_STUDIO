@@ -95,7 +95,7 @@ const SideBar = () => {
           </li>
 
           <li>
-            <NavLink to="/admin/career" title="Career">
+            <NavLink to="/admin/edit/career" title="Career">
               <span className="las la-user-tie"></span> <span>Career</span>
             </NavLink>
           </li>

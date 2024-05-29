@@ -11,8 +11,8 @@ import EditTeam from "./pages/admin/team/editteam";
 import Gallery from "./pages/admin/gallery/gallery";
 import GalleryName from "./pages/admin/gallery_name/gallery-name";
 import AdminServices from "./pages/admin/services/services";
-import AdminCareer from "./pages/admin/career/career";
-import AddCareer from "./pages/admin/career/addcareer";
+// import AdminCareer from "./pages/admin/career/career";
+// import AddCareer from "./pages/admin/career/addcareer";
 import EditCareer from "./pages/admin/career/editcareer";
 import AddGallery from "./pages/admin/gallery/addgallery";
 import EditGallery from "./pages/admin/gallery/editgallery";
@@ -43,7 +43,7 @@ import Servicedetail from "./pages/user/Servicedetail";
 
 function App() {
   return (
-    <Router basename="/ares_studio">
+    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
@@ -68,9 +68,9 @@ function App() {
           <Route path="gallery_name" element={<GalleryName />} />
           <Route path="opportunities" element={<Opportunities />} />
           <Route path="edit/about" element={<EditAbout />} />
-          <Route path="career" element={<AdminCareer />} />
-          <Route path="add/career" element={<AddCareer />} />
-          <Route path="edit/career/:id" element={<EditCareer />} />
+          {/* <Route path="career" element={<AdminCareer />} /> */}
+          {/* <Route path="add/career" element={<AddCareer />} /> */}
+          <Route path="edit/career" element={<EditCareer />} />
           <Route path="add/gallery" element={<AddGallery />} />
           <Route path="edit/gallery/:id" element={<EditGallery />} />
           <Route path="add/opportunity" element={<AddOpportunity />} />

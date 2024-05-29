@@ -97,7 +97,7 @@ const AddCareer = () => {
                   type="text"
                   name="metaTitle"
                   value={metaTitle}
-                  onChange={(e) => setSubtitle(e.target.value)}
+                  onChange={(e) => setMetaTitle(e.target.value)}
                 />
               </div>
             </div>
@@ -109,7 +109,7 @@ const AddCareer = () => {
                   type="text"
                   name="metaDescription"
                   value={metaDescription}
-                  onChange={(e) => setSubtitle(e.target.value)}
+                  onChange={(e) => setMetaDescription(e.target.value)}
                   rows={4}
                 />
               </div>
