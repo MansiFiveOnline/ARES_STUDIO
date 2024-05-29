@@ -30,6 +30,9 @@ import EditProject from "./pages/admin/project/editproject";
 import ProjectDetail from "./pages/admin/projectDetail/projectDetail";
 import AddProjectDetail from "./pages/admin/projectDetail/addprojectDetail";
 import EditProjectDetail from "./pages/admin/projectDetail/editprojectDetail";
+import Password from "./pages/admin/password/password";
+import EditPassword from "./pages/admin/password/editpassword";
+import AddPassword from "./pages/admin/password/addpassword";
 
 import AdminRoute from "./routes/AdminRoutes";
 
@@ -89,6 +92,10 @@ function App() {
             path="edit/project_detail/:id"
             element={<EditProjectDetail />}
           />
+          <Route path="password" element={<Password />} />
+
+          <Route path="edit/password/:id" element={<EditPassword />} />
+          <Route path="add/password/:id" element={<AddPassword />} />
         </Route>
 
         <Route path="*" element={<Pagenotfound />} />

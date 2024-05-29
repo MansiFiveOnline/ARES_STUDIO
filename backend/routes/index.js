@@ -10,6 +10,7 @@ const galleryRoute = require("./galleryRoute");
 const galleryNameRoute = require("./gallerynameRoute");
 const projectRoute = require("./projectRoute");
 const projectDetailsRoute = require("./projectDetailsRoute");
+const passwordRoute = require("./passwordRoute");
 
 module.exports = {
   authRoute,
@@ -24,4 +25,5 @@ module.exports = {
   galleryNameRoute,
   projectRoute,
   projectDetailsRoute,
+  passwordRoute,
 };

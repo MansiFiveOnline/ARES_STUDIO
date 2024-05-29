@@ -82,6 +82,12 @@ const SideBar = () => {
           </li>
 
           <li>
+            <NavLink to="/admin/password" title="Passwords">
+              <span className="las la-tasks"></span> <span>Passwords</span>
+            </NavLink>
+          </li>
+
+          <li>
             <NavLink to="/admin/edit/about" title="About Us">
               <span className="las la-user-friends"></span>{" "}
               <span>About Us</span>
