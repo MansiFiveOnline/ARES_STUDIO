@@ -1,13 +1,36 @@
 // import React, { useState } from "react";
 // import { Form, Button } from "react-bootstrap";
+// import { Link, useNavigate } from "react-router-dom";
 // import "../style/user.css";
 
-// const PasswordForm = ({ onSubmit }) => {
+// const PasswordForm = ({ onSubmit, projectName }) => {
 //   const [password, setPassword] = useState("");
+//   const navigate = useNavigate();
 
 //   const handleFormSubmit = async (event) => {
 //     event.preventDefault();
-//     await onSubmit(password);
+//     // Call onSubmit callback to validate the password
+//     // const isValidPassword = await onSubmit(password);
+
+//     // if (isValidPassword) {
+//     // Redirect to the service detail page if the password is correct
+//     alert("Form submitted successfully.");
+//     console.log("Project name", projectName);
+//     if (projectName) {
+//       // const formattedProjectName = projectName
+//       //   .toLowerCase()
+//       //   .trim()
+//       //   .replace(/\s+/g, "-");
+//       navigate(`/service-detail/${projectName}`);
+//     } else {
+//       console.error("Project name is undefined.");
+//     }
+
+//     // }
+//     //  else {
+//     //   // Handle incorrect password logic if needed
+//     //   alert("Incorrect password! Please try again.");
+//     // }
 //   };
 
 //   return (
@@ -29,7 +52,7 @@
 //           </div>
 //           <div className="lock-paswd">
 //             <Form.Control
-//               type="text"
+//               type="password"
 //               placeholder="Password"
 //               value={password}
 //               onChange={(e) => setPassword(e.target.value)}
@@ -42,7 +65,7 @@
 //         Submit
 //       </Button>
 //       <div className="get_paswd">
-//         <a href="#">Click here to get password</a>
+//         <Link>Click here to share another email id</Link>
 //       </div>
 //     </Form>
 //   );
@@ -61,17 +84,21 @@ const PasswordForm = ({ onSubmit, projectName }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // Call onSubmit callback to validate the password
     // const isValidPassword = await onSubmit(password);
 
     // if (isValidPassword) {
-    // Redirect to the service detail page if the password is correct
-    alert("Form submitted successfully.");
-    navigate(`/service-detail/${projectName}`);
-    // }
-    //  else {
-    //   // Handle incorrect password logic if needed
-    //   alert("Incorrect password! Please try again.");
+    if (projectName) {
+      const formattedProjectName = projectName
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-");
+      alert("Form successfully submitted.");
+      navigate(`/service-detail/${formattedProjectName}`);
+    } else {
+      console.error("Project name is undefined.");
+    }
+    // } else {
+    // alert("Incorrect password! Please try again.");
     // }
   };
 
@@ -94,7 +121,7 @@ const PasswordForm = ({ onSubmit, projectName }) => {
           </div>
           <div className="lock-paswd">
             <Form.Control
-              type="password" // Change input type to password
+              type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -107,7 +134,7 @@ const PasswordForm = ({ onSubmit, projectName }) => {
         Submit
       </Button>
       <div className="get_paswd">
-        <a href="#">Click here to get password</a>
+        {/* <Link>Click here to share another email id</Link> */}
       </div>
     </Form>
   );

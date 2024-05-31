@@ -8,7 +8,9 @@ export default function Pagenotfound() {
       <Helmet>
         <title>Page Not Found | ARES STUDIO</title>
       </Helmet>
-      <div>Page Not Found</div>;
+      <div>
+        <h2 style={{ color: "white", textAlign: "center" }}>Page Not Found </h2>
+      </div>
     </>
   );
 }
