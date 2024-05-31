@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const passwordSchema = new mongoose.Schema({
+const emailSchema = new mongoose.Schema({
   email: {
     type: String,
     // required: true,
@@ -12,6 +12,6 @@ const passwordSchema = new mongoose.Schema({
   },
 });
 
-const passwordModel = mongoose.model("Passwords", passwordSchema);
+const emailModel = mongoose.model("Passwords", emailSchema);
 
-module.exports = passwordModel;
+module.exports = emailModel;

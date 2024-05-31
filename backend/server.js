@@ -32,7 +32,7 @@ app.use("/api/gallery", Route.galleryRoute);
 app.use("/api/gallery_name", Route.galleryNameRoute);
 app.use("/api/project", Route.projectRoute);
 app.use("/api/project_detail", Route.projectDetailsRoute);
-app.use("/api/password", Route.passwordRoute);
+app.use("/api/email", Route.emailRoute);
 
 connectDb();
 
