@@ -66,9 +66,10 @@ const EditOpportunity = () => {
 
       console.log("Opportunity updated:", response.data.updatedOpportunity);
 
-      setTimeout(() => {
-        navigate("/admin/opportunities");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/opportunities");
+      // }, 1000);
+      navigate("/admin/opportunities");
     } catch (error) {
       console.error("Error updating opportunity:", error);
     }

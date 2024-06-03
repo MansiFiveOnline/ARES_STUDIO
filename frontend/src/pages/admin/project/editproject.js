@@ -154,6 +154,7 @@ const EditProject = () => {
       );
 
       console.log("Updated project", response.data.updatedProject);
+
       navigate("/admin/project");
     } catch (error) {
       console.error("Error updating project:", error);

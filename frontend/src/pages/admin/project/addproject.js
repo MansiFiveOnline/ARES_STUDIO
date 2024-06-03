@@ -106,9 +106,11 @@ const AddProject = () => {
       );
 
       console.log(response.data.newProject);
-      setTimeout(() => {
-        navigate("/admin/project");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/project");
+      // }, 2000);
+
+      navigate("/admin/project");
     } catch (error) {
       console.error("Error creating project:", error);
     }

@@ -60,9 +60,11 @@ const AddService = () => {
       });
 
       console.log(response.data.newService);
-      setTimeout(() => {
-        navigate("/admin/services");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/services");
+      // }, 2000);
+
+      navigate("/admin/services");
     } catch (error) {
       console.error("Error creating service:", error);
     }

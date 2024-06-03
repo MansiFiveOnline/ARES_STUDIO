@@ -31,9 +31,11 @@ const AddGalleryName = () => {
       });
 
       console.log(response.data.newGalleryName);
-      setTimeout(() => {
-        navigate("/admin/gallery_name");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/gallery_name");
+      // }, 2000);
+
+      navigate("/admin/gallery_name");
     } catch (error) {
       console.error("Error creating gallery name:", error);
     }

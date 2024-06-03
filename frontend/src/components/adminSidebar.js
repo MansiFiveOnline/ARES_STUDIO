@@ -83,7 +83,7 @@ const SideBar = () => {
 
           <li>
             <NavLink to="/admin/password" title="Passwords">
-              <span className="las la-tasks"></span> <span>Passwords</span>
+              <span className="las la-lock"></span> <span>Passwords</span>
             </NavLink>
           </li>
 

@@ -141,9 +141,11 @@ const EditCareer = () => {
       );
 
       console.log("Career updated:", response.data.updatedCareer);
-      setTimeout(() => {
-        navigate("/admin/edit/career");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/edit/career");
+      // }, 2000);
+
+      navigate("/admin/edit/career");
     } catch (error) {
       console.error("Error updating career:", error);
     }

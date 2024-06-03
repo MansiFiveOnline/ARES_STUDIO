@@ -310,9 +310,9 @@ const EditTeam = () => {
         },
       });
 
-      setTimeout(() => {
-        navigate("/admin/team");
-      }, 2000);
+      // setTimeout(() => {
+      navigate("/admin/team");
+      // }, 2000);
       console.log(response.data.team);
     } catch (error) {
       console.error("Error updating team:", error);

@@ -49,9 +49,11 @@ const AddCareer = () => {
       });
 
       console.log(response.data.newCareer);
-      setTimeout(() => {
-        navigate("/admin/career");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/career");
+      // }, 2000);
+
+      navigate("/admin/career");
     } catch (error) {
       console.error("Error creating career:", error);
     }

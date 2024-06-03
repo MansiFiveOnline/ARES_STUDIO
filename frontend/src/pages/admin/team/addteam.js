@@ -41,9 +41,9 @@ const AddTeam = () => {
       // });
 
       console.log(response.data);
-      setTimeout(() => {
-        navigate("/admin/team");
-      }, 2000);
+      // setTimeout(() => {
+      navigate("/admin/team");
+      // }, 2000);
     } catch (error) {
       console.error("Error creating team:", error);
     }

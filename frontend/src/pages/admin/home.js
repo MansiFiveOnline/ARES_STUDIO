@@ -190,7 +190,7 @@ const AdminHome = () => {
             </NavLink>
           </div>
 
-          <div className="col-md-3">
+          {/* <div className="col-md-3">
             <NavLink to="/admin/career" title="View Careers">
               <div className="dashboardcard">
                 <h2>
@@ -202,7 +202,7 @@ const AdminHome = () => {
                 <h6>Total Careers</h6>
               </div>
             </NavLink>
-          </div>
+          </div> */}
 
           <div className="col-md-3">
             <NavLink to="/admin/services" title="View Services">

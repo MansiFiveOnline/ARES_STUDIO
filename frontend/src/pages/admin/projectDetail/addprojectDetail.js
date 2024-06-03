@@ -59,9 +59,11 @@ const AddProjectDetail = () => {
       );
 
       console.log(response.data.newProjectDetail);
-      setTimeout(() => {
-        navigate("/admin/project_detail");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/project_detail");
+      // }, 2000);
+
+      navigate("/admin/project_detail");
     } catch (error) {
       console.error("Error creating project detail:", error);
     }

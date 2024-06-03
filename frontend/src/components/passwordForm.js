@@ -75,10 +75,10 @@
 
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../style/user.css";
 
-const PasswordForm = ({ onSubmit, projectName }) => {
+const PasswordForm = ({ onSubmit, projectName, onLinkClick }) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -134,7 +134,9 @@ const PasswordForm = ({ onSubmit, projectName }) => {
         Submit
       </Button>
       <div className="get_paswd">
-        {/* <Link>Click here to share another email id</Link> */}
+        <Link to="#" onClick={onLinkClick}>
+          Click here to get password
+        </Link>
       </div>
     </Form>
   );

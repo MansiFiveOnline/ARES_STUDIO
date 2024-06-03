@@ -125,9 +125,11 @@ const EditProjectDetail = () => {
         "Updated Project Detail: ",
         response.data.updatedProjectDetail
       );
-      setTimeout(() => {
-        navigate("/admin/project_detail");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/project_detail");
+      // }, 2000);
+
+      navigate("/admin/project_detail");
     } catch (error) {
       console.error("Error updating project detail:", error);
     }

@@ -383,6 +383,12 @@ const Gallery = ({ service_name }) => {
     }
   };
 
+  const handleLinkClick = () => {
+    localStorage.removeItem("submittedMedia", JSON.stringify(selectedMedia));
+    localStorage.removeItem("emailFormSubmitted", "true");
+    setShowEmailForm(true);
+  };
+
   return (
     <div className="">
       <ul className="nav nav-tabs">
@@ -500,6 +506,7 @@ const Gallery = ({ service_name }) => {
                 onSubmit={handlePasswordSubmit}
                 projectName={selectedMedia?.project_Name}
                 navigate={navigate}
+                onLinkClick={handleLinkClick}
               />
             ) : (
               <EmailForm onSubmit={handleEmailSubmit} />

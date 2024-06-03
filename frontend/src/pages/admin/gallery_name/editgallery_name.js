@@ -60,9 +60,11 @@ const EditGalleryName = () => {
       });
       setFormData(response.data.updatedGalleryName);
       console.log("Gallery name updated:", response.data.updatedGalleryName);
-      setTimeout(() => {
-        navigate("/admin/gallery_name");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/gallery_name");
+      // }, 2000);
+
+      navigate("/admin/gallery_name");
     } catch (error) {
       console.error("Error updating gallery name:", error);
     }

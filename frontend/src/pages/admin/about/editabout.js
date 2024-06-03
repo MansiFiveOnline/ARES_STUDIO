@@ -34,6 +34,10 @@ const EditAbout = () => {
           metaTitle: aboutData.metaTitle,
           metaDescription: aboutData.metaDescription,
         });
+
+        setTimeout(() => {
+          navigate("/admin/edit/about");
+        }, 2000);
       } catch (error) {
         console.error("Error fetching about:", error);
       }

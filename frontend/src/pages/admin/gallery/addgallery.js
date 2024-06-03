@@ -82,9 +82,11 @@ const AddGallery = () => {
       );
 
       console.log(response.data.newGallery);
-      setTimeout(() => {
-        navigate("/admin/gallery");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/gallery");
+      // }, 2000);
+
+      navigate("/admin/gallery");
     } catch (error) {
       console.error("Error creating gallery:", error);
     }

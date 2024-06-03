@@ -35,9 +35,10 @@ const AddOpportunity = () => {
       });
 
       console.log(response.data.newOpportunity);
-      setTimeout(() => {
-        navigate("/admin/opportunities");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/admin/opportunities");
+      // }, 2000);
+      navigate("/admin/opportunities");
     } catch (error) {
       console.error("Error creating opportunity:", error);
     }

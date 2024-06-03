@@ -122,6 +122,7 @@ const EditService = () => {
       );
 
       console.log("Service updated:", response.data.updatedService);
+
       navigate("/admin/services"); // Navigate after successful update
     } catch (error) {
       console.error("Error updating service:", error);
