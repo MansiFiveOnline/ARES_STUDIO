@@ -15,11 +15,20 @@ app.use(
   })
 );
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "build")));
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/api", (req, res) => {
   res.send("This is backend");
 });
+
 app.use("/api/auth", Route.authRoute);
 app.use("/api/team", Route.teamRoute);
 app.use("/api/contact", Route.contactRoute);

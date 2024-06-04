@@ -19,7 +19,9 @@ export default function About() {
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
-        const response = await axios.get(`/api/about`);
+        const response = await axios.get(
+          `https://ares-studio.onrender.com/api/about`
+        );
         setAboutData(response.data.abouts);
         console.log(response.data.abouts);
       } catch (error) {
@@ -29,7 +31,9 @@ export default function About() {
 
     const fetchTeams = async () => {
       try {
-        const response = await axios.get(`/api/team`);
+        const response = await axios.get(
+          `https://ares-studio.onrender.com/api/team`
+        );
         setTeams(response.data.teams);
         console.log(response.data.teams);
         console.log(response.data.teams.image[0]);

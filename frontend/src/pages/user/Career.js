@@ -324,7 +324,9 @@ export default function Career() {
   useEffect(() => {
     const fetchCareer = async () => {
       try {
-        const response = await axios.get(`/api/career`);
+        const response = await axios.get(
+          `https://ares-studio.onrender.com/api/career`
+        );
         setCareerData(response.data.careers);
         console.log(response.data.careers);
         console.log("title", response.data.careers[0].title);
@@ -358,7 +360,9 @@ export default function Career() {
   useEffect(() => {
     const fetchOpportunities = async () => {
       try {
-        const response = await axios.get(`/api/opportunity`);
+        const response = await axios.get(
+          `https://ares-studio.onrender.com/api/opportunity`
+        );
         setOpportunities(response.data.opportunities);
       } catch (error) {
         console.error("Error fetching opportunities:", error);
