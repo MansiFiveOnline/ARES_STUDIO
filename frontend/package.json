@@ -5,7 +5,7 @@
   "resolutions": {
     "react": "^18.2.0"
   },
-  "proxy": "http://localhost:8000",
+  "proxy": "https://ares-studio-frontend.onrender.com",
   "homepage": "https://ares-studio-frontend.onrender.com",
   "dependencies": {
     "@emotion/react": "^11.11.4",
