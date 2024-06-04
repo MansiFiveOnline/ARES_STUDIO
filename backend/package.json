@@ -7,8 +7,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon main",
-   "build": "npm install"
+    "start": "nodemon main", 
+    "build": "CI=false react-scripts build"
   },
   "author": "",
   "license": "ISC",
