@@ -13,7 +13,7 @@ const AdminContact = () => {
         // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "contact",
         });
         console.log(response.data.contacts);
@@ -32,7 +32,7 @@ const AdminContact = () => {
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `contact/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,

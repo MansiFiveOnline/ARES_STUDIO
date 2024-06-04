@@ -55,7 +55,7 @@ const EditOpportunity = () => {
 
       const response = await axios({
         method: "PATCH",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `opportunity/${id}`,
         data: formData,
         headers: {

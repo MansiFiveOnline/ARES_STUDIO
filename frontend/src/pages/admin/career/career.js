@@ -14,7 +14,7 @@ const AdminCareer = () => {
         // const response = await axios.get("/api/user/allcareers");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "career",
         });
         console.log(response.data.careers);
@@ -33,7 +33,7 @@ const AdminCareer = () => {
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `career/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -124,7 +124,7 @@ const AdminCareer = () => {
                         <td className="table-profile-img text-center">
                           {career.type === "image" ? (
                             <img
-                              src={`http://localhost:8000/${career.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`https://ares-studio.onrender.com/${career.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${career.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />

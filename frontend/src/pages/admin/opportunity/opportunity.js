@@ -14,7 +14,7 @@ const Opportunities = () => {
         // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "opportunity",
         });
         console.log(response.data.opportunities);
@@ -33,7 +33,7 @@ const Opportunities = () => {
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `opportunity/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,

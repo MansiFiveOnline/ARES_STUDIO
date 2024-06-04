@@ -17,7 +17,7 @@ const EditPassword = () => {
     const fetchEmail = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/email/${id}`
+          `https://ares-studio.onrender.com/api/email/${id}`
         );
         setService(response.data.email);
         setFormData({
@@ -46,7 +46,7 @@ const EditPassword = () => {
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios.patch(
-        `http://localhost:8000/api/email/password/${id}`,
+        `https://ares-studio.onrender.com/api/email/password/${id}`,
         { password: formData.password },
         {
           headers: {

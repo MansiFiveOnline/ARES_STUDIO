@@ -14,7 +14,7 @@ const GalleryName = () => {
         // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "gallery_name",
         });
         console.log(response.data.galleryNames);
@@ -31,10 +31,9 @@ const GalleryName = () => {
     try {
       const access_token = localStorage.getItem("access_token");
 
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `gallery_name/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,

@@ -21,7 +21,7 @@ const AddGalleryName = () => {
 
       const response = await axios({
         method: "POST",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: "gallery_name",
         data: formData,
         headers: {

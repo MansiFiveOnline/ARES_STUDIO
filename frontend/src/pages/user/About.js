@@ -64,7 +64,7 @@ export default function About() {
               <VideoPlayer src={aboutData[0].media.iframe} />
             ) : (
               <img
-                src={`http://localhost:8000/${aboutData[0].media.filepath}`}
+                src={`https://ares-studio.onrender.com/${aboutData[0].media.filepath}`}
                 alt="Media"
               />
             )}
@@ -124,15 +124,15 @@ export default function About() {
               className="section"
               key={index}
               // style={{
-              //   // backgroundImage: `url('http://localhost:8000/${
+              //   // backgroundImage: `url('https://ares-studio.onrender.com/${
               //   //   item.image[0] && item.image[0].filepath
               //   // }')`,
-              //   backgroundImage: `url(http://localhost:8000/${item.image[0].filepath})`,
+              //   backgroundImage: `url(https://ares-studio.onrender.com/${item.image[0].filepath})`,
               // }}
             >
               <div>
                 <img
-                  src={`http://localhost:8000/${item.image[0].filepath}`}
+                  src={`https://ares-studio.onrender.com/${item.image[0].filepath}`}
                   alt="Media"
                 />
                 <div className="content">

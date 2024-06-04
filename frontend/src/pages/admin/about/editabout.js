@@ -21,7 +21,7 @@ const EditAbout = () => {
       try {
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: `/about`,
         });
         const aboutData = response.data.abouts[0];

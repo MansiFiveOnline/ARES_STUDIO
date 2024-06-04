@@ -11,7 +11,7 @@ const ProjectDetail = () => {
       try {
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "project_detail",
         });
         setProjectDetails(response.data.projectDetails);
@@ -29,7 +29,7 @@ const ProjectDetail = () => {
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `project_detail/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -79,7 +79,7 @@ const ProjectDetail = () => {
                         <td className="text-center">
                           {projectDetail.type === "image" ? (
                             <img
-                              src={`http://localhost:8000/${projectDetail.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`https://ares-studio.onrender.com/${projectDetail.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${projectDetail.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />

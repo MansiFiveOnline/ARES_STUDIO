@@ -24,7 +24,9 @@ const EditCareer = () => {
   useEffect(() => {
     const fetchCareer = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/career`);
+        const response = await axios.get(
+          `https://ares-studio.onrender.com/api/career`
+        );
 
         const careerData = response.data.careers[0];
 
@@ -128,7 +130,7 @@ const EditCareer = () => {
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios.patch(
-        `http://localhost:8000/api/career`,
+        `https://ares-studio.onrender.com/api/career`,
         // {
         formDataToSend,
         // },
@@ -224,7 +226,7 @@ const EditCareer = () => {
                 {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`http://localhost:8000/${formData.media.filepath}`}
+                    src={`https://ares-studio.onrender.com/${formData.media.filepath}`}
                     alt={`${formData.media.filename}`}
                   />
                 )}

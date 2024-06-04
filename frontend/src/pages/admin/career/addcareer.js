@@ -39,7 +39,7 @@ const AddCareer = () => {
 
       const response = await axios({
         method: "POST",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `career`,
         data: formData, // Pass formData directly as the data parameter
         headers: {

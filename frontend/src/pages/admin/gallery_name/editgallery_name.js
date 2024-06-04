@@ -17,7 +17,7 @@ const EditGalleryName = () => {
       try {
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: `gallery_name/${id}`,
         });
 
@@ -50,7 +50,7 @@ const EditGalleryName = () => {
 
       const response = await axios({
         method: "PATCH",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `gallery_name/${id}`,
         data: formData,
         headers: {

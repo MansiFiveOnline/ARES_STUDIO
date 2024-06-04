@@ -28,7 +28,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/team")
+      .get("https://ares-studio.onrender.com/api/team")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -37,7 +37,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/project")
+      .get("https://ares-studio.onrender.com/api/project")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -46,7 +46,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/opportunity")
+      .get("https://ares-studio.onrender.com/api/opportunity")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -55,7 +55,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/jobapplication")
+      .get("https://ares-studio.onrender.com/api/jobapplication")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -64,7 +64,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/gallery_name")
+      .get("https://ares-studio.onrender.com/api/gallery_name")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -73,7 +73,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/gallery")
+      .get("https://ares-studio.onrender.com/api/gallery")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -82,7 +82,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/contact")
+      .get("https://ares-studio.onrender.com/api/contact")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);
@@ -91,7 +91,7 @@ const AdminHome = () => {
       .catch((error) => console.error("Error fetching service count:", error));
 
     axios
-      .get("/api/career")
+      .get("https://ares-studio.onrender.com/api/career")
       .then((response) => {
         const count = response.data.count;
         console.log(response.data.count);

@@ -13,7 +13,7 @@ const AddProjectDetail = () => {
     const fetchProjectNames = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/project/projectname"
+          "https://ares-studio.onrender.com/api/project/projectname"
         );
         setProjectNames(response.data.projectNames);
       } catch (error) {
@@ -48,7 +48,7 @@ const AddProjectDetail = () => {
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios.post(
-        "http://localhost:8000/api/project_detail",
+        "https://ares-studio.onrender.com/api/project_detail",
         formData,
         {
           headers: {

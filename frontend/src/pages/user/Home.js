@@ -76,10 +76,10 @@ const Home = () => {
     const fetchServicesData = async () => {
       try {
         const gamesResponse = await axios.get(
-          "http://localhost:8000/api/service/servicename?service_name=GAMES"
+          "https://ares-studio.onrender.com/api/service/servicename?service_name=GAMES"
         );
         const vfxResponse = await axios.get(
-          "http://localhost:8000/api/service/servicename?service_name=VFX"
+          "https://ares-studio.onrender.com/api/service/servicename?service_name=VFX"
         );
         setGamesData(gamesResponse.data.service);
         setVfxData(vfxResponse.data.service);
@@ -117,7 +117,7 @@ const Home = () => {
                           gamesData.media &&
                           gamesData.media.filepath ? (
                           <img
-                            src={`http://localhost:8000/${gamesData.media.filepath}`}
+                            src={`https://ares-studio.onrender.com/${gamesData.media.filepath}`}
                             alt="Games Media"
                           />
                         ) : (
@@ -149,7 +149,7 @@ const Home = () => {
                           vfxData.media &&
                           vfxData.media.filepath ? (
                           <img
-                            src={`http://localhost:8000/${vfxData.media.filepath}`}
+                            src={`https://ares-studio.onrender.com/${vfxData.media.filepath}`}
                             alt="VFX Media"
                           />
                         ) : (

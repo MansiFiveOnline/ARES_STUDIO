@@ -67,11 +67,14 @@ const AdminRoute = () => {
           setValid(false);
           return;
         }
-        const res = await axios.get(`http://localhost:8000/api/auth/admin`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        });
+        const res = await axios.get(
+          `https://ares-studio.onrender.com/api/auth/admin`,
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
 
         console.log("Response:", res.data);
 

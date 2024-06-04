@@ -50,7 +50,7 @@ const AddService = () => {
 
       const response = await axios({
         method: "POST",
-        baseURL: "http://localhost:8000/api",
+        baseURL: "https://ares-studio.onrender.com/api",
         url: `service`,
         data: formData,
         headers: {

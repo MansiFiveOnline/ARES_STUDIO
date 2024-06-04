@@ -27,7 +27,7 @@ const EditService = () => {
     const fetchService = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/service/${id}`
+          `https://ares-studio.onrender.com/api/service/${id}`
         );
         setService(response.data.service);
         setFormData({
@@ -111,7 +111,7 @@ const EditService = () => {
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios.patch(
-        `http://localhost:8000/api/service/${id}`,
+        `https://ares-studio.onrender.com/api/service/${id}`,
         formDataToSend,
         {
           headers: {
@@ -212,7 +212,7 @@ const EditService = () => {
                 {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`http://localhost:8000/${formData.media.filepath}`}
+                    src={`https://ares-studio.onrender.com/${formData.media.filepath}`}
                     alt="Media"
                   />
                 )}

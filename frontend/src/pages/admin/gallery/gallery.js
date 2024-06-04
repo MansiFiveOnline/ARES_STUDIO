@@ -14,7 +14,7 @@ const Gallery = () => {
         // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "gallery",
         });
         console.log(response.data.galleries);
@@ -29,13 +29,11 @@ const Gallery = () => {
 
   const handleDelete = async (id) => {
     try {
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
-
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `gallery/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -128,7 +126,7 @@ const Gallery = () => {
                         <td className="table-profile-img text-center">
                           {gallery.type === "image" ? (
                             <img
-                              src={`http://localhost:8000/${gallery.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`https://ares-studio.onrender.com/${gallery.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${gallery.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />

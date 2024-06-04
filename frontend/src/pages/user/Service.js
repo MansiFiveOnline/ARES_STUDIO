@@ -24,7 +24,7 @@ const Service = () => {
       try {
         console.log("formattedServiceName", serviceName);
         const response = await axios.get(
-          `http://localhost:8000/api/service/servicename?service_name=${serviceName}`
+          `https://ares-studio.onrender.com/api/service/servicename?service_name=${serviceName}`
         );
         setServiceData(response.data.service);
         if (
@@ -67,7 +67,7 @@ const Service = () => {
                   <VideoPlayer src={serviceData.media.iframe} />
                 ) : (
                   <img
-                    src={`http://localhost:8000/${serviceData.media.filepath}`}
+                    src={`https://ares-studio.onrender.com/${serviceData.media.filepath}`}
                     alt="Media"
                   />
                 )}

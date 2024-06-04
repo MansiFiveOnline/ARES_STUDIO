@@ -263,7 +263,7 @@ const Gallery = ({ service_name }) => {
     const fetchGalleryNames = async () => {
       try {
         const response = await axios.get(
-          `/api/gallery_name/gallerynames?service_name=${service_name}`
+          `https://ares-studio.onrender.com/api/gallery_name/gallerynames?service_name=${service_name}`
         );
         setGalleryNames(response.data.galleryNames);
       } catch (error) {
@@ -283,11 +283,11 @@ const Gallery = ({ service_name }) => {
         let response;
         if (selectedTab === "all") {
           response = await axios.get(
-            `/api/project/project_media?service_name=${service_name}&gallery_name=all`
+            `https://ares-studio.onrender.com/api/project/project_media?service_name=${service_name}&gallery_name=all`
           );
         } else {
           response = await axios.get(
-            `/api/project/project_media?service_name=${service_name}&gallery_name=${selectedTab}`
+            `https://ares-studio.onrender.com/api/project/project_media?service_name=${service_name}&gallery_name=${selectedTab}`
           );
         }
 
@@ -347,7 +347,10 @@ const Gallery = ({ service_name }) => {
 
   const handleEmailSubmit = async (email) => {
     try {
-      const response = await axios.post("/api/email", { email });
+      const response = await axios.post(
+        "https://ares-studio.onrender.com/api/email",
+        { email }
+      );
       if (response.status === 200) {
         // Set flag indicating email form has been submitted
         localStorage.setItem("submittedMedia", JSON.stringify(selectedMedia));
@@ -434,7 +437,7 @@ const Gallery = ({ service_name }) => {
                       <img
                         src={
                           item.filepath
-                            ? `http://localhost:8000/${item.filepath}`
+                            ? `https://ares-studio.onrender.com/${item.filepath}`
                             : "path_to_placeholder_image"
                         }
                         className="card-img-top"

@@ -49,7 +49,7 @@
 //     const fetchTitle = async () => {
 //       try {
 //         const response = await axios.get(
-//           "http://localhost:8000/api/opportunity/title"
+//           "https://ares-studio.onrender.com/api/opportunity/title"
 //         );
 //         setOpportunityTitles(response.data.opportunityTitles);
 //       } catch (error) {
@@ -98,7 +98,7 @@
 //     try {
 //       const access_token = localStorage.getItem("access_token");
 //       const response = await axios.post(
-//         "http://localhost:8000/api/jobapplication",
+//         "https://ares-studio.onrender.com/api/jobapplication",
 //         data,
 //         {
 //           headers: {
@@ -136,7 +136,7 @@
 //               <VideoPlayer src={careerData.media.iframe} />
 //             ) : (
 //               <img
-//                 src={`http://localhost:8000/${careerData.media.filepath}`}
+//                 src={`https://ares-studio.onrender.com/${careerData.media.filepath}`}
 //                 alt="Media"
 //               />
 //             )} */}
@@ -145,7 +145,7 @@
 //               <VideoPlayer src={careerData[0].media.iframe} />
 //             ) : careerData[0]?.media && careerData[0]?.media.filepath ? (
 //               <img
-//                 src={`http://localhost:8000/${careerData[0].media.filepath}`}
+//                 src={`https://ares-studio.onrender.com/${careerData[0].media.filepath}`}
 //                 alt="Media"
 //               />
 //             ) : (
@@ -344,7 +344,7 @@ export default function Career() {
     const fetchTitle = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/opportunity/title"
+          "https://ares-studio.onrender.com/api/opportunity/title"
         );
         setOpportunityTitles(response.data.opportunityTitles);
       } catch (error) {
@@ -401,7 +401,7 @@ export default function Career() {
     try {
       const access_token = localStorage.getItem("access_token");
       const response = await axios.post(
-        "http://localhost:8000/api/jobapplication",
+        "https://ares-studio.onrender.com/api/jobapplication",
         data,
         {
           headers: {
@@ -436,7 +436,7 @@ export default function Career() {
               <VideoPlayer src={careerData[0].media.iframe} />
             ) : careerData[0]?.media && careerData[0]?.media.filepath ? (
               <img
-                src={`http://localhost:8000/${careerData[0].media.filepath}`}
+                src={`https://ares-studio.onrender.com/${careerData[0].media.filepath}`}
                 alt="Media"
               />
             ) : (

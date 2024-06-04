@@ -26,7 +26,7 @@ const AddTeam = () => {
       // Make a POST request to the backend to create a new team
       const response = await axios({
         method: "POST",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: "team",
         data: formData,
         headers: {

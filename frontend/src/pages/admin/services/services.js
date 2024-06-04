@@ -14,7 +14,7 @@ const AdminServices = () => {
         // const response = await axios.get("/api/user/allservices");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "service",
         });
         console.log(response.data.services);
@@ -29,12 +29,12 @@ const AdminServices = () => {
 
   const handleDelete = async (id) => {
     try {
-      // await axios.delete(`http://localhost:8000/api/user/${id}`);
+      // await axios.delete(`https://ares-studio.onrender.com/api/user/${id}`);
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `service/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -151,7 +151,7 @@ const AdminServices = () => {
                         <td className="table-profile-img text-center">
                           {service.type === "image" ? (
                             <img
-                              src={`http://localhost:8000/${service.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`https://ares-studio.onrender.com/${service.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${service.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />

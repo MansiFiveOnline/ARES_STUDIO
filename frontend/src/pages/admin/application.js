@@ -14,7 +14,7 @@ const Application = () => {
         // const response = await axios.get("/api/user/allapplications");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "jobapplication",
         });
         console.log(response.data.applications);
@@ -33,7 +33,7 @@ const Application = () => {
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `jobapplication/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -58,7 +58,7 @@ const Application = () => {
   //   const normalizedPath = filepath.replace(/\\/g, "/");
 
   //   // Construct the full URL of the document
-  //   const downloadUrl = `http://localhost:8000/${normalizedPath}`;
+  //   const downloadUrl = `https://ares-studio.onrender.com/${normalizedPath}`;
 
   //   // Create a hidden anchor element to trigger download
   //   const anchor = document.createElement("a");
@@ -73,7 +73,7 @@ const Application = () => {
   //       const firstDocument = document[0];
   //       if (firstDocument.filepath) {
   //         const normalizedPath = firstDocument.filepath.replace(/\\/g, "/");
-  //         const downloadUrl = `http://localhost:8000/${normalizedPath}`;
+  //         const downloadUrl = `https://ares-studio.onrender.com/${normalizedPath}`;
 
   //         const anchor = document.createElement("a");
   //         anchor.href = downloadUrl;
@@ -101,7 +101,7 @@ const Application = () => {
   //         // Replace backslashes with forward slashes in the filepath
   //         const normalizedPath = firstDocument.filepath.replace(/\\/g, "/");
   //         // Construct the full URL of the document
-  //         const downloadUrl = `http://localhost:8000/${normalizedPath}`;
+  //         const downloadUrl = `https://ares-studio.onrender.com/${normalizedPath}`;
   //         // Create a hidden anchor element to trigger download
   //         const anchor = document.createElement("a");
   //         anchor.href = downloadUrl;
@@ -128,7 +128,7 @@ const Application = () => {
           // Replace backslashes with forward slashes in the filepath
           const normalizedPath = firstDocument.filepath.replace(/\\/g, "/");
           // Construct the full URL of the document
-          const downloadUrl = `http://localhost:8000/${normalizedPath}`;
+          const downloadUrl = `https://ares-studio.onrender.com/${normalizedPath}`;
           // Open the download URL in a new tab
           window.open(downloadUrl, "_blank");
         } else {

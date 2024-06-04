@@ -29,7 +29,7 @@ const EditGallery = () => {
       try {
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: `gallery/${id}`,
         });
         const galleryData = response.data.gallery;
@@ -94,14 +94,8 @@ const EditGallery = () => {
 
   const fetchGalleryNames = async (service_name) => {
     try {
-      // const response = await axios({
-      //   method: "GET",
-      //   baseURL: "http://localhost:8000/api/",
-      //   url: `gallery_name/gallerynames?service_name=${selectedService}`,
-      // });
-
       const response = await axios.get(
-        `http://localhost:8000/api/gallery_name/gallerynames?service_name=${service_name}`
+        `https://ares-studio.onrender.com/api/gallery_name/gallerynames?service_name=${service_name}`
       );
 
       setGalleryNames(response.data.galleryNames);
@@ -146,7 +140,7 @@ const EditGallery = () => {
 
       const response = await axios({
         method: "PATCH",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `gallery/${id}`,
         data: formDataToSend, // Pass form data directly
         headers: {
@@ -224,7 +218,7 @@ const EditGallery = () => {
                 {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`http://localhost:8000/${formData.media.filepath}`}
+                    src={`https://ares-studio.onrender.com/${formData.media.filepath}`}
                     alt={`${formData.media.filename}`}
                   />
                 )}

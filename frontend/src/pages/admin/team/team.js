@@ -16,7 +16,7 @@ const Team = () => {
       try {
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "team",
         });
         console.log(response.data.teams);
@@ -36,7 +36,7 @@ const Team = () => {
 
       await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `team/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -88,7 +88,7 @@ const Team = () => {
                         <td className="table-profile-img text-center">
                           {team.image && team.image.length > 0 ? (
                             <img
-                              src={`http://localhost:8000/${team.image[0].filepath}`}
+                              src={`https://ares-studio.onrender.com/${team.image[0].filepath}`}
                               alt={team.image[0].filename}
                               style={{ width: "50px", height: "50px" }}
                             />

@@ -25,7 +25,7 @@ const AddOpportunity = () => {
 
       const response = await axios({
         method: "POST",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `opportunity`,
         data: formData,
         headers: {

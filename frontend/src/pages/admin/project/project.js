@@ -14,7 +14,7 @@ const Project = () => {
         // const response = await axios.get("/api/user/allUsers");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "project",
         });
         console.log(response.data.projects);
@@ -33,7 +33,7 @@ const Project = () => {
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `project/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -96,7 +96,7 @@ const Project = () => {
                         <td className="table-profile-img text-center">
                           {project.type === "image" ? (
                             <img
-                              src={`http://localhost:8000/${project.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`https://ares-studio.onrender.com/${project.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${project.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />

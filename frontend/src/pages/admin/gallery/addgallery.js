@@ -15,7 +15,7 @@ const AddGallery = () => {
     try {
       const response = await axios({
         method: "GET",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `gallery_name/gallerynames?service_name=${selectedService}`,
       });
 
@@ -66,7 +66,7 @@ const AddGallery = () => {
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios.post(
-        "http://localhost:8000/api/gallery",
+        "https://ares-studio.onrender.com/api/gallery",
         formData,
         {
           headers: {

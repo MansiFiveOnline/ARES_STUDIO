@@ -21,7 +21,7 @@ const AddProject = () => {
     try {
       const response = await axios({
         method: "GET",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: "https://ares-studio.onrender.com/api/",
         url: `gallery_name/gallerynames?service_name=${selectedService}`,
       });
 
@@ -81,7 +81,7 @@ const AddProject = () => {
 
       // const response = await axios({
       //   method: "POST",
-      //   baseURL: "http://localhost:8000/api/",
+      //   baseURL: "https://ares-studio.onrender.com/api/",
       //   url: `project/`,
       //   formData,
       //   headers: {
@@ -91,9 +91,9 @@ const AddProject = () => {
       // });
 
       const response = await axios.post(
-        "http://localhost:8000/api/project",
+        "https://ares-studio.onrender.com/api/project",
         // method: "POST",
-        // baseURL: "http://localhost:8000/api/",
+        // baseURL: "https://ares-studio.onrender.com/api/",
         // url: `project/`,
         formData,
         {

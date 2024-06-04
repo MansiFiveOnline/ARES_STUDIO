@@ -12,7 +12,7 @@ const Password = () => {
         // const response = await axios.get("/api/user/allemail");
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: "https://ares-studio.onrender.com/api/",
           url: "email",
         });
         console.log(response.data.emails);

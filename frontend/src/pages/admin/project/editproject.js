@@ -31,7 +31,7 @@ const EditProject = () => {
     const fetchProject = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/project/${id}`
+          `https://ares-studio.onrender.com/api/project/${id}`
         );
         const projectData = response.data.project;
 
@@ -95,7 +95,7 @@ const EditProject = () => {
   const fetchGalleryNames = async (service_name) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/gallery_name/gallerynames?service_name=${service_name}`
+        `https://ares-studio.onrender.com/api/gallery_name/gallerynames?service_name=${service_name}`
       );
 
       setGalleryNames(response.data.galleryNames);
@@ -143,7 +143,7 @@ const EditProject = () => {
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios.patch(
-        `http://localhost:8000/api/project/${id}`,
+        `https://ares-studio.onrender.com/api/project/${id}`,
         formDataToSend,
         {
           headers: {
@@ -263,7 +263,7 @@ const EditProject = () => {
                 {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`http://localhost:8000/${formData.media.filepath}`}
+                    src={`https://ares-studio.onrender.com/${formData.media.filepath}`}
                     alt={`${formData.media.filename}`}
                   />
                 )}
