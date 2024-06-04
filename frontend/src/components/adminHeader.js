@@ -1,6 +1,5 @@
 import React from "react";
 import "../style/index.css";
-import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {

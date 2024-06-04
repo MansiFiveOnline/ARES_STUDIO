@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../components/adminLayout";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,8 +7,6 @@ const Gallery = () => {
   const [galleries, setGalleries] = useState([]);
 
   const navigate = useNavigate();
-
-  const tableRef = useRef(null);
 
   useEffect(() => {
     const fetchGalleries = async () => {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/adminLayout";
-import { NavLink, useNavigate } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Application = () => {

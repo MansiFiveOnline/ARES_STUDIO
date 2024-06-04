@@ -52,7 +52,7 @@ export default function Contact() {
         <div className="app">
           <div className="video-list">
             {/* <VideoPlayer src="images/video2.mp4" /> */}
-            <img src="images/service-detail.jpg" />
+            <img src="images/service-detail.jpg" alt="" />
           </div>
         </div>
         <div className="service_title">
@@ -137,7 +137,7 @@ export default function Contact() {
                     <div className="col-lg-12">
                       <div class="text-end">
                         <button type="submit" class="btn">
-                          <img src="images/arrow-right.svg" />
+                          <img src="images/arrow-right.svg" alt="" />
                         </button>
                       </div>
                     </div>
@@ -158,7 +158,7 @@ export default function Contact() {
               <div className="adress_main plr-20">
                 <div className="address_box mb-3">
                   <div className="address_icon">
-                    <img src="images/map-pin.svg" />
+                    <img src="images/map-pin.svg" alt="" />
                   </div>
                   <div className="address_info">
                     <p>
@@ -193,7 +193,7 @@ export default function Contact() {
                 </div>
                 <div className="address_box align-items-center mb-3">
                   <div className="address_icon">
-                    <img src="images/call-icon.svg" />
+                    <img src="images/call-icon.svg" alt="" />
                   </div>
                   <div className="address_info">
                     <p>
@@ -216,7 +216,7 @@ export default function Contact() {
                 </div>
                 <div className="address_box align-items-center mb-3">
                   <div className="address_icon">
-                    <img src="images/call-icon.svg" />
+                    <img src="images/call-icon.svg" alt="" />
                   </div>
                   <div className="address_info">
                     <p>
@@ -239,7 +239,7 @@ export default function Contact() {
                 </div>
                 <div className="address_box align-items-center mb-3">
                   <div className="address_icon">
-                    <img src="images/call-icon.svg" />
+                    <img src="images/call-icon.svg" alt="" />
                   </div>
                   <div className="address_info">
                     <p>
@@ -263,6 +263,7 @@ export default function Contact() {
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
+          title="map"
         ></iframe>
       </section>
     </Layout>

@@ -240,10 +240,10 @@
 
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import axios from "axios";
 import VideoPlayer from "../components/Videoplayer";
-import { useParams, NavLink, useNavigate } from "react-router-dom"; // Import useHistory
+import { useNavigate } from "react-router-dom"; // Import useHistory
 import "../style/user.css";
 import PasswordForm from "./passwordForm";
 import EmailForm from "./emailForm";
@@ -258,8 +258,6 @@ const Gallery = ({ service_name }) => {
   const [showEmailForm, setShowEmailForm] = useState(true);
   const [submittedMedia, setSubmittedMedia] = useState(null); // Track submitted media
   const navigate = useNavigate(); // Access navigate function from React Router
-
-  const { id } = useParams();
 
   useEffect(() => {
     const fetchGalleryNames = async () => {

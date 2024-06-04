@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, Link, useParams } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import "../style/index.css";
-import axios from "axios";
 import { useAuth } from "../context/authContext";
 
 // import PeopleIcon from "@mui/icons-material/People";

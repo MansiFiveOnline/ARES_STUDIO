@@ -17,7 +17,7 @@ export default function Footer() {
             <Link to="mailto:contact@aresstudio.in">contact@aresstudio.in</Link>
           </div>
           <div className="col-lg-4 text-center">
-            <img className="iso-img" src="images/iso-logo.svg" />
+            <img className="iso-img" src="images/iso-logo.svg" alt="" />
             <p>ISO 2007 :2013</p>
           </div>
           <div className="col-lg-4 text-end">

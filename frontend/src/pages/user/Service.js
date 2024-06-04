@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout";
 import VideoPlayer from "../../components/Videoplayer";
-import { Link, useParams } from "react-router-dom"; // Import useParams
+import { useParams } from "react-router-dom"; // Import useParams
 import Gallery from "../../components/Gallery";
 import axios from "axios";
 import "../../style/user.css";

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../components/adminLayout";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 
 const ProjectDetail = () => {
   const [projectDetails, setProjectDetails] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjectDetails = async () => {

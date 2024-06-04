@@ -3,11 +3,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import Layout from "../../../components/adminLayout";
 import axios from "axios";
 import "../../../style/index.css";
-import $ from "jquery";
 import "datatables.net";
 import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 
 const Team = () => {
   const [teams, setTeams] = useState([]);
@@ -37,7 +34,7 @@ const Team = () => {
     try {
       const access_token = localStorage.getItem("access_token");
 
-      const response = await axios({
+      await axios({
         method: "DELETE",
         baseURL: "http://localhost:8000/api/",
         url: `team/${id}`,

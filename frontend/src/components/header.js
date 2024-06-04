@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import "../style/user.css";
 
 const SideNavigation = () => {
@@ -23,7 +22,7 @@ const SideNavigation = () => {
             {/* Close button */}
             <div className="col-lg-12 text-end">
               <span className="closebtn" onClick={closeNav}>
-                <img src="images/close-icon.svg" />
+                <img src="images/close-icon.svg" alt="" />
               </span>
             </div>
 
@@ -100,7 +99,7 @@ const SideNavigation = () => {
           <div className="col-lg-4 col-6 text-center">
             <div className="ares_logo">
               <Link to="/">
-                <img src="images/logo_small_black_transparent.svg" />
+                <img src="images/logo_small_black_transparent.svg" alt="" />
               </Link>
             </div>
           </div>

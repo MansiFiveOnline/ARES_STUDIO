@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../../components/adminLayout";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { get } from "jquery";
 
 const AdminCareer = () => {
   const [careers, setCareers] = useState([]);
 
   const navigate = useNavigate();
-
-  const tableRef = useRef(null);
 
   useEffect(() => {
     const fetchCareers = async () => {

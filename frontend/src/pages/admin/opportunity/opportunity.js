@@ -8,8 +8,6 @@ const Opportunities = () => {
 
   const navigate = useNavigate();
 
-  const tableRef = useRef(null);
-
   useEffect(() => {
     const fetchOpportunities = async () => {
       try {

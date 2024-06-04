@@ -8,8 +8,6 @@ const Project = () => {
 
   const navigate = useNavigate();
 
-  const tableRef = useRef(null);
-
   useEffect(() => {
     const fetchProjects = async () => {
       try {

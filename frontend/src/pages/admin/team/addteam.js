@@ -1,4 +1,4 @@
-import React, { useState, useEffect, teamef } from "react";
+import React, { useState } from "react";
 import Layout from "../../../components/adminLayout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

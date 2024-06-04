@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "../../components/adminLayout";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AdminContact = () => {
   const [contacts, setContacts] = useState([]);

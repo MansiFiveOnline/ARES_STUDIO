@@ -8,8 +8,6 @@ const AdminServices = () => {
 
   const navigate = useNavigate();
 
-  const tableRef = useRef(null);
-
   useEffect(() => {
     const fetchServices = async () => {
       try {

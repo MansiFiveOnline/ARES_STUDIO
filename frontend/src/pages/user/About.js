@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebookF,
-  faTwitter,
-  faLinkedinIn,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
+import { faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import "../../style/user.css";
 import axios from "axios";
 import VideoPlayer from "../../components/Videoplayer";
@@ -124,36 +119,32 @@ export default function About() {
       </section>
       <section className="about_team">
         <div className="team_container">
-          {teams.map(
-            (item, index) => (
-              console.log("User item:", item),
-              console.log("User image:", item.image[0]),
-              (
-                <div
-                  className="section"
-                  key={index}
-                  // style={{
-                  //   // backgroundImage: `url('http://localhost:8000/${
-                  //   //   item.image[0] && item.image[0].filepath
-                  //   // }')`,
-                  //   backgroundImage: `url(http://localhost:8000/${item.image[0].filepath})`,
-                  // }}
-                >
-                  <div>
-                    <img
-                      src={`http://localhost:8000/${item.image[0].filepath}`}
-                      alt="Media"
-                    />
-                    <div className="content">
-                      <div className="team_name_social">
-                        <div className="name">
-                          <h5>{item.designation}</h5>
-                          <h3>{item.name}</h3>
-                        </div>
+          {teams.map((item, index) => (
+            <div
+              className="section"
+              key={index}
+              // style={{
+              //   // backgroundImage: `url('http://localhost:8000/${
+              //   //   item.image[0] && item.image[0].filepath
+              //   // }')`,
+              //   backgroundImage: `url(http://localhost:8000/${item.image[0].filepath})`,
+              // }}
+            >
+              <div>
+                <img
+                  src={`http://localhost:8000/${item.image[0].filepath}`}
+                  alt="Media"
+                />
+                <div className="content">
+                  <div className="team_name_social">
+                    <div className="name">
+                      <h5>{item.designation}</h5>
+                      <h3>{item.name}</h3>
+                    </div>
 
-                        {/* Social Media Icons * */}
-                        <div className="social_media_abt">
-                          {/* <a
+                    {/* Social Media Icons * */}
+                    <div className="social_media_abt">
+                      {/* <a
                             href={item.socialMedia.facebook}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -173,17 +164,17 @@ export default function About() {
                               style={{ color: "white" }}
                             />
                           </a> */}
-                          <a
-                            href={item.linkedin_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <FontAwesomeIcon
-                              icon={faLinkedinIn}
-                              style={{ color: "white" }}
-                            />
-                          </a>
-                          {/* <a
+                      <a
+                        href={item.linkedin_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FontAwesomeIcon
+                          icon={faLinkedinIn}
+                          style={{ color: "white" }}
+                        />
+                      </a>
+                      {/* <a
                             href={item.socialMedia.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -193,15 +184,13 @@ export default function About() {
                               style={{ color: "white" }}
                             />
                           </a> */}
-                        </div>
-                      </div>
                     </div>
-                    <div className="overlay"></div>
                   </div>
                 </div>
-              )
-            )
-          )}
+                <div className="overlay"></div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

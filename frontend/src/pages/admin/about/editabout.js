@@ -44,7 +44,7 @@ const EditAbout = () => {
     };
 
     fetchAbout();
-  }, []);
+  });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

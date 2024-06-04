@@ -420,9 +420,8 @@
 
 // export default HorizontalTabs;
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../style/user.css";
-import axios from "axios";
 
 const HorizontalTabs = ({ opportunities }) => {
   const [activeTab, setActiveTab] = useState(0); // Default active tab

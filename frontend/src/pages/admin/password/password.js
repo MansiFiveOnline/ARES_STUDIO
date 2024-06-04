@@ -1,14 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../../components/adminLayout";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Password = () => {
   const [emails, setEmails] = useState([]);
-
-  const navigate = useNavigate();
-
-  const tableRef = useRef(null);
 
   useEffect(() => {
     const fetchEmails = async () => {

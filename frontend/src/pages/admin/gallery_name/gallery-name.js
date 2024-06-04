@@ -8,8 +8,6 @@ const GalleryName = () => {
 
   const navigate = useNavigate();
 
-  const tableRef = useRef(null);
-
   useEffect(() => {
     const fetchGalleryName = async () => {
       try {

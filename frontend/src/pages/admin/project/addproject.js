@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AddProject = () => {
-  const [gallery_name, setGalleryName] = useState("");
   const [service_name, setServiceName] = useState("");
   const [project_name, setProjectName] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -189,14 +188,14 @@ const AddProject = () => {
                   onChange={(e) => setSelectedGallery(e.target.value)}
                 >
                   <option value="">Select a Gallery</option>
-                  {galleryNames.map(
-                    (gallery_name) => (
-                      console.log("names", gallery_name),
-                      (
-                        <option key={gallery_name._id} value={gallery_name}>
-                          {gallery_name}
-                        </option>
-                      )
+                  {galleryNames.map((gallery_name) =>
+                    console.log(
+                      "names",
+                      gallery_name
+                    )(
+                      <option key={gallery_name._id} value={gallery_name}>
+                        {gallery_name}
+                      </option>
                     )
                   )}
                 </select>
