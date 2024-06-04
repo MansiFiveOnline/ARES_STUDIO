@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "resolutions": { "react": "^18.2.0" },
   "proxy": "http://localhost:8000",
   "homepage": "https://stg.bhaviklogistics.com/ares_studio",
   "dependencies": {
