@@ -4,7 +4,7 @@
   "description": "",
   "node": "npm start",
   "main": "server.js",
-  "homepage": "https://react.bhaviklogistics.com/admin",
+  "homepage": "https://ares-studio.onrender.com",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon main",
