@@ -10,11 +10,11 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: "https://react.bhaviklogistics.com",
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://react.bhaviklogistics.com",
+//   })
+// );
 
 // app.use(express.static(path.join(__dirname, "../frontend/build")));
 
