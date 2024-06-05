@@ -29,6 +29,35 @@ app.use(
 //   res.sendFile(path.join(__dirname, "build", "index.html"));
 // });
 
+const PORT = process.env.PORT || 8000;
+
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [process.env.PROD_URL] // Production URL
+    : [process.env.DEV_URL]; // Development URL
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin like mobile apps or curl requests
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/api", (req, res) => {
@@ -51,7 +80,7 @@ app.use("/api/email", Route.emailRoute);
 
 connectDb();
 
-app.listen(process.env.PORT, (error) => {
+app.listen(PORT, (error) => {
   if (error) {
     console.log(`Server connection failed due to ${error}`);
   }
