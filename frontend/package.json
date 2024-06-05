@@ -5,7 +5,7 @@
   "resolutions": {
     "react": "^18.2.0"
   },
-  "homepage": "https://react.bhaviklogistics.com/ares_studio",
+  "homepage": "https://react.bhaviklogistics.com",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
