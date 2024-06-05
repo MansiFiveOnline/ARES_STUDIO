@@ -1,10 +1,10 @@
 {
   "name": "backend",
-  "homepage": "https://ares-studio.onrender.com",
   "version": "1.0.0",
   "description": "",
   "node": "npm start",
   "main": "server.js",
+  "homepage": "https://react.bhaviklogistics.com/ares_studio/admin",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon main",

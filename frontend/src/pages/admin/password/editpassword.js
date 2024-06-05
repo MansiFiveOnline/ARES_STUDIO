@@ -16,9 +16,9 @@ const EditPassword = () => {
   useEffect(() => {
     const fetchEmail = async () => {
       try {
-        const response = await axios.get(
-          `https://ares-studio.onrender.com/api/email/${id}`
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/email/${id}`);
         setService(response.data.email);
         setFormData({
           email: response.data.email.email,
@@ -44,9 +44,10 @@ const EditPassword = () => {
     e.preventDefault();
     try {
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios.patch(
-        `https://ares-studio.onrender.com/api/email/password/${id}`,
+        `${apiUrl}/api/email/password/${id}`,
         { password: formData.password },
         {
           headers: {

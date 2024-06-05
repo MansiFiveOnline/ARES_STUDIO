@@ -72,17 +72,21 @@ const Home = () => {
   const [gamesData, setGamesData] = useState(null);
   const [vfxData, setVfxData] = useState(null);
 
+  console.log("api", `${process.env.REACT_APP_API_URL}`);
+
   useEffect(() => {
     const fetchServicesData = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
         const gamesResponse = await axios.get(
-          "https://ares-studio.onrender.com/api/service/servicename?service_name=GAMES"
+          `${apiUrl}/api/service/servicename?service_name=GAMES`
         );
         const vfxResponse = await axios.get(
-          "https://ares-studio.onrender.com/api/service/servicename?service_name=VFX"
+          `${apiUrl}/api/service/servicename?service_name=VFX`
         );
         setGamesData(gamesResponse.data.service);
         setVfxData(vfxResponse.data.service);
+        console.log("api url", apiUrl);
       } catch (error) {
         console.error("Error fetching services data:", error);
       }
@@ -117,7 +121,7 @@ const Home = () => {
                           gamesData.media &&
                           gamesData.media.filepath ? (
                           <img
-                            src={`https://ares-studio.onrender.com/${gamesData.media.filepath}`}
+                            src={`${process.env.REACT_APP_API_URL}/${gamesData.media.filepath}`}
                             alt="Games Media"
                           />
                         ) : (
@@ -149,7 +153,7 @@ const Home = () => {
                           vfxData.media &&
                           vfxData.media.filepath ? (
                           <img
-                            src={`https://ares-studio.onrender.com/${vfxData.media.filepath}`}
+                            src={`${process.env.REACT_APP_API_URL}/${vfxData.media.filepath}`}
                             alt="VFX Media"
                           />
                         ) : (

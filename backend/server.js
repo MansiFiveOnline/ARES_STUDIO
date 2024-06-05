@@ -11,9 +11,15 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://ares-studio-frontend.onrender.com",
+    origin: "http://localhost:3000",
   })
 );
+
+// app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+// });
 
 // Serve static files from the React app
 // app.use(express.static(path.join(__dirname, "build")));

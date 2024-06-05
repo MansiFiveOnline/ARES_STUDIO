@@ -5,8 +5,7 @@
   "resolutions": {
     "react": "^18.2.0"
   },
-  "proxy": "https://ares-studio-frontend.onrender.com",
-  "homepage": "https://ares-studio-frontend.onrender.com",
+  "homepage": "https://react.bhaviklogistics.com/ares_studio",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -25,6 +24,7 @@
     "bs5-lightbox": "^1.8.3",
     "datatables.net": "^2.0.4",
     "datatables.net-bs4": "^2.0.4",
+    "dotenv": "^16.4.5",
     "fancybox": "^3.0.1",
     "feather-icons-react": "^0.7.0",
     "glightbox": "^3.3.0",

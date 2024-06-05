@@ -9,9 +9,11 @@ const ProjectDetail = () => {
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
+          baseURL: `${apiUrl}/api`,
           url: "project_detail",
         });
         setProjectDetails(response.data.projectDetails);
@@ -26,10 +28,11 @@ const ProjectDetail = () => {
   const handleDelete = async (id) => {
     try {
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `project_detail/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -79,7 +82,8 @@ const ProjectDetail = () => {
                         <td className="text-center">
                           {projectDetail.type === "image" ? (
                             <img
-                              src={`https://ares-studio.onrender.com/${projectDetail.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`${process.env.REACT_APP_API_URL}
+                              /${projectDetail.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${projectDetail.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />

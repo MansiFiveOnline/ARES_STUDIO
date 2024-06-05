@@ -12,9 +12,10 @@ const Project = () => {
     const fetchProjects = async () => {
       try {
         // const response = await axios.get("/api/user/allUsers");
+        const apiUrl = process.env.REACT_APP_API_URL;
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
+          baseURL: `${apiUrl}/api/`,
           url: "project",
         });
         console.log(response.data.projects);
@@ -30,10 +31,11 @@ const Project = () => {
   const handleDelete = async (id) => {
     try {
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `project/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -96,7 +98,7 @@ const Project = () => {
                         <td className="table-profile-img text-center">
                           {project.type === "image" ? (
                             <img
-                              src={`https://ares-studio.onrender.com/${project.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`${process.env.REACT_APP_API_URL}/${project.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${project.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />

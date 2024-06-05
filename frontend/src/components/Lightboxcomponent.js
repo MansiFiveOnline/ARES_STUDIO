@@ -8,13 +8,14 @@ const Lightboxcomponent = () => {
   const { project_name } = useParams();
   const [media, setMedia] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchProjectMedia = async () => {
       try {
         const encodedProjectName = encodeURIComponent(project_name);
         const response = await axios.get(
-          `https://ares-studio.onrender.com/api/project_detail/project_media/?project_name=${encodedProjectName}`
+          `${apiUrl}/api/project_detail/project_media/?project_name=${encodedProjectName}`
         );
         setMedia(response.data.media);
       } catch (error) {
@@ -52,7 +53,7 @@ const Lightboxcomponent = () => {
                       />
                     ) : (
                       <img
-                        src={`https://ares-studio.onrender.com/${item.filepath}`}
+                        src={`${apiUrl}/${item.filepath}`}
                         alt={`${item.filename}`}
                         className="card-img-top"
                         data-bs-slide-to={index}
@@ -101,7 +102,7 @@ const Lightboxcomponent = () => {
                         />
                       ) : (
                         <img
-                          src={`https://ares-studio.onrender.com/${item.filepath}`}
+                          src={`${apiUrl}/${item.filepath}`}
                           alt={`Media ${index}`}
                           className="img-fluid mh-100"
                         />

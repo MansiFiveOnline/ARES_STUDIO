@@ -23,9 +23,9 @@ const EditProjectDetail = () => {
   useEffect(() => {
     const fetchProjectDetail = async () => {
       try {
-        const response = await axios.get(
-          `https://ares-studio.onrender.com/api/project_detail/${id}`
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/project_detail/${id}`);
         const projectDetailData = response.data.projectDetail;
 
         setProjectDetail(projectDetailData);
@@ -80,9 +80,9 @@ const EditProjectDetail = () => {
 
   const fetchProjectNames = async () => {
     try {
-      const response = await axios.get(
-        "https://ares-studio.onrender.com/api/project/projectname"
-      );
+      const apiUrl = process.env.REACT_APP_API_URL;
+
+      const response = await axios.get(`${apiUrl}/api/project/projectname`);
       setProjectNames(response.data.projectNames);
     } catch (error) {
       console.error("Error fetching project names:", error);
@@ -109,7 +109,7 @@ const EditProjectDetail = () => {
       const access_token = localStorage.getItem("access_token");
 
       const response = await axios.patch(
-        `https://ares-studio.onrender.com/api/project_detail/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/project_detail/${id}`,
         formDataToSend,
         {
           headers: {
@@ -184,7 +184,7 @@ const EditProjectDetail = () => {
                 {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`https://ares-studio.onrender.com/${formData.media.filepath}`}
+                    src={`${process.env.REACT_APP_API_URL}/${formData.media.filepath}`}
                     alt={`${formData.media.filename}`}
                   />
                 )}

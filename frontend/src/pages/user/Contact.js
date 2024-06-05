@@ -27,10 +27,9 @@ export default function Contact() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://ares-studio.onrender.com/api/contact",
-        formData
-      );
+      const apiUrl = process.env.REACT_APP_API_URL;
+
+      const response = await axios.post(`${apiUrl}/api/contact`, formData);
       setStatusMessage(response.data.message);
       setFormData({
         name: "",

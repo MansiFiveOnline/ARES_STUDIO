@@ -19,10 +19,12 @@ const EditAbout = () => {
   useEffect(() => {
     const fetchAbout = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
-          url: `/about`,
+          baseURL: `${apiUrl}/api/`,
+          url: "about",
         });
         const aboutData = response.data.abouts[0];
         setFormData({
@@ -34,17 +36,13 @@ const EditAbout = () => {
           metaTitle: aboutData.metaTitle,
           metaDescription: aboutData.metaDescription,
         });
-
-        setTimeout(() => {
-          navigate("/admin/edit/about");
-        }, 2000);
       } catch (error) {
         console.error("Error fetching about:", error);
       }
     };
 
     fetchAbout();
-  });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -98,9 +96,11 @@ const EditAbout = () => {
 
       const access_token = localStorage.getItem("access_token");
 
+      const apiUrl = process.env.REACT_APP_API_URL;
+
       const response = await axios({
         method: "PATCH",
-        baseURL: "http://localhost:8000/api/",
+        baseURL: `${apiUrl}/api/`,
         url: "about",
         data: formDataToSend,
         headers: {
@@ -187,7 +187,7 @@ const EditAbout = () => {
                 {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`http://localhost:8000/${formData.media.filepath}`}
+                    src={`${process.env.REACT_APP_API_URL}/${formData.media.filepath}`}
                     alt="Media"
                   />
                 )}

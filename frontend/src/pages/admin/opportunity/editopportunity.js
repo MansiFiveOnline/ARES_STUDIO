@@ -17,9 +17,11 @@ const EditOpportunity = () => {
   useEffect(() => {
     const fetchOpportunity = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "http://localhost:8000/api/",
+          baseURL: `${apiUrl}/api/`,
           url: `opportunity/${id}/`,
         });
 
@@ -52,10 +54,11 @@ const EditOpportunity = () => {
     e.preventDefault();
     try {
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios({
         method: "PATCH",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `opportunity/${id}`,
         data: formData,
         headers: {

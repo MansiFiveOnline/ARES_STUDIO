@@ -26,9 +26,9 @@ const EditService = () => {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const response = await axios.get(
-          `https://ares-studio.onrender.com/api/service/${id}`
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/service/${id}`);
         setService(response.data.service);
         setFormData({
           service_name: response.data.service.service_name,
@@ -109,9 +109,10 @@ const EditService = () => {
       }
 
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios.patch(
-        `https://ares-studio.onrender.com/api/service/${id}`,
+        `${apiUrl}/api/service/${id}`,
         formDataToSend,
         {
           headers: {
@@ -212,7 +213,7 @@ const EditService = () => {
                 {formData.media.filepath && (
                   <img
                     className="form-profile"
-                    src={`https://ares-studio.onrender.com/${formData.media.filepath}`}
+                    src={`${process.env.REACT_APP_API_URL}/${formData.media.filepath}`}
                     alt="Media"
                   />
                 )}

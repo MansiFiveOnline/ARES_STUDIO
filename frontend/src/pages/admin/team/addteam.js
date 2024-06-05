@@ -24,9 +24,11 @@ const AddTeam = () => {
       const access_token = localStorage.getItem("access_token");
 
       // Make a POST request to the backend to create a new team
+
+      const apiUrl = process.env.REACT_APP_API_URL;
       const response = await axios({
         method: "POST",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: "team",
         data: formData,
         headers: {

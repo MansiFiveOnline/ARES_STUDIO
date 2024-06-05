@@ -49,7 +49,7 @@
 //     const fetchTitle = async () => {
 //       try {
 //         const response = await axios.get(
-//           "https://ares-studio.onrender.com/api/opportunity/title"
+//           "http://localhost:8000/api/opportunity/title"
 //         );
 //         setOpportunityTitles(response.data.opportunityTitles);
 //       } catch (error) {
@@ -98,7 +98,7 @@
 //     try {
 //       const access_token = localStorage.getItem("access_token");
 //       const response = await axios.post(
-//         "https://ares-studio.onrender.com/api/jobapplication",
+//         "http://localhost:8000/api/jobapplication",
 //         data,
 //         {
 //           headers: {
@@ -136,7 +136,7 @@
 //               <VideoPlayer src={careerData.media.iframe} />
 //             ) : (
 //               <img
-//                 src={`https://ares-studio.onrender.com/${careerData.media.filepath}`}
+//                 src={`http://localhost:8000/${careerData.media.filepath}`}
 //                 alt="Media"
 //               />
 //             )} */}
@@ -145,7 +145,7 @@
 //               <VideoPlayer src={careerData[0].media.iframe} />
 //             ) : careerData[0]?.media && careerData[0]?.media.filepath ? (
 //               <img
-//                 src={`https://ares-studio.onrender.com/${careerData[0].media.filepath}`}
+//                 src={`http://localhost:8000/${careerData[0].media.filepath}`}
 //                 alt="Media"
 //               />
 //             ) : (
@@ -324,9 +324,9 @@ export default function Career() {
   useEffect(() => {
     const fetchCareer = async () => {
       try {
-        const response = await axios.get(
-          `https://ares-studio.onrender.com/api/career`
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/career`);
         setCareerData(response.data.careers);
         console.log(response.data.careers);
         console.log("title", response.data.careers[0].title);
@@ -345,9 +345,9 @@ export default function Career() {
   useEffect(() => {
     const fetchTitle = async () => {
       try {
-        const response = await axios.get(
-          "https://ares-studio.onrender.com/api/opportunity/title"
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/opportunity/title`);
         setOpportunityTitles(response.data.opportunityTitles);
       } catch (error) {
         console.error("Error fetching opportunity titles:", error);
@@ -360,9 +360,9 @@ export default function Career() {
   useEffect(() => {
     const fetchOpportunities = async () => {
       try {
-        const response = await axios.get(
-          `https://ares-studio.onrender.com/api/opportunity`
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/opportunity`);
         setOpportunities(response.data.opportunities);
       } catch (error) {
         console.error("Error fetching opportunities:", error);
@@ -403,16 +403,14 @@ export default function Career() {
 
     console.log("position", selectedTitle);
     try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+
       const access_token = localStorage.getItem("access_token");
-      const response = await axios.post(
-        "https://ares-studio.onrender.com/api/jobapplication",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${apiUrl}/api/jobapplication`, data, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
       console.log(response.data);
       alert("Application submitted successfully");
     } catch (error) {
@@ -440,7 +438,7 @@ export default function Career() {
               <VideoPlayer src={careerData[0].media.iframe} />
             ) : careerData[0]?.media && careerData[0]?.media.filepath ? (
               <img
-                src={`https://ares-studio.onrender.com/${careerData[0].media.filepath}`}
+                src={`${process.env.REACT_APP_API_URL}/${careerData[0].media.filepath}`}
                 alt="Media"
               />
             ) : (

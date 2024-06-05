@@ -22,10 +22,11 @@ const AddOpportunity = () => {
       };
 
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios({
         method: "POST",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `opportunity`,
         data: formData,
         headers: {

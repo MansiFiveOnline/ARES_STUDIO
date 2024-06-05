@@ -31,7 +31,7 @@
 //         const encodedProjectName = encodeURIComponent(project_name);
 
 //         const response = await axios.get(
-//           `https://ares-studio.onrender.com/api/project/project_details?project_name=${encodedProjectName}`
+//           `http://localhost:8000/api/project/project_details?project_name=${encodedProjectName}`
 //         );
 //         setProjectData(response.data.project);
 //         console.log(response.data.project.project_name);
@@ -63,7 +63,7 @@
 //                   <VideoPlayer src={projectData.media.iframe} />
 //                 ) : (
 //                   <img
-//                     src={`https://ares-studio.onrender.com/${projectData.media.filepath}`}
+//                     src={`http://localhost:8000/${projectData.media.filepath}`}
 //                     alt="Media"
 //                   />
 //                 )}
@@ -141,10 +141,12 @@ const Servicedetail = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const encodedProjectName = encodeURIComponent(project_name);
         console.log("Encoded Project Name:", encodedProjectName);
         const response = await axios.get(
-          `https://ares-studio.onrender.com/api/project/project_details?project_name=${encodedProjectName}`
+          `${apiUrl}/api/project/project_details?project_name=${encodedProjectName}`
         );
         setProjectData(response.data.project);
       } catch (error) {
@@ -172,7 +174,7 @@ const Servicedetail = () => {
                   <VideoPlayer src={projectData.media.iframe} />
                 ) : (
                   <img
-                    src={`https://ares-studio.onrender.com/${projectData.media.filepath}`}
+                    src={`${process.env.REACT_APP_API_URL}/${projectData.media.filepath}`}
                     alt="Media"
                   />
                 )}

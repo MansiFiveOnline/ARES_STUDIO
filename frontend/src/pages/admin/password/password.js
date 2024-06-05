@@ -10,9 +10,11 @@ const Password = () => {
     const fetchEmails = async () => {
       try {
         // const response = await axios.get("/api/user/allemail");
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
+          baseURL: `${apiUrl}/api/`,
           url: "email",
         });
         console.log(response.data.emails);

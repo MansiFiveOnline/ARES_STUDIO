@@ -14,9 +14,11 @@ const Team = () => {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
+          baseURL: `${apiUrl}/api/`,
           url: "team",
         });
         console.log(response.data.teams);
@@ -33,10 +35,10 @@ const Team = () => {
   const handleDelete = async (id) => {
     try {
       const access_token = localStorage.getItem("access_token");
-
+      const apiUrl = process.env.REACT_APP_API_URL;
       await axios({
         method: "DELETE",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `team/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -88,7 +90,7 @@ const Team = () => {
                         <td className="table-profile-img text-center">
                           {team.image && team.image.length > 0 ? (
                             <img
-                              src={`https://ares-studio.onrender.com/${team.image[0].filepath}`}
+                              src={`${process.env.REACT_APP_API_URL}/${team.image[0].filepath}`}
                               alt={team.image[0].filename}
                               style={{ width: "50px", height: "50px" }}
                             />

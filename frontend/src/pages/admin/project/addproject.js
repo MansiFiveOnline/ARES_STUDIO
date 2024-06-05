@@ -19,9 +19,11 @@ const AddProject = () => {
 
   const fetchGalleryNames = async () => {
     try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+
       const response = await axios({
         method: "GET",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `gallery_name/gallerynames?service_name=${selectedService}`,
       });
 
@@ -81,7 +83,7 @@ const AddProject = () => {
 
       // const response = await axios({
       //   method: "POST",
-      //   baseURL: "https://ares-studio.onrender.com/api/",
+      //   baseURL: "apiUrl/api/",
       //   url: `project/`,
       //   formData,
       //   headers: {
@@ -89,11 +91,12 @@ const AddProject = () => {
       //     Authorization: `Bearer ${access_token}`,
       //   },
       // });
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios.post(
-        "https://ares-studio.onrender.com/api/project",
+        `${apiUrl}/api/project`,
         // method: "POST",
-        // baseURL: "https://ares-studio.onrender.com/api/",
+        // baseURL: "apiUrl/api/",
         // url: `project/`,
         formData,
         {

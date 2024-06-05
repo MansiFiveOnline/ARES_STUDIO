@@ -14,8 +14,10 @@ const Login = () => {
     // const access_token = localStorage.getItem("access_token");
     // console.log("Access token from localStorage:", access_token);
     try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+
       const response = await axios.post(
-        "https://ares-studio.onrender.com/api/auth/login",
+        `${apiUrl}/api/auth/login`,
         {
           email,
           password,

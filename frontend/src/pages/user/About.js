@@ -19,9 +19,9 @@ export default function About() {
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
-        const response = await axios.get(
-          `https://ares-studio.onrender.com/api/about`
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/about`);
         setAboutData(response.data.abouts);
         console.log(response.data.abouts);
       } catch (error) {
@@ -31,9 +31,9 @@ export default function About() {
 
     const fetchTeams = async () => {
       try {
-        const response = await axios.get(
-          `https://ares-studio.onrender.com/api/team`
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/team`);
         setTeams(response.data.teams);
         console.log(response.data.teams);
         console.log(response.data.teams.image[0]);
@@ -68,7 +68,7 @@ export default function About() {
               <VideoPlayer src={aboutData[0].media.iframe} />
             ) : (
               <img
-                src={`https://ares-studio.onrender.com/${aboutData[0].media.filepath}`}
+                src={`${process.env.REACT_APP_API_URL}/${aboutData[0].media.filepath}`}
                 alt="Media"
               />
             )}
@@ -128,15 +128,15 @@ export default function About() {
               className="section"
               key={index}
               // style={{
-              //   // backgroundImage: `url('https://ares-studio.onrender.com/${
+              //   // backgroundImage: `url('http://localhost:8000/${
               //   //   item.image[0] && item.image[0].filepath
               //   // }')`,
-              //   backgroundImage: `url(https://ares-studio.onrender.com/${item.image[0].filepath})`,
+              //   backgroundImage: `url(http://localhost:8000/${item.image[0].filepath})`,
               // }}
             >
               <div>
                 <img
-                  src={`https://ares-studio.onrender.com/${item.image[0].filepath}`}
+                  src={`${process.env.REACT_APP_API_URL}/${item.image[0].filepath}`}
                   alt="Media"
                 />
                 <div className="content">

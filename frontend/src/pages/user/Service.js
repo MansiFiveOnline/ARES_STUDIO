@@ -23,8 +23,11 @@ const Service = () => {
     const fetchServiceData = async () => {
       try {
         console.log("formattedServiceName", serviceName);
+
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios.get(
-          `https://ares-studio.onrender.com/api/service/servicename?service_name=${serviceName}`
+          `${apiUrl}/api/service/servicename?service_name=${serviceName}`
         );
         setServiceData(response.data.service);
         if (
@@ -67,7 +70,7 @@ const Service = () => {
                   <VideoPlayer src={serviceData.media.iframe} />
                 ) : (
                   <img
-                    src={`https://ares-studio.onrender.com/${serviceData.media.filepath}`}
+                    src={`${process.env.REACT_APP_API_URL}/${serviceData.media.filepath}`}
                     alt="Media"
                   />
                 )}

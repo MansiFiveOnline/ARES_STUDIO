@@ -12,9 +12,9 @@ const AddProjectDetail = () => {
   useEffect(() => {
     const fetchProjectNames = async () => {
       try {
-        const response = await axios.get(
-          "https://ares-studio.onrender.com/api/project/projectname"
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/project/projectname`);
         setProjectNames(response.data.projectNames);
       } catch (error) {
         console.error("Error fetching project names:", error);
@@ -46,9 +46,10 @@ const AddProjectDetail = () => {
       }
 
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios.post(
-        "https://ares-studio.onrender.com/api/project_detail",
+        `${apiUrl}/api/project_detail`,
         formData,
         {
           headers: {

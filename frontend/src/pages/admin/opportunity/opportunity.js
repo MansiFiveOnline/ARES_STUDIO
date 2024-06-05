@@ -12,9 +12,12 @@ const Opportunities = () => {
     const fetchOpportunities = async () => {
       try {
         // const response = await axios.get("/api/user/allUsers");
+
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
+          baseURL: `${apiUrl}/api/`,
           url: "opportunity",
         });
         console.log(response.data.opportunities);
@@ -30,10 +33,11 @@ const Opportunities = () => {
   const handleDelete = async (id) => {
     try {
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios({
         method: "DELETE",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `opportunity/${id}`,
         headers: {
           Authorization: `Bearer ${access_token}`,

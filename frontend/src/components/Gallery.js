@@ -259,11 +259,14 @@ const Gallery = ({ service_name }) => {
   const [submittedMedia, setSubmittedMedia] = useState(null); // Track submitted media
   const navigate = useNavigate(); // Access navigate function from React Router
 
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchGalleryNames = async () => {
       try {
+        // const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios.get(
-          `https://ares-studio.onrender.com/api/gallery_name/gallerynames?service_name=${service_name}`
+          `${apiUrl}/api/gallery_name/gallerynames?service_name=${service_name}`
         );
         setGalleryNames(response.data.galleryNames);
       } catch (error) {
@@ -282,12 +285,14 @@ const Gallery = ({ service_name }) => {
       try {
         let response;
         if (selectedTab === "all") {
+          // const apiUrl = process.env.REACT_APP_API_URL;
+
           response = await axios.get(
-            `https://ares-studio.onrender.com/api/project/project_media?service_name=${service_name}&gallery_name=all`
+            `${apiUrl}/api/project/project_media?service_name=${service_name}&gallery_name=all`
           );
         } else {
           response = await axios.get(
-            `https://ares-studio.onrender.com/api/project/project_media?service_name=${service_name}&gallery_name=${selectedTab}`
+            `${apiUrl}/api/project/project_media?service_name=${service_name}&gallery_name=${selectedTab}`
           );
         }
 
@@ -347,10 +352,9 @@ const Gallery = ({ service_name }) => {
 
   const handleEmailSubmit = async (email) => {
     try {
-      const response = await axios.post(
-        "https://ares-studio.onrender.com/api/email",
-        { email }
-      );
+      const response = await axios.post(`${apiUrl}/api/email`, {
+        email,
+      });
       if (response.status === 200) {
         // Set flag indicating email form has been submitted
         localStorage.setItem("submittedMedia", JSON.stringify(selectedMedia));
@@ -437,7 +441,7 @@ const Gallery = ({ service_name }) => {
                       <img
                         src={
                           item.filepath
-                            ? `https://ares-studio.onrender.com/${item.filepath}`
+                            ? `${apiUrl}/${item.filepath}`
                             : "path_to_placeholder_image"
                         }
                         className="card-img-top"

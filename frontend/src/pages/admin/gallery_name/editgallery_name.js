@@ -15,9 +15,11 @@ const EditGalleryName = () => {
   useEffect(() => {
     const fetchGalleryName = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
+          baseURL: `${apiUrl}/api/`,
           url: `gallery_name/${id}`,
         });
 
@@ -47,10 +49,11 @@ const EditGalleryName = () => {
     e.preventDefault();
     try {
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios({
         method: "PATCH",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `gallery_name/${id}`,
         data: formData,
         headers: {

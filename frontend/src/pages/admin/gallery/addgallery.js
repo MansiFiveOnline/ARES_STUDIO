@@ -13,9 +13,10 @@ const AddGallery = () => {
 
   const fetchGalleryNames = async () => {
     try {
+      const apiUrl = process.env.REACT_APP_API_URL;
       const response = await axios({
         method: "GET",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api`,
         url: `gallery_name/gallerynames?service_name=${selectedService}`,
       });
 
@@ -65,16 +66,14 @@ const AddGallery = () => {
 
       const access_token = localStorage.getItem("access_token");
 
-      const response = await axios.post(
-        "https://ares-studio.onrender.com/api/gallery",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      );
+      const apiUrl = process.env.REACT_APP_API_URL;
+
+      const response = await axios.post(`${apiUrl}/api/gallery`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
 
       console.log(response.data.newGallery);
       // setTimeout(() => {

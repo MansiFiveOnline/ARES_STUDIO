@@ -21,10 +21,10 @@
 
 //     const fetchTeam = async () => {
 //       try {
-//         // const response = await axios.get(`https://ares-studio.onrender.com/api/team/${teamId}`);
+//         // const response = await axios.get(`http://localhost:8000/api/team/${teamId}`);
 //         const response = await axios({
 //           method: "GET",
-//           baseURL: "https://ares-studio.onrender.com/api/",
+//           baseURL: `${apiUrl}/api/",
 //           url: `/team/${id}`,
 //         });
 //         console.log(response.data.team);
@@ -97,10 +97,10 @@
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
-//       //await axios.patch(`https://ares-studio.onrender.com/api/team/${_id}`, formData);
+//       //await axios.patch(`http://localhost:8000/api/team/${_id}`, formData);
 //       const response = await axios({
 //         method: "PATCH",
-//         baseURL: "https://ares-studio.onrender.com/api/",
+//         baseURL: `${apiUrl}/api/",
 //         url: `/team/${id}`,
 //         data: formData,
 //       });
@@ -197,11 +197,11 @@
 //                 )} */}
 //                 {/* <span>{formData.imageName || "No file chosen"}</span> {/* Display the selected file name
 //                 {formData.image && (
-//                 <img className="form-profile" src={formData.image ? URL.createObjectURL(formData.image) : `https://ares-studio.onrender.com/${formData.image.path}`} alt={formData.imageName} />
+//                 <img className="form-profile" src={formData.image ? URL.createObjectURL(formData.image) : `http://localhost:8000/${formData.image.path}`} alt={formData.imageName} />
 //                 )} */}
 //                 <img
 //                   className="form-profile"
-//                   src={`https://ares-studio.onrender.com/${formData.image.filepath}`}
+//                   src={`http://localhost:8000/${formData.image.filepath}`}
 //                   alt={formData.image.filename}
 //                 />
 //               </div>
@@ -244,9 +244,11 @@ const EditTeam = () => {
 
     const fetchTeam = async () => {
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
         const response = await axios({
           method: "GET",
-          baseURL: "https://ares-studio.onrender.com/api/",
+          baseURL: `${apiUrl}/api/`,
           url: `/team/${id}`,
         });
         console.log(response.data.team);
@@ -298,10 +300,11 @@ const EditTeam = () => {
       }
 
       const access_token = localStorage.getItem("access_token");
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const response = await axios({
         method: "PATCH",
-        baseURL: "https://ares-studio.onrender.com/api/",
+        baseURL: `${apiUrl}/api/`,
         url: `/team/${id}`,
         data: formDataToSend,
         headers: {
@@ -382,7 +385,8 @@ const EditTeam = () => {
                   src={
                     typeof formData.image === "object"
                       ? URL.createObjectURL(formData.image)
-                      : `https://ares-studio.onrender.com/${formData.image}`
+                      : ` ${process.env.REACT_APP_API_URL};
+                      /${formData.image}`
                   }
                   alt="Profile"
                 />

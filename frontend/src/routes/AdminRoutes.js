@@ -67,14 +67,14 @@ const AdminRoute = () => {
           setValid(false);
           return;
         }
-        const res = await axios.get(
-          `https://ares-studio.onrender.com/api/auth/admin`,
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-            },
-          }
-        );
+
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const res = await axios.get(`${apiUrl}/api/auth/admin`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        });
 
         console.log("Response:", res.data);
 
