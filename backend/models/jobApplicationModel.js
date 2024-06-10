@@ -19,6 +19,7 @@ const jobApplicationSchema = new mongoose.Schema({
   },
   position: {
     type: Array,
+    required: true,
   },
   document: {
     type: Array,

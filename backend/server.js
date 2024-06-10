@@ -7,28 +7,14 @@ const path = require("path");
 
 dotenv.config();
 
-const app = express();
-app.use(express.json());
-
 // app.use(
 //   cors({
-//     origin: "https://react.bhaviklogistics.com",
+//     origin: "http://localhost:3000",
 //   })
 // );
 
-// app.use(express.static(path.join(__dirname, "../frontend/build")));
-
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-// });
-
-// Serve static files from the React app
-// app.use(express.static(path.join(__dirname, "build")));
-
-// // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
+const app = express();
+app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
 
@@ -55,16 +41,16 @@ app.use(
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-});
-
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/api", (req, res) => {
   res.send("This is backend");
 });
 
+// Apply CORS middleware to all API routes
+app.use("/api", cors());
+
+// Define API routes
 app.use("/api/auth", Route.authRoute);
 app.use("/api/team", Route.teamRoute);
 app.use("/api/contact", Route.contactRoute);
@@ -81,7 +67,11 @@ app.use("/api/email", Route.emailRoute);
 
 connectDb();
 
-app.listen(PORT, (error) => {
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
+app.listen(PORT, "0.0.0.0", (error) => {
   if (error) {
     console.log(`Server connection failed due to ${error}`);
   }

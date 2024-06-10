@@ -6,6 +6,7 @@
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: "GlacialIndifference-Bold";
   src: url("../../public/font/glacial-indifference/GlacialIndifference-Bold.otf")
@@ -19,7 +20,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  font-family: "GlacialIndifference-Regular";
+  font-family: "GlacialIndifference-Regular" !important;
   background-color: #000 !important;
   background: black;
 }
@@ -230,6 +231,12 @@ body {
 .video_box .app {
   position: relative;
 }
+
+.app .video-list img,
+.app .video-list video {
+  width: 100%;
+  /* height: 100vh; */
+}
 .video_title {
   position: absolute;
   left: 50%;
@@ -429,7 +436,7 @@ body {
   padding: 0;
 }
 .service .card {
-  position: relative;
+  position: relative !important;
   margin: 0;
   padding: 0;
   line-height: 0;
@@ -439,8 +446,8 @@ body {
   border: 0;
   border-radius: 0;
 }
-.lock_icon {
-  position: absolute;
+/* .lock_icon {
+  position: absolute !important;
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -452,10 +459,33 @@ body {
 .locked-media:before {
   content: "";
   background-color: rgb(0 0 0 / 90%);
-  position: absolute;
+  position: absolute !important;
   width: 100%;
   height: 100%;
+} */
+
+.locked-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Optional: Add a semi-transparent background to enhance visibility */
 }
+
+.lock_icon {
+  width: 85px; /* Adjust size as needed */
+  height: 85px; /* Adjust size as needed */
+}
+
 .modal-open .locked_modal {
   overflow-x: hidden;
   overflow-y: auto;
@@ -530,10 +560,14 @@ body {
 .lock-form .form-control {
   border: 0;
   border-radius: 0;
-  background: transparent;
+  background: transparent !important;
   text-transform: uppercase;
   font-size: 18px;
   padding: 0rem 0.75rem;
+}
+
+.lock-form .form-control:focus {
+  box-shadow: none !important;
 }
 .lock-form .form-control::placeholder {
   color: white;
@@ -560,6 +594,21 @@ body {
   box-shadow: none;
   border-color: #fff;
 }
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .get_paswd a {
   font-size: 18px;
   color: #5ab5b6;
@@ -581,12 +630,18 @@ body {
 .modal-backdrop.show {
   opacity: 0.5;
 }
-.card video {
+.card video,
+.card .card-img-top {
   width: 100%;
   height: 390px;
   object-fit: cover;
 }
+
 .modal-body .video-container video {
+  width: 100%;
+}
+
+.video-container video {
   width: 100%;
 }
 
@@ -880,26 +935,31 @@ body {
   color: #fff;
   text-transform: uppercase;
 }
-.getin_touch_title h2 span {
+/* .getin_touch_title h2 span {
   text-align: right;
   display: block;
-}
+} */
 .getin_touch_form {
   padding: 0px 30px;
 }
 .getin_touch_form .form-control,
 .getin_touch_form .form-select {
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid #d9d9d9;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid #d9d9d9 !important;
   border-radius: 0;
-  color: #6c6c6c;
-  outline: none;
-  box-shadow: none;
+  color: #6c6c6c !important;
+  outline: none !important;
+  box-shadow: none !important;
   padding: 0.375rem 2.25rem 0.375rem 0.5rem;
   text-transform: uppercase;
   font-size: 16px;
   line-height: 36px;
+}
+
+.getin_touch_form .form-control:focus,
+.getin_touch_form .form-select:focus {
+  background-color: transparent !important;
 }
 .getin_touch_form .form-control::placeholder {
   color: #6c6c6c;

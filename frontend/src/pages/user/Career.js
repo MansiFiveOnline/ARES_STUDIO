@@ -307,6 +307,8 @@ export default function Career() {
   const [opportunities, setOpportunities] = useState(null);
   const [opportunityTitles, setOpportunityTitles] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [metaData, setMetaData] = useState({
     metaTitle: "",
     metaDescription: "",
@@ -320,6 +322,7 @@ export default function Career() {
     message: "",
     document: null,
   });
+  const [inputErrors, setInputErrors] = useState({});
 
   useEffect(() => {
     const fetchCareer = async () => {
@@ -384,10 +387,39 @@ export default function Career() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData({ ...formData, document: file });
+    setInputErrors({ ...inputErrors, document: "" });
+  };
+
+  const validateForm = () => {
+    const form = document.querySelector("form");
+    const elements = form.elements;
+    let errors = {};
+
+    for (let element of elements) {
+      if (
+        element.tagName === "INPUT" ||
+        element.tagName === "TEXTAREA" ||
+        element.tagName === "SELECT"
+      ) {
+        if (!element.checkValidity()) {
+          errors[element.name] = element.title || "This field is required";
+        }
+      }
+    }
+
+    return errors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      setInputErrors(errors);
+      return;
+    }
+
     const data = new FormData();
 
     // Append other form fields
@@ -401,7 +433,6 @@ export default function Career() {
     // Append selected title as a string
     data.append("position", selectedTitle);
 
-    console.log("position", selectedTitle);
     try {
       const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -412,10 +443,24 @@ export default function Career() {
         },
       });
       console.log(response.data);
-      alert("Application submitted successfully");
+      setSuccessMessage("Application submitted successfully!");
+
+      // Clear form data and messages after a delay
+      setTimeout(() => {
+        setFormData({
+          name: "",
+          email: "",
+          phone_no: "",
+          location: "",
+          position: "",
+          message: "",
+          document: null,
+        });
+        setSelectedTitle("");
+        setSuccessMessage("");
+      }, 2000);
     } catch (error) {
-      console.error("Error submitting application:", error);
-      alert("Error submitting application");
+      setErrorMessage("Some error occurred in form submission. Try again!");
     }
   };
 
@@ -487,7 +532,15 @@ export default function Career() {
                           value={formData.name}
                           placeholder="Name*"
                           onChange={handleInputChange}
+                          required
+                          pattern="[A-Za-z\s]+"
+                          title="Name should only contain letters"
                         />
+                        {inputErrors.name && (
+                          <div className="text-danger mt-1">
+                            {inputErrors.name}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-6">
@@ -499,6 +552,7 @@ export default function Career() {
                           value={formData.email}
                           onChange={handleInputChange}
                           placeholder="Email Address*"
+                          required
                         />
                       </div>
                     </div>
@@ -511,7 +565,16 @@ export default function Career() {
                           value={formData.phone_no}
                           onChange={handleInputChange}
                           placeholder="Phone Number*"
+                          required
+                          title="Phone no should be only digits"
+                          pattern="\d{10}"
+                          maxLength={10}
                         />
+                        {inputErrors.name && (
+                          <div className="text-danger mt-1">
+                            {inputErrors.name}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-6">
@@ -523,7 +586,13 @@ export default function Career() {
                           value={formData.location}
                           onChange={handleInputChange}
                           placeholder="Location*"
+                          required
                         />
+                        {inputErrors.name && (
+                          <div className="text-danger mt-1">
+                            {inputErrors.name}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-12">
@@ -533,8 +602,14 @@ export default function Career() {
                           className="form-select"
                           value={selectedTitle}
                           onChange={(e) => setSelectedTitle(e.target.value)}
+                          required
                         >
-                          <option>Select Position</option>
+                          {inputErrors.name && (
+                            <div className="text-danger mt-1">
+                              {inputErrors.name}
+                            </div>
+                          )}
+                          <option value="">Select Position</option>
                           {opportunityTitles.map((opportunityTitle, index) => (
                             <option key={index} value={opportunityTitle}>
                               {opportunityTitle}
@@ -549,8 +624,15 @@ export default function Career() {
                           className="form-control"
                           type="file"
                           name="document"
+                          accept=".pdf, .doc"
                           onChange={handleFileChange}
+                          required
                         />
+                        {inputErrors.name && (
+                          <div className="text-danger mt-1">
+                            {inputErrors.name}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-12">
@@ -562,9 +644,25 @@ export default function Career() {
                           onChange={handleInputChange}
                           rows={3}
                           placeholder="Message"
+                          required
                         ></textarea>
+                        {inputErrors.name && (
+                          <div className="text-danger mt-1">
+                            {inputErrors.name}
+                          </div>
+                        )}
                       </div>
                     </div>
+                    {errorMessage && (
+                      <div className="error-message text-danger mt-2">
+                        {errorMessage}
+                      </div>
+                    )}
+                    {successMessage && (
+                      <div className="success-message text-success mt-2">
+                        {successMessage}
+                      </div>
+                    )}
                     <div className="col-lg-12">
                       <div className="text-end">
                         <button type="submit" className="btn">

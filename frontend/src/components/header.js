@@ -22,7 +22,7 @@ const SideNavigation = () => {
             {/* Close button */}
             <div className="col-lg-12 text-end">
               <span className="closebtn" onClick={closeNav}>
-                <img src="images/close-icon.svg" alt="" />
+                <img src="/images/close-icon.svg" alt="" />
               </span>
             </div>
 
@@ -31,7 +31,7 @@ const SideNavigation = () => {
               <div className="main_nav">
                 <NavLink to="/home">Home</NavLink>
                 <NavLink to="/about">About</NavLink>
-                <NavLink to="/service">Service</NavLink>
+                <NavLink to="/service/games">Service</NavLink>
                 <NavLink to="/career">Career</NavLink>
                 <NavLink to="/contact">Contact</NavLink>
               </div>
@@ -99,7 +99,7 @@ const SideNavigation = () => {
           <div className="col-lg-4 col-6 text-center">
             <div className="ares_logo">
               <Link to="/">
-                <img src="images/logo_small_black_transparent.svg" alt="" />
+                <img src="/images/logo_small_black_transparent.svg" alt="" />
               </Link>
             </div>
           </div>

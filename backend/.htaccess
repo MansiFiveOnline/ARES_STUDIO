@@ -11,5 +11,5 @@
     SetEnv REFRESH_TOKEN = "refreshtoken"
     SetEnv DEV_URL="http://localhost:3000"
 
-    SetEnv PROD_URL="https://ares-studio-frontend.onrender.com/"
+    SetEnv PROD_URL="https://react.bhaviklogistics.com"
 </ifmodule>

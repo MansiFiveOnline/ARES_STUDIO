@@ -117,10 +117,41 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const validatePassword = async (req, res) => {
+  try {
+    const { password } = req.body;
+
+    // if (!password) {
+    //   return res.status(400).json({
+    //     message: "Password is required",
+    //   });
+    // }
+
+    const passwordExists = await emailModel.findOne({ password });
+
+    if (!passwordExists) {
+      return res.status(400).json({
+        message: "Password does not match.",
+        isValid: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Password validated successfully.",
+      isValid: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Password validation failed due to ${error}`,
+    });
+  }
+};
+
 module.exports = {
   createEmail,
   getEmail,
   getEmails,
   updatePassword,
   createPassword,
+  validatePassword,
 };

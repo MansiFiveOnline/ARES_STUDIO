@@ -13,4 +13,6 @@ route.get("/:_id", emailController.getEmail);
 
 route.get("/", emailController.getEmails);
 
+route.post("/validate-password", emailController.validatePassword);
+
 module.exports = route;
