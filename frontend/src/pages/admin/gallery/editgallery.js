@@ -103,7 +103,7 @@ const EditGallery = () => {
       );
 
       setGalleryNames(response.data.galleryNames);
-      setSelectedGallery(""); // Reset selected gallery when service changes
+      // setSelectedGallery(""); // Reset selected gallery when service changes
     } catch (error) {
       console.error("Error fetching gallery names:", error);
     }
@@ -121,6 +121,14 @@ const EditGallery = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       service_name: e.target.value,
+    }));
+  };
+
+  const handleGalleryChange = (e) => {
+    setSelectedGallery(e.target.value);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      gallery_name: e.target.value,
     }));
   };
 
@@ -187,20 +195,11 @@ const EditGallery = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Gallery Name</label>
-                <select
-                  value={selectedGallery}
-                  onChange={(e) => {
-                    setSelectedGallery(e.target.value);
-                    setFormData((prevFormData) => ({
-                      ...prevFormData,
-                      gallery_name: e.target.value,
-                    }));
-                  }}
-                >
+                <select value={selectedGallery} onChange={handleGalleryChange}>
                   {serviceChanged && <option value="">Select Gallery</option>}
-                  {galleryNames.map((name) => (
-                    <option key={name._id} value={name._id}>
-                      {name}
+                  {galleryNames.map((gallery) => (
+                    <option key={gallery._id} value={gallery.gallery_name}>
+                      {gallery}
                     </option>
                   ))}
                 </select>

@@ -119,16 +119,11 @@ const AddGallery = () => {
                   onChange={(e) => setSelectedGallery(e.target.value)}
                 >
                   <option value="">Select a Gallery</option>
-                  {galleryNames.map((gallery_name) =>
-                    console.log(
-                      "names",
-                      gallery_name
-                    )(
-                      <option key={gallery_name._id} value={gallery_name}>
-                        {gallery_name}
-                      </option>
-                    )
-                  )}
+                  {galleryNames.map((gallery_name) => (
+                    <option key={gallery_name._id} value={gallery_name}>
+                      {gallery_name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
