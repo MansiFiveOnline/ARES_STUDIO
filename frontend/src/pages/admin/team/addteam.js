@@ -103,6 +103,7 @@ const AddTeam = () => {
                 <input
                   type="file"
                   name="image"
+                  accept=".webp"
                   // value={image}
                   onChange={(e) => setImage(e.target.files[0])}
                   required

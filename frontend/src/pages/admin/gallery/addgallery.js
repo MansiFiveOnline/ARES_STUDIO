@@ -99,6 +99,7 @@ const AddGallery = () => {
                 <label>Service</label>
                 <select
                   value={selectedService}
+                  required
                   onChange={(e) => {
                     setSelectedService(e.target.value);
                     fetchGalleryNames();
@@ -116,6 +117,7 @@ const AddGallery = () => {
                 <label>Gallery Name</label>
                 <select
                   value={selectedGallery}
+                  required
                   onChange={(e) => setSelectedGallery(e.target.value)}
                 >
                   <option value="">Select a Gallery</option>
@@ -148,6 +150,7 @@ const AddGallery = () => {
                 <input
                   type="file"
                   name="media"
+                  accept=".webp"
                   onChange={(e) =>
                     setMedia({
                       ...media,

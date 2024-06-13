@@ -46,7 +46,7 @@ const GalleryName = () => {
 
       setGalleryNames(null); // Update user state to null after deletion
       setTimeout(() => {
-        navigate("/gallery_name");
+        navigate("/admin/gallery_name");
       }, 2000);
 
       console.log(response.data);

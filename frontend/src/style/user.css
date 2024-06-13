@@ -80,7 +80,7 @@ body {
   text-transform: uppercase;
 }
 .sidenav .main_nav a:hover {
-  letter-spacing: 0.82em;
+  letter-spacing: 0.3em;
 }
 .sidenav .get_in_touch_header {
   text-align: right;
@@ -299,11 +299,26 @@ body {
   font-size: 48px;
   font-weight: 400;
   line-height: 57.55px;
-  letter-spacing: 0.82em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: #fff;
   margin-right: -15px;
   transition: 0.5s;
+}
+
+.getin_touch_form .form-control,
+.getin_touch_form .form-select {
+  color: white;
+}
+
+/* .getin_touch_form .form-control,
+.getin_touch_form .form-select {
+  color: white;
+} */
+
+.getin_touch_form .form-control:focus,
+.getin_touch_form .form-select:focus {
+  color: white;
 }
 .arrow_down {
   position: absolute;
@@ -564,10 +579,12 @@ body {
   text-transform: uppercase;
   font-size: 18px;
   padding: 0rem 0.75rem;
+  color: white;
 }
 
 .lock-form .form-control:focus {
   box-shadow: none !important;
+  color: white;
 }
 .lock-form .form-control::placeholder {
   color: white;
@@ -920,6 +937,7 @@ body {
   color: #fff;
   font-size: 18px;
   line-height: 24px;
+  text-align: justify;
 }
 .resp_duty {
   margin-bottom: 40px;
@@ -948,7 +966,7 @@ body {
   border: 0 !important;
   border-bottom: 1px solid #d9d9d9 !important;
   border-radius: 0;
-  color: #6c6c6c !important;
+  color: #ffffff !important;
   outline: none !important;
   box-shadow: none !important;
   padding: 0.375rem 2.25rem 0.375rem 0.5rem;
@@ -1016,10 +1034,14 @@ body {
   font-size: 24px;
   line-height: 28px;
 }
-.address_main_section .col-lg-3 {
+
+.artstation-logo {
+  padding-bottom: 6px;
+}
+.address_main_section .col-lg-4 {
   border-right: 1px solid #fff;
 }
-.address_main_section .col-lg-3:last-child {
+.address_main_section .col-lg-4:last-child {
   border: 0;
 }
 .map_section iframe {

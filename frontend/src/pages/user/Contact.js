@@ -63,7 +63,11 @@ export default function Contact() {
           </div>
         </div>
         <div className="service_title">
-          <h1>Let's Work Together</h1>
+          <h1>
+            REACH OUT &
+            <br />
+            LET'S CREATE EXTRAORDINARY
+          </h1>
         </div>
         <div className="arrow_down">
           <a href="#getintouch">
@@ -171,7 +175,7 @@ export default function Contact() {
       <section className="address_main_section mb-5">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-lg-3">
+            <div className="col-lg-4">
               <div className="adress_main plr-20">
                 <div className="address_box mb-3">
                   <div className="address_icon">
@@ -197,7 +201,53 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-3">
+            <div className="col-lg-4">
+              <div className="adress_main plr-20">
+                <div className="address_box mb-3">
+                  <div className="address_icon">
+                    <FontAwesomeIcon icon={faUser} />
+                  </div>
+                  <div className="address_info">
+                    <h5>Nik John</h5>
+                    <p>Exe Producer</p>
+                  </div>
+                </div>
+                <div className="address_box align-items-center mb-3">
+                  <div className="address_icon">
+                    <img src="images/call-icon.svg" alt="" />
+                  </div>
+                  <div className="address_info">
+                    <p>
+                      <Link to="tel:+353 0830916495">+353 0830916495</Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="adress_main plr-20">
+                <div className="address_box mb-3">
+                  <div className="address_icon">
+                    <FontAwesomeIcon icon={faUser} />
+                  </div>
+                  <div className="address_info">
+                    <h5>Hari Nair</h5>
+                    <p>Director of BusinessDev</p>
+                  </div>
+                </div>
+                <div className="address_box align-items-center mb-3">
+                  <div className="address_icon">
+                    <img src="images/call-icon.svg" alt="" />
+                  </div>
+                  <div className="address_info">
+                    <p>
+                      <Link to="tel:+91 87654 52462">+91 87654 52462</Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <div className="col-lg-3">
               <div className="adress_main plr-20">
                 <div className="address_box mb-3">
                   <div className="address_icon">
@@ -219,53 +269,7 @@ export default function Contact() {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="adress_main plr-20">
-                <div className="address_box mb-3">
-                  <div className="address_icon">
-                    <FontAwesomeIcon icon={faUser} />
-                  </div>
-                  <div className="address_info">
-                    <h5>Nik John</h5>
-                    <p>Exe Producer</p>
-                  </div>
-                </div>
-                <div className="address_box align-items-center mb-3">
-                  <div className="address_icon">
-                    <img src="images/call-icon.svg" alt="" />
-                  </div>
-                  <div className="address_info">
-                    <p>
-                      <Link to="tel:+91 9876543210">+91 9876543210</Link>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="adress_main plr-20">
-                <div className="address_box mb-3">
-                  <div className="address_icon">
-                    <FontAwesomeIcon icon={faUser} />
-                  </div>
-                  <div className="address_info">
-                    <h5>Nik John</h5>
-                    <p>Exe Producer</p>
-                  </div>
-                </div>
-                <div className="address_box align-items-center mb-3">
-                  <div className="address_icon">
-                    <img src="images/call-icon.svg" alt="" />
-                  </div>
-                  <div className="address_info">
-                    <p>
-                      <Link to="tel:+91 9876543210">+91 9876543210</Link>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

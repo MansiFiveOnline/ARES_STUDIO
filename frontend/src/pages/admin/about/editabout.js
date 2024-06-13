@@ -183,7 +183,12 @@ const EditAbout = () => {
                   onChange={handleChange}
                 />
                 <span> OR </span>
-                <input type="file" name="media" onChange={handleChange} />
+                <input
+                  type="file"
+                  name="media"
+                  accept=".webp"
+                  onChange={handleChange}
+                />
                 {formData.media.filepath && (
                   <img
                     className="form-profile"

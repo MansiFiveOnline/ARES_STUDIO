@@ -132,6 +132,7 @@ const AddProject = () => {
                 <input
                   type="text"
                   name="project_name"
+                  required
                   value={project_name}
                   onChange={(e) => setProjectName(e.target.value)}
                 />
@@ -145,6 +146,7 @@ const AddProject = () => {
                 <input
                   type="text"
                   name="subtitle"
+                  required
                   value={subtitle}
                   onChange={(e) => setSubtitle(e.target.value)}
                 />
@@ -158,6 +160,7 @@ const AddProject = () => {
                 <textarea
                   type="text"
                   name="description"
+                  required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={4}
@@ -171,6 +174,7 @@ const AddProject = () => {
                 <label>Service</label>
                 <select
                   value={selectedService}
+                  required
                   onChange={(e) => {
                     setSelectedService(e.target.value);
                     fetchGalleryNames();
@@ -188,6 +192,7 @@ const AddProject = () => {
                 <label>Gallery Name</label>
                 <select
                   value={selectedGallery}
+                  required
                   onChange={(e) => setSelectedGallery(e.target.value)}
                 >
                   <option value="">Select a Gallery</option>
@@ -258,6 +263,7 @@ const AddProject = () => {
                 <input
                   type="file"
                   name="media"
+                  accept=".webp"
                   onChange={(e) =>
                     setMedia({
                       ...media,

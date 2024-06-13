@@ -54,6 +54,7 @@ const AddGalleryName = () => {
                 <label>Service Name</label>
                 <select
                   value={service_name}
+                  required
                   onChange={(e) => setServiceName(e.target.value)}
                 >
                   <option value="">Select a service</option>
@@ -68,6 +69,7 @@ const AddGalleryName = () => {
                 <label>Gallery Name</label>
                 <input
                   type="text"
+                  required
                   name="gallery_name"
                   value={gallery_name}
                   onChange={(e) => setGalleryName(e.target.value)}

@@ -236,7 +236,7 @@ const EditTeam = () => {
     designation: "",
     linkedin_url: "",
     sequence: "",
-    image: "", // Only store the filepath
+    image: null, // Initially, set to null
   });
 
   useEffect(() => {
@@ -259,7 +259,15 @@ const EditTeam = () => {
           designation: response.data.team.designation,
           linkedin_url: response.data.team.linkedin_url,
           sequence: response.data.team.sequence,
-          image: response.data.team.image?.[0]?.filepath || "", // Ensure the existing image is set
+          image: response.data.team.image
+            ? {
+                filename: response.data.team.image[0].filename,
+                filepath: response.data.team.image[0].filepath.replace(
+                  /\\/g,
+                  "/"
+                ), // Replace backslashes with forward slashes
+              }
+            : null,
         });
       } catch (error) {
         console.error("Error fetching team:", error);
@@ -270,16 +278,23 @@ const EditTeam = () => {
   }, [id]);
 
   const handleChange = (e) => {
-    if (e.target.name === "image") {
-      const file = e.target.files[0];
-      setFormData({
-        ...formData,
-        image: file,
-      });
+    const { name, value, files } = e.target;
+
+    if (name === "image") {
+      if (files && files.length > 0) {
+        setFormData({
+          ...formData,
+          image: {
+            file: files[0],
+            filename: files[0].name,
+            filepath: URL.createObjectURL(files[0]),
+          },
+        });
+      }
     } else {
       setFormData({
         ...formData,
-        [e.target.name]: e.target.value,
+        [name]: value,
       });
     }
   };
@@ -293,10 +308,8 @@ const EditTeam = () => {
       formDataToSend.append("linkedin_url", formData.linkedin_url);
       formDataToSend.append("sequence", formData.sequence);
 
-      if (formData.image && typeof formData.image === "object") {
-        formDataToSend.append("image", formData.image);
-      } else if (typeof formData.image === "string") {
-        formDataToSend.append("existingImage", formData.image);
+      if (formData.image?.file) {
+        formDataToSend.append("image", formData.image.file);
       }
 
       const access_token = localStorage.getItem("access_token");
@@ -313,9 +326,7 @@ const EditTeam = () => {
         },
       });
 
-      // setTimeout(() => {
       navigate("/admin/team");
-      // }, 2000);
       console.log(response.data.team);
     } catch (error) {
       console.error("Error updating team:", error);
@@ -379,17 +390,19 @@ const EditTeam = () => {
             <div className="col-lg-6 col-md-6 col-sm-12 col-12">
               <div className="theme-form">
                 <label>Image</label>
-                <input type="file" name="image" onChange={handleChange} />
-                <img
-                  className="form-profile"
-                  src={
-                    typeof formData.image === "object"
-                      ? URL.createObjectURL(formData.image)
-                      : ` ${process.env.REACT_APP_API_URL};
-                      /${formData.image}`
-                  }
-                  alt="Profile"
+                <input
+                  type="file"
+                  name="image"
+                  accept=".webp"
+                  onChange={handleChange}
                 />
+                {formData.image?.filepath && (
+                  <img
+                    className="form-profile"
+                    src={`${process.env.REACT_APP_API_URL}/${formData.image.filepath}`}
+                    alt="Media"
+                  />
+                )}
               </div>
             </div>
 

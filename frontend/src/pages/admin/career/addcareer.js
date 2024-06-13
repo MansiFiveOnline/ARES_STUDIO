@@ -76,6 +76,7 @@ const AddCareer = () => {
                   type="text"
                   name="title"
                   value={title}
+                  required
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
@@ -88,6 +89,7 @@ const AddCareer = () => {
                   type="text"
                   name="subtitle"
                   value={subtitle}
+                  required
                   onChange={(e) => setSubtitle(e.target.value)}
                 />
                 {/* <img className="form-profile" src="src/img/user-icon-img.png" /> */}
@@ -101,6 +103,7 @@ const AddCareer = () => {
                   type="text"
                   name="metaTitle"
                   value={metaTitle}
+                  required
                   onChange={(e) => setMetaTitle(e.target.value)}
                 />
               </div>
@@ -139,6 +142,7 @@ const AddCareer = () => {
                 <input
                   type="file"
                   name="media"
+                  accept=".webp"
                   onChange={(e) =>
                     setMedia({
                       ...media,

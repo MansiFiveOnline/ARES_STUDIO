@@ -22,7 +22,7 @@ export default function Footer() {
           </div>
           <div className="col-lg-4 text-end">
             <ul className="social_media_icons">
-              <li>
+              {/* <li>
                 <Link to="">
                   <FontAwesomeIcon icon={faFacebookF} />
                 </Link>
@@ -31,10 +31,25 @@ export default function Footer() {
                 <Link to="">
                   <FontAwesomeIcon icon={faInstagram} />
                 </Link>
+              </li> */}
+              <li>
+                <Link
+                  to="https://www.linkedin.com/company/aresstudio/"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon icon={faLinkedinIn} />
+                </Link>
               </li>
               <li>
-                <Link to="">
-                  <FontAwesomeIcon icon={faLinkedinIn} />
+                <Link
+                  to="https://aresvfxstudio.artstation.com/"
+                  target="_blank"
+                >
+                  <img
+                    className="artstation-logo"
+                    src="/images/artstation_logo_logos_icon.png"
+                    alt="artstation"
+                  />
                 </Link>
               </li>
             </ul>

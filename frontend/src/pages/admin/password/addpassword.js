@@ -88,6 +88,7 @@ const AddPassword = () => {
                 <input
                   type="text"
                   name="password"
+                  required
                   value={formData.password}
                   onChange={handleChange}
                 />

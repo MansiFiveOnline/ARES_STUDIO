@@ -60,6 +60,7 @@ const AddOpportunity = () => {
                   type="text"
                   name="title"
                   value={title}
+                  required
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
@@ -72,6 +73,7 @@ const AddOpportunity = () => {
                   type="text"
                   name="description"
                   value={description}
+                  required
                   onChange={(e) => setDescription(e.target.value)}
                   rows={4}
                 />
@@ -84,6 +86,7 @@ const AddOpportunity = () => {
                 <textarea
                   type="text"
                   name="responsibility"
+                  required
                   value={responsibility}
                   onChange={(e) => setResponsibility(e.target.value)}
                   rows={4}
@@ -98,6 +101,7 @@ const AddOpportunity = () => {
                   type="text"
                   name="qualification"
                   value={qualification}
+                  required
                   onChange={(e) => setQualification(e.target.value)}
                   rows={4}
                 />

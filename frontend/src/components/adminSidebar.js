@@ -37,7 +37,14 @@ const SideBar = () => {
   return (
     <>
       <div className="sidebar-brand">
-        <NavLink to="/admin/dashboard">ARES Studio</NavLink>
+        <NavLink to="/admin/dashboard">
+          <img
+            className="admin-logo"
+            src="/images/ares_favicon.png"
+            alt="Logo"
+          />{" "}
+          ARES Studio
+        </NavLink>
       </div>
       <div className="sidebar-menu">
         <ul>

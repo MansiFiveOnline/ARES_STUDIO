@@ -223,7 +223,12 @@ const EditCareer = () => {
                   onChange={handleChange}
                 />
                 <span> OR </span>
-                <input type="file" name="media" onChange={handleChange} />
+                <input
+                  type="file"
+                  name="media"
+                  onChange={handleChange}
+                  accept=".webp"
+                />
 
                 {formData.media.filepath && (
                   <img

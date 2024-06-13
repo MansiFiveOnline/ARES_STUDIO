@@ -83,6 +83,7 @@ const AddProjectDetail = () => {
                 <label>Project Name</label>
                 <select
                   value={selectedProjectName}
+                  required
                   onChange={(e) => setSelectedProjectName(e.target.value)}
                 >
                   <option value="" disabled>
@@ -117,6 +118,7 @@ const AddProjectDetail = () => {
                 <input
                   type="file"
                   name="media"
+                  accept=".webp"
                   onChange={(e) =>
                     setMedia({
                       ...media,

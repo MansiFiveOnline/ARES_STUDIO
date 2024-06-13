@@ -53,7 +53,9 @@ const SideNavigation = () => {
               <div className="get_in_touch_header">
                 <h4>Address</h4>
                 <ul>
-                  <li>Lorem Ipsum set amet, Lorem Ipsum set</li>
+                  <li>
+                    Hind Nagar, Sector C1, LDA Colony, Uttar Pradesh- 226012
+                  </li>
                 </ul>
               </div>
             </div>
@@ -63,7 +65,7 @@ const SideNavigation = () => {
             <div className="col-lg-12">
               <div className="social_media">
                 <ul>
-                  <li>
+                  {/* <li>
                     <Link to="/">Facebook</Link>
                   </li>
                   <li>
@@ -71,6 +73,22 @@ const SideNavigation = () => {
                   </li>
                   <li>
                     <Link to="/">Instagram</Link>
+                  </li> */}
+                  <li>
+                    <Link
+                      to="https://www.linkedin.com/company/aresstudio/"
+                      target="_blank"
+                    >
+                      Linkedin
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="https://aresvfxstudio.artstation.com/"
+                      target="_blank"
+                    >
+                      Art Studio
+                    </Link>
                   </li>
                 </ul>
               </div>

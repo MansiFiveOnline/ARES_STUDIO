@@ -85,6 +85,7 @@ const AddService = () => {
                 <input
                   type="text"
                   name="service_name"
+                  required
                   value={service_name}
                   onChange={(e) => setServiceName(e.target.value)}
                 />
@@ -97,6 +98,7 @@ const AddService = () => {
                 <input
                   type="text"
                   name="title"
+                  required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -109,6 +111,7 @@ const AddService = () => {
                 <input
                   type="text"
                   name="subtitle"
+                  required
                   value={subtitle}
                   onChange={(e) => setSubtitle(e.target.value)}
                 />
@@ -122,6 +125,7 @@ const AddService = () => {
                 <textarea
                   type="text"
                   name="description"
+                  required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={4}
@@ -152,6 +156,7 @@ const AddService = () => {
                 <input
                   type="file"
                   name="media"
+                  accept=".webp"
                   onChange={(e) =>
                     setMedia({
                       ...media,

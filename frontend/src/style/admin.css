@@ -66,6 +66,10 @@ a:hover {
   padding-left: 15px;
   padding-right: 0;
 }
+
+.admin-logo {
+  height: 20px;
+}
 .sidebar-menu a {
   padding-left: 0;
   display: block;

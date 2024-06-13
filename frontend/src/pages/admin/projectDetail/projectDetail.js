@@ -54,7 +54,7 @@ const ProjectDetail = () => {
     <Layout>
       <div className="pages-headers">
         <h2>
-          Project
+          Project Detail
           <NavLink to="/admin/add/project_detail" className="theme-cta">
             <i className="las la-plus-circle"></i>
             Add Project Detail
@@ -82,8 +82,7 @@ const ProjectDetail = () => {
                         <td className="text-center">
                           {projectDetail.type === "image" ? (
                             <img
-                              src={`${process.env.REACT_APP_API_URL}
-                              /${projectDetail.media.filepath}`} // Assuming filepath contains the path to the image
+                              src={`${process.env.REACT_APP_API_URL}/${projectDetail.media.filepath}`} // Assuming filepath contains the path to the image
                               alt={`${projectDetail.media.filename}`}
                               style={{ width: "50px", height: "50px" }}
                             />
